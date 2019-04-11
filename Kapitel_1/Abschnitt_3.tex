@@ -1,0 +1,159 @@
+\subsection{Quadraturfehler}
+
+Allgemeine Voraussetzung $f:[a,b] \rightarrow \mathbb{R}$ sei hinreichend oft differenzierbar ($f$ ist eine glatte Funktion)
+
+\begin{definition}
+Der Fehler bei der Approximation des Integrals durch die QF ist 
+$$ err = \int_a^b f(x)dx = \sum_{j=0}^{n-1} h_{j+1} \sum_{i=1}^s b_i f(x_j+h_{j+1}c_i)$$
+mit $h_{j+1} = x_{j+1}-x_j$
+$$ = \sum_{j=0}^{n-1} \int_{x_j}^{x_{j+1}} f(x_j + \tau) d\tau - h_{j+1} \sum_{i=1}^s b_i f(x_j + h_{j+1}c_i)$$
+$$ = \sum_{j=0}^{n-1} h_{j+1} \int_0^1 g_j(\xi) d\xi -h_{j+1} \sum_{i=1}^s b_i g_j(c_i)$$
+mit $ g_j(\xi) = f(x_j + \xi h_{j+1})$. \\
+Der Quadraturfehler auf Teilintervallen $[x_j, x_j+h_{j+1}]$ ist 
+$$E(f, x_j, h_{j+1}) = \int_{x_j}^{x_{j+1}} f(x)dx  - h_{j+1} \sum_{i=1}^s b_i f(x_j + c_i h_{j+1})$$
+$$= h_{j+1} \left( \int_0^1 g_j(\xi) d\xi - \sum_{i=1}^s b_i g_j(c_i) \right)$$ 
+\end{definition}
+
+\begin{nothing}[Fehlerabschätzung - 1. Versuch]
+Falls $f$ auf $[x_0, x_0+h]$ glatt genug ist und die QF Ordnung $p$ hat, aber nicht Ordnung $p+1$, so erhält man durch Taylorentwicklung um $x_0$ von $f(x_0 + \xi h) = g_0(\xi)$ und $f(x_0+c_ih)$:
+$$E(f, x_0, h) = \sum_{k\geq 0} \frac{h^{k+1}}{k!} \left( \int_0^1 t^k dt - \sum_{i=1}^s b_i c_i^k \right) f^{(k)}(x_0)$$
+$$= \frac{h^{p+1}}{p!} \left( \frac{1}{p+1} - \sum_{i=1}^s b_i c_i^p\right) f^{(p)}(x_0) + \underbrace{\mathcal{O}(h^{p+2})}_{Taylerrestglied}$$
+Die Konstante $C = \frac{1}{p!} \left( \frac{1}{p+1} - \sum_{i=1}^s b_i c_i^p \right)$ heißt Fehlerkonstante. \\
+Ist $h$ klein genug, sodass das Taylorrestglied im Vergleich zu $h^{p+1}C f^{(p)}(x_0)$ vernachlässigbar ist, so gilt:
+$$ err = \sum_{j=0}^{n-1} E(f, x_j, h), $$ 
+mit $ x_j = x_0+jh$
+$$ \approx Ch^p \sum_{j=0}^{n-1} hf^{(p)}(x_j)$$ 
+$$\approx Ch^p \int_a^b f^{(p)}(x)dx$$ 
+$$= Ch^p \left(f^{(p-1)}(b) - f^{(p-1)}(a) \right)$$
+\end{nothing}
+
+\begin{nothing}[Rigorose Fehlerabschätzung]
+\begin{description}
+  \item
+\end{description}
+\begin{description}
+  \item \textbf{Satz 1:} \\
+    Sei $f: [a, b] \rightarrow \mathbb{R}$ $k$-mal stetig differenzierbar ($f \in C^k([a, b])$) und habe die QF Ordnung $p$, so gilt für $h < b-a$ und $k \leq p$\\
+    $$E(f, x_0, h) = h^{k+1} \int_0^1 K_k(\tau) f^{(k)}(x_0+\tau k) d\tau,$$
+    wobei der Peanokern $K_k(\tau)$ durch 
+    $$ K_k(\tau) := \frac{(1-\tau)^k}{k!} - \sum_{i=1}^s b_i \frac{(c_i - \tau)^{k-1}_+}{(k-1)!}, $$
+    mit 
+    $(\sigma)_+^{k-1} = \left\{
+    \begin{array}{ll}
+    \sigma ^{k-1} &  \sigma > 0 \\
+    0 & \, \textrm{sonst} \\
+    \end{array}
+    \right. $, gegeben ist.
+  \item \begin{proof}[Beweis] 
+    Taylorentwicklung mit Integralrestglied und Transformation 
+    $$f(x_0 + th) = \sum_{j=0}^{k-1} \frac{(th)^j}{j!} f^{(j)}(x_0) + h^k \int_0^t \frac{(t-\tau)^{k-1}}{(k-1)!} f^{(k)}(x_0+\tau h) d\tau$$
+    eingesetzt in (*) und die Verwendung von 
+    $$\int_0^{c_i} (c_i - \tau)^{k-1} g(\tau) d\tau = \int_0^1 (c_i-\tau)_+^{k-1} g(\tau) d\tau$$
+    liefern
+    \begin{multline*} 
+    E(f, x_0, h)= h 
+      \int_0^1 
+        \left( 
+          \sum_{j=0}^{k-1} 
+            \frac{(th)^j}{j!} f^{(j)}(x_0) + h^k 
+            \int_0^t 
+              \frac{(t-\tau)^{k-1}}{(k-1)!} f^{(k)}(x_0+\tau h) 
+            d\tau 
+        \right)
+      dt - \\h
+      \sum_{i=1}^s b_i 
+        \left( 
+          \sum_{j=0}^{k-1} 
+            \frac{(c_ih)^j}{j!} f^{(j)}(x_0) + h^k 
+            \int_0^{c_i} 
+              \frac{(c_i-\tau)^{k-1}}{(k-1)!} 
+              f^{(k)}(x_0+c_ih) 
+            d\tau
+        \right)
+    \end{multline*}
+    
+    \begin{displaymath}
+    \underbrace{=}_{k\leq p} h h^k \left[ \int_0^1 \int_0^t \frac{(t-\tau)^{k-1}}{(k-1)!} f^{(k)} (x_0 + \tau h) d\tau dt - \sum_{i=1}^s \int_0^1 \frac{(c_i-\tau)^{k-1}_+}{(k-1)!} f^{(k)}(x_0+\tau h) d\tau \right]
+    \end{displaymath}
+    
+    \begin{displaymath}
+    = h h^k \left[ \int_0^1 \int_0^1 \frac{(t-\tau)^{k-1}_+}{(k-1)!} f^{(k)}(x_0+\tau h) d\tau dt - \sum_{i=1}^s b_i \int_0^1 \frac{(c_i - \tau)^{k-1}_+}{(k-1)!} f^{(k)}(x_0+\tau h) d\tau \right] 
+    \end{displaymath}
+    
+    \begin{displaymath}
+    = h^{k+1} \int_0^1 \left( \int_0^1 \frac{(t-\tau)_+^{k-1}}{(k-1)!} dt - \frac{(c_i - \tau)_+^{k-1}}{(k-1)!} \right) f^{(k)}(x_0+\tau h) d\tau
+    \end{displaymath}
+    
+    \begin{displaymath}
+    = h^{k+1} \int_0^1 K_k(\tau) f^{(k)}(x_0+\tau h) d\tau
+    \end{displaymath}
+    
+    , da
+    \begin{displaymath}
+    \int_0^1 \frac{(t-\tau)^{k-1}_+}{(k-1)!} dt
+    = \int_0^1 \frac{(t-\tau)^{k-1}}{(k-1)!}
+    = \left[ \frac{1}{k!} (t-\tau)^k \right]_{t=\tau}^1
+    = \frac{1}{k!} (1-\tau)^k
+    \end{displaymath}
+    \end{proof}
+    
+  \item \textbf{Satz 2:} (Eigenschaften des Peanokerns) \\
+    Für eine QF der Ordnung $p$ gilt für $k \leq p$ ($k, p \in \mathbb{N}$) 
+    \begin{enumerate}
+      \item $K_k'(\tau) = -K_{k-1}(\tau)$ für $k \geq 2$ und $\tau \neq c_i$ falls $k=2$
+      \item $K_k(1) = 0$ für $k \geq 1$, falls $c_i \leq 1$ für $i=1,..., s$
+      \item $K_k(0) = 0$ für $k \geq 2$, falls $c_i \leq 1$ für $i=1,..., s$
+      \item $\int_0^1 K_p(\tau) = \frac{1}{p!} \left(\frac{1}{p-1} - \sum_{i=1}^s b_i c_i^p \right)=: C$ (Fehlerkonstante $C$ aus (3.2))
+      \item $K_1(\tau)$ ist stückweise linear mit Steigung $-1$ und Sprüngen der Höhe $b_i$ an den Stellen $c_i$
+    \end{enumerate}
+  
+  \item
+  \begin{proof}[Beweis]
+    Eventuell Übungsaufgabe
+  \end{proof}
+  
+  \item \textbf{Beispiel:} \\
+    Mittelpunktsregel: 
+      $$K_1(\tau) = \frac{(1-\tau)^1}{1!} - 1 \frac{(\frac{1}{2} - \tau)^1_+}{0!}$$
+      $$= 1- \tau - \left( \frac{1}{2} - \tau \right)_+^0$$
+      $$ = \left\{
+        \begin{array}{ll}
+        1-\tau - 1  & \tau < \frac{1}{2} \\
+        1-\tau & \, \tau \geq \frac{1}{2} \\
+        \end{array}
+      \right. $$
+      
+      $$K_2(\tau) = \frac{(1-\tau)^2}{2!} - 1 \frac{(\frac{1}{2} - \tau)^1_+}{1!}$$
+      $$= \frac{1}{2} (1-\tau)^2 - \left( \frac{1}{2} - \tau \right)_+^1$$
+      $$ = \left\{
+        \begin{array}{ll}
+        \frac{\tau^2}{2}  & \tau < \frac{1}{2} \\
+        \frac{1}{2}(1-\tau)^2 & \, \tau \geq \frac{1}{2} \\
+        \end{array}
+      \right. $$
+    
+    \item \textbf{Satz 3:} \\
+      Sei $f \in C^k([a,b])$ und habe die QF $(b_i, c_i)^s_{i=1}$, Ordnung $p \geq k$, so gilt für den Fehler $err$ aus $(3.1)$ 
+      $$ \vert err \vert \leq h^k (b-a) \int_0^1 \vert K_k(\tau) \vert d\tau \max_{x \in [a,b]} \vert f^{(k)}(x) \vert$$
+      mit $h = \max_{j=1,..,n} h_j$
+    
+    \item \begin{proof}[Beweis]
+      Mit Satz $1$ gilt 
+      $$ \vert E(f, x_j, h_{j+1}) \vert \leq h_{j+1}^{k+1} \int_0^1 \vert K_k(\tau) \vert \vert f^{(k)}(x_j+\tau h_{j+1}) \vert d\tau$$
+      $$ \leq h_{j+1}^{k+1} \int_0^1 \vert K_k(\tau) \vert d\tau \max_{x \in [x_j, x_j + h_{j+1}]} \vert f^{(k)}(x) \vert $$
+      Für 
+      $$ \vert err \vert = \vert \sum_{j=0}^{n-1} E(f, x_j, h_{j+1}) \vert $$
+      $$ \leq \sum_{j=0}^{n-1} \vert E(f, x_j, h_{j+1}) \vert $$
+      $$ \leq \underbrace{\sum_{j=0}^{n-1} h_{j+1}}_{b-a} \underbrace{h_{j+1}^k}_{\leq h^k} \int_0^1 \vert K_k(\tau) \vert d\tau \underbrace{\max_{x \in [x_j, x_{j+1}]} \vert f^{(k)} (x) \vert}_{\leq \max_{x\in[a,b] \vert f^{(k)}(x) \vert}}$$
+    \end{proof}
+    
+    \item \textbf{Beispiele} \\
+      Für die Mittelpunktsregel (maximale Ordnung = 2) erhält man
+      $$ \vert err \vert \leq h^2 (b-a) \frac{1}{24} \max_{x\in[a,b]} \vert f^{(2)}(x) \vert $$ 
+      Für die Trapezregel (maximale Ordnung = 2)
+      $$ \vert err \vert \leq h^2 (b-a) \frac{1}{12} \max_{x\in[a,b]} \vert f^{(2)}(x) \vert $$  
+      Für die Simpsonregel (maximale Ordnung = 4)
+      $$ \vert err \vert \leq h^4 (b-a) \frac{1}{2880} \max_{x\in[a,b]} \vert f^{(4)}(x) \vert $$ 
+      $\rightarrow$ Der Fehler wird klein, falls $h$ klein und die Ordnung $p$ groß wird.
+\end{description}
+\end{nothing}

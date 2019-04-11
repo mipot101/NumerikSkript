@@ -1,0 +1,86 @@
+\documentclass[12pt]{article}
+
+
+\usepackage{algorithmic} %Für Pseudocode https://math-linux.com/latex-26/faq/latex-faq/article/how-to-write-algorithm-and-pseudocode-in-latex-usepackage-algorithm-usepackage-algorithmic
+\usepackage{stmaryrd} %Für Widerspruchsblitz
+\usepackage{amsmath} 
+\usepackage{amssymb}
+\usepackage{amsthm} %Für Theoreme und Beweise
+\usepackage{graphicx} %Für Bilder
+
+\newtheoremstyle{break}% name
+  {}%         Space above, empty = `usual value'
+  {}%         Space below
+  {\itshape}% Body font
+  {}%         Indent amount (empty = no indent, \parindent = para indent)
+  {\bfseries}% Thm head font
+  {.}%        Punctuation after thm head
+  {\newline}% Space after thm head: \newline = linebreak
+  {}%         Thm head spec
+
+\theoremstyle{break}
+
+\renewcommand{\thesection}{\Roman{section}}
+\renewcommand{\thesubsection}{\arabic{subsection}}
+
+%Definiere Satz, Definition,...
+\newtheorem{theorem}{Satz}[subsection]
+\newtheorem{korollar}[theorem]{Korollar}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{algorithm}[theorem]{Algorithmus}
+\newtheorem{comment}[theorem]{Bemerkung}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{example}[theorem]{Beispiel}
+\newtheorem{nothing}[theorem]{}
+
+\author{Prof. Schaedle}
+\title{Numerik 1}
+
+\begin{document}
+\maketitle
+
+\newpage
+
+\section{Numerische Integration}
+
+\input{Kapitel_1/Abschnitt_1} %Einführung
+\input{Kapitel_1/Abschnitt_2} %Ordnung von Quadraturformeln
+\input{Kapitel_1/Abschnitt_3} %Quadraturfehler
+\input{Kapitel_1/Abschnitt_4} %Quadratur mit hoher Ordnung
+
+
+\subsection{Orthogonalpolynome}
+Bedingung $2.$ in Satz $(4.1)$ 
+$$ \forall h \in \mathcal{P}_{m-1}: \int_0^1 M(t)h(t) = 0$$
+kann als Orthogonalitätsbedingung bzgl. eines Skalarprodukts $\langle f, g\rangle = \int_0^1 f(t)g(t)dt$ auf dem Vektorraum $L^2([0,1])$ oder $C([0,1])$ aufgefasst werden.
+\underline{Erinnerung:}
+$$\mathcal{P}_s := \left\{ \sum_{j=0}^s \alpha_j X^j, \alpha_j \in \mathbb{R} \right\}$$ 
+ist ein $\mathbb{R}$-VR mit $dim(\mathcal{P}_s) = s+1$ und Basis $\left\{ 1, X, X^2, ..., X^s \right\}$\\ \\
+$\langle\cdot,\cdot\rangle : C([0,1]) \times C([0,1]) \rightarrow \mathbb{R}, (f, g) \mapsto \int_0^1 f(t)g(t)dt$ ist 
+\begin{enumerate}
+  \item symmetrisch $ \langle f, g\rangle = \langle g, f\rangle$
+  \item linear $\langle \alpha f + g, h\rangle = \alpha \langle f, h\rangle + \langle g, h\rangle$
+  \item positiv definit $\langle f, f\rangle \geq 0 $ und $ \langle f, f\rangle = 0 \Rightarrow f = 0$
+\end{enumerate}
+Wie in der linearen Algebra definieren wir $f$ steht senkrecht auf $g$: $f \perp g \Leftrightarrow \langle f, g\rangle = 0$
+
+\begin{theorem}
+QF hat die Ordnung $s+m \Leftrightarrow $ M ist orthogonal auf allen Polynome in $\mathcal{P}_{m-1}$
+\end{theorem}
+
+\begin{definition}
+Für eine Gewichtsfunktion $\omega : (a, b) \rightarrow \mathbb{R}$ mit 
+\begin{enumerate}
+  \item $\omega$ stetig
+  \item $\forall x\in(a,b): \omega(x) > 0 $
+  \item $\forall k \in \mathbb{N}: \int_a^b \omega(x) \vert x \vert^k dx < \infty$
+\end{enumerate}
+definieren wir auf den Vektorraum 
+$$ V = \left\{ f: [a,b] \rightarrow \mathbb{R}: f \medspace stetig \medspace und \int_a^b f(x)^2 \omega(x) dx < \infty \right\} $$
+das gewichtete Skalarprodukt
+$$ \langle f, g \rangle_\omega := \int_a^b \omega(x)f(x)g(x)dx$$
+für $f, g \in V$ \\
+$f \perp_\omega g :\Leftrightarrow \langle f, g, \rangle_\omega = 0$
+\end{definition}
+
+\end{document}
