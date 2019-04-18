@@ -1,0 +1,85 @@
+\subsection{Ein adaptives Programm}
+
+Gegeben sei eine QF mit $(b_i, c_i)_{i=1}^s$ mit Ordnung $p=2s$ (die höchste Ordnung, die es gibt) z.B. $s=15$ \\
+\underline{Ziel:} Ein Computerprogramm adagaussqf(f, a, b, Tol), welches für eine Funktion $f$ auf dem Interval $[a, b]$ eine Approximation an $\int_a^b f(x) dx$ berechnet, sodass der Fehler $\leq$ Tol ist (für viele Funktionen). \\
+Konstruiere eine Zerlegung $\Delta = \left\{ a = x_0 < ... < x_n = b\right\}$ des Intervalls, sodass für die Approximation 
+$$I_\Delta := \sum_{j=0}^{n-1} h_{j+1} \sum_{i=1}^s b_if(x_i + c_ih_{j+1})$$
+gilt 
+$$\vert I_\Delta - \int_a^b f(x) dx \vert \leq Tol \int_a^b \vert f(x) \vert dx $$
+Schwierigkeiten:
+
+\begin{enumerate}
+  \item[a)] Schätzung des Fehlers
+  \item[b)] Wahl der Zerlegung des Intervalls 
+\end{enumerate}
+
+\begin{nothing}[Zerlegung des Intervalls]
+Für ein Teilintervall $[x_j, x_{j+1}]$ von $[a,b]$ lassen sich 
+$$res[x_j, x_{j+1}] := h_{j+1} \sum_{i=1}^s b_i f(x_j + c_i h_{j+1})$$
+und
+$$ resabs[x_j, x_{j+1}] := h_{j+1} \sum_{i=1}^s \vert b_i f(x_j + c_i h_{j+1}) \vert$$
+berechnen.\\
+Angenommen wir können eine Schätzung des Fehlers $err[x_, x_{j+1}]$ berechnen mit
+$$err[x_, x_{j+1}] \approx res[x_, x_{j+1}] - \int_{x_j}^{x_{j+1}} f(x) dx,$$
+dann bietet sich zur folgendes Verfahren zur Konstruktion einer Zerlegung an:
+\begin{enumerate}
+  \item Berechne $res[a,b]$, $resabs[a,b]$ und $err[a, b]$. \\
+    if $\vert err[a,b] \vert \leq Tol \thinspace resabs[a,b]$ return $res[a,b]$ \\
+    else
+    
+  \item Zerlege $[a,b]$ in 
+    $$I_0 = \left[a,\frac{b-a}{2}\right]$$
+    und
+    $$I_1 = \left[ \frac{b-a}{2}, b \right]$$
+    und berechne 
+    \begin{description}
+      \item $res \thinspace I_0$, $resabs \thinspace I_0$, $err \thinspace I_0$ und
+      \item $res \thinspace I_1$, $resabs \thinspace I_1$, $err \thinspace I_1$ 
+    \end{description}
+    n = 2.
+    
+  \item Falls 
+    $$ \sum_{j=0}^{n-1} \vert err \thinspace I_j \vert \leq Tol \thinspace \sum_{j=0}^{n-1} resabs \thinspace I_j$$
+    return
+    $$ \sum_{j=0}^{n-1} res \thinspace I_j$$
+    sonst: \\
+    Unterteile das Intervall $I_k$, in dem der Fehler maximal ist in zwei Teilintervalle $I_k$ und $I_n$ und berechne:
+    \begin{description}
+      \item $res \thinspace I_k$, $resabs \thinspace I_k$, $err \thinspace I_k$ und
+      \item $res \thinspace I_n$, $resabs \thinspace I_n$, $err \thinspace I_n$ 
+    \end{description}
+    $n =n+1$ \\
+    Gehe zu 3)
+\end{enumerate}
+\end{nothing}
+
+\begin{nothing}[Schätzung des Fehlers]
+\underline{Ziel:} Berechne Approximation an 
+$$\int_{x_j}^{x_{x+1}} f(x)dx - h_{j+1} \sum_{i=1}^s b_i f(x_j + h_{j+1} c_i)$$
+ohne zusätzliche Funktionsauswertungen.\\
+\underline{Idee:} Konstruiere eingebettete QF, d.h. QF zu den selben Knoten $c_i$ mit Gewichten $b_i$ und Ordnung $\hat{p} < p$ \\
+\underline{Bemerkung:} Falls $p=2s$ ist, so gilt $\hat{p} \leq s-1$ (wäre $\hat{p} \geq s$, so wäre nach (2.8) $\hat{b}_i < b_i$).\\
+Eine Approximation des Fehlers für die eingebettete QF ist durch 
+$$\text{diff} \thinspace [x_j, x_{j+1}] = h_{j+1} \sum_{i=1}^s b_i f(x_j + c_i h_{j+1}) - h_{j+1} \sum_{i=1}^s \hat{b}_i f(x_j + c_i h_{j+1})$$
+$$ = h_{j+1} \sum_{i=1}^s (b_i - \hat{b}_i) f(x_j+c_i h_{j+1})$$
+gegeben. Es gilt
+$$\text{diff} \thinspace [x_j, x_{j+1}] = h_{j+1} \sum_{i=1}^s b_i f(x_j + c_i h_{j+1}) - \int_{x_j}^{x_{j+1}} f(x)dx$$ 
+$$- \left( h_{j+1} \sum_{i=1}^s \hat{b}_i f(x_j + c_i h_{j+1}) - \int_{x_j}^{x_{j+1}} f(x)dx \right)$$
+$$ = \text{Fehler der QF } (b_i, c_i)_{i=1}^s - \text{Fehler der QF } (\hat{b}_i, c_i)_{i=1}^s$$
+$$ = C_1 h_{j+1}^{p+1} + C_2h_{j+1}^{\hat{p}+1}$$
+Falls $h_{j+1}$ klein ist ist $C_1 h_{j+1}^{p+1} << C_2h_{j+1}^{\hat{p}+1}$.\\
+Drei Möglichkeiten den Fehler zu schätzen:
+\begin{enumerate}
+  \item[I)] $\text{err }[x_j, x_{j+1}] \approx \text{diff }[x_j, x_{j+1}]$. Sehr pessimistisch
+  \item[II)] $\text{err }[x_j, x_{j+1}] \approx (\text{diff }[x_j, x_{j+1}])^2$, falls $p=2s$ und $\hat{p} = s-1$. Wenig verlässlich
+  \item[III)] Verwende dritte eingebettete QF 
+    \begin{description}
+      \item $(\hat{\hat{h}}_i, c_i)$ der Ordnung 6 
+      \item zu $(b_i, c_i)$ der Ordnung $30 = 2s$, $s=15$
+      \item und $(\hat{b}_i, c_i)$ der Ordnung 14
+      \item $\hat{\text{diff}} = h_{j+1} \sum_{i=1}^s (b_i - \hat{\hat{b}}_i) f(x_{j+1} + c_i h_{j+1}) \approx C_3 h^7$
+      \item $$\text{err }[x_j, x_{j+1}] = \text{diff }[x_j, x_{j+1}] \left( \frac{\text{diff}}{\hat{\text{diff}}} \right) ^2$$
+      $$ = C_2 \frac{C_2^2}{C_3^2} h_{j+1}^{15} \left( \frac{h_{j+1}^{15}}{h_{j+1}^7} \right) = C h_{j+1}^{31}$$
+    \end{description}
+\end{enumerate}
+\end{nothing}

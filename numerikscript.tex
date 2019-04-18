@@ -47,178 +47,51 @@
 \input{Kapitel_1/Abschnitt_2} %Ordnung von Quadraturformeln
 \input{Kapitel_1/Abschnitt_3} %Quadraturfehler
 \input{Kapitel_1/Abschnitt_4} %Quadratur mit hoher Ordnung
+\input{Kapitel_1/Abschnitt_5} %Orthogonalpolynome
+\input{Kapitel_1/Abschnitt_6} %Ein adaptives Programm
+\input{Kapitel_1/Abschnitt_7} %Gauß- und Loballo Quadraturformeln
 
+\section{Interpolation und Approximation}
 
-\subsection{Orthogonalpolynome}
-Bedingung $2.$ in Satz $(4.1)$ 
-$$ \forall h \in \mathcal{P}_{m-1}: \int_0^1 M(t)h(t) = 0$$
-kann als Orthogonalitätsbedingung bzgl. eines Skalarprodukts $\langle f, g\rangle = \int_0^1 f(t)g(t)dt$ auf dem Vektorraum $L^2([0,1])$ oder $C([0,1])$ aufgefasst werden. \\
-\underline{Erinnerung:}
-$$\mathcal{P}_s := \left\{ \sum_{j=0}^s \alpha_j X^j, \alpha_j \in \mathbb{R} \right\}$$ 
-ist ein $\mathbb{R}$-VR mit $dim(\mathcal{P}_s) = s+1$ und Basis $\left\{ 1, X, X^2, ..., X^s \right\}$\\ \\
-$\langle\cdot,\cdot\rangle : C([0,1]) \times C([0,1]) \rightarrow \mathbb{R}, (f, g) \mapsto \int_0^1 f(t)g(t)dt$ ist 
-\begin{enumerate}
-  \item symmetrisch $ \langle f, g\rangle = \langle g, f\rangle$
-  \item linear $\langle \alpha f + g, h\rangle = \alpha \langle f, h\rangle + \langle g, h\rangle$
-  \item positiv definit $\langle f, f\rangle \geq 0 $ und $ \langle f, f\rangle = 0 \Rightarrow f = 0$
-\end{enumerate}
-Wie in der linearen Algebra definieren wir $f$ steht senkrecht auf $g$: $f \perp g \Leftrightarrow \langle f, g\rangle = 0$
-
-\begin{theorem}
-QF hat die Ordnung $s+m \Leftrightarrow $ M ist orthogonal auf allen Polynome in $\mathcal{P}_{m-1}$
-\end{theorem}
-
-\begin{definition}
-Für eine Gewichtsfunktion $\omega : (a, b) \rightarrow \mathbb{R}$ mit 
-\begin{enumerate}
-  \item $\omega$ stetig
-  \item $\forall x\in(a,b): \omega(x) > 0 $
-  \item $\forall k \in \mathbb{N}: \int_a^b \omega(x) \vert x \vert^k dx < \infty$
-\end{enumerate}
-definieren wir auf den Vektorraum 
-$$ V = \left\{ f: [a,b] \rightarrow \mathbb{R}: f \medspace stetig \medspace und \int_a^b f(x)^2 \omega(x) dx < \infty \right\} $$
-das gewichtete Skalarprodukt
-$$ \langle f, g \rangle_\omega := \int_a^b \omega(x)f(x)g(x)dx$$
-für $f, g \in V$ \\
-$f \perp_\omega g :\Leftrightarrow \langle f, g, \rangle_\omega = 0$
-\end{definition}
-
-\begin{theorem}
-Es existiert eine eindeutige Folge von Polynomen $p_0, p_1, ...$ mit 
-\begin{enumerate}
-  \item $deg(p_k) = k$
-  \item $\forall q \in \mathcal{P}_{k-1}:p_k \perp q$ für $k \geq 1$
-  \item $p_k(x) = x^k + r$ mit $deg(r) \leq  k-1$ "Normierung"
-\end{enumerate}
-Diese Polynome lassen sich rekursiv berechnen durch \\
-$ p_{k+1}(x) := (x- \beta_{k+1}) p_k(x) - \gamma_{k+1}^2 p_{k-1}(x)$ für $k \geq 1$ \\
-$ p_0(x) := 1$, $p_{-1}(x) := 0$ \\
-$ \beta_{k+1} := \frac{\langle xp_k, p_k \rangle}{\langle p_k, p_k \rangle}$ \\
-$ \gamma_{k+1}^2 := \frac{\langle p_k, p_k \rangle}{\langle p_{k-1}, p_{k-1} \rangle}$
-\begin{proof}[Beweis]
-(vgl. Gram-Schmidt Orthogonalisierung LinA) \\
-Sei $p_0, ..., p_k$ bereits bekannt. Zur Konstruktion von $p_{k+1}$ setzen wir
-$$p_{k+1}(x) = xp_k(x) + \sum_{j=0}^{k} \alpha_j p_j(x)$$
-(damit ist 3. erfüllt) \\
-Zur Bestimmung der $\alpha_j$:
-\begin{enumerate}
-  \item $ 0 = \langle p_{k+1}, p_k \rangle = \langle xp_k, p_k \rangle + \alpha_k \langle p_k, p_k \rangle + \sum_{j=0}^{k-1} \alpha_j \underbrace{\langle p_j, p_k \rangle}_{= 0}$\\
-    $\Rightarrow \alpha_k = -\frac{\langle xp_k, p_k \rangle}{\langle p_k, p_k \rangle} =: -\beta_{k+1}$
+\begin{description}
+  \item[Problemstellung A]
+    Zu gegebenen $(x_0, y_0), ...,(x_n, y_n)$ berechne Polynom $p$ vom Grad $\leq n$ mit $$p(x_j) = y_j, \quad j=0,...,n$$
   
-  \item $$0 = \langle p_{k+1}, p_{k-1} \rangle = \langle xp_k, p_{k-1} \rangle + 0 + \alpha_{k-1} \langle p_{k-1}, p_{k-1} \rangle + 0$$ 
-    $$= \langle p_{k}, xp_{k-1} \rangle + \alpha_{k-1} \langle p_{k-1}, p_{k-1} \rangle$$ 
-    Aufgrund von 3. $\Rightarrow$ 
-    $$xp_{k-1} = p_k + r$$ mit $deg(r) \leq k-1$
-    $$\Rightarrow \langle p_{k}, xp_{k-1} \rangle = \langle p_{k}, p_{k} \rangle + \underbrace{\langle p_{k}, r \rangle}_{= 0}$$ 
-    $$\Rightarrow \alpha_{k-1} = - \frac{\langle p_k, p_k \rangle}{\langle p_{k-1}, p_{k-1} \rangle} =: -\gamma_{k+1}^2$$
-  
-  \item Für $j \leq k-2$:
-    $$ 0 = \langle p_{k+1}, p_{j} \rangle = \langle xp_{k}, p_{j} \rangle + \alpha_j \langle p_{j}, p_{j} \rangle$$
-    $$ = \underbrace{\langle p_{k}, xp_{j} \rangle}_{= 0} + \alpha_j \underbrace{\langle p_{j}, p_{j} \rangle}_{\neq 0}$$
-    $\langle p_{k}, xp_{j} \rangle = 0$ gilt, da $deg(xp_j) \leq k+1$ \\
-    Insgesamt haben wir
-    $$p_{k+1}(x) = xp_k(x) - \beta_{k+1}p_k(x) - \gamma_{k+1}^2 p_{k-1}(x)$$
-\end{enumerate}
-\end{proof}
-\end{theorem}
+  \item[Problemstellung B]
+    $f:[a,b] \rightarrow \mathbb{R}$ gegeben. Finde einfach auszuwertende Funktion $p: [a,b] \rightarrow \mathbb{R}$, etwa ein Polynom, stückweises Polynom, rationale Funktion, sodass $f-p$ klein ist.
+    \begin{enumerate}
+      \item[i)] $f(x)=p(x)$ für endlich viele vorgegebene Punkte $x$
+      \item[ii)] $\int_a^b (f(x)-p(x))^2 dx$ soll minimal sein.
+      \item[iii)] $\max_{x \in [a,b]} \vert f(x) -p(x) \vert$ soll minimal sein.
+    \end{enumerate}
+\end{description}
 
-Für eine QF maximaler Ordnung müssen nach Satz (4.1) die Knoten $c_i$, $i=1, ...,s$ so gewählt werden, dass 
-$$M(t) = \prod_{i=1}^s(t-c_i)$$
-das Orthogonalpolynom vom Grad $s$ bezüglich des Skalarprodukts mit $\omega(x) \equiv 1$ auf $[0,1]$ ist. \\
-\underline{Frage:} Sind die Wurzeln der Orthogonalpolynome aus (5.3) reell? (Spoiler: Ja)
-
-\begin{theorem}
-
-\end{theorem}
+\subsection{Newtonsche Interpolationsformel}
 
 \begin{example}
-
+\begin{description}\item \end{description}
+\begin{description}
+  \item n=1: \\
+    $(x_0, y_0),(x_1,y_1)$, $p \in \mathcal{P}_1$ das beide Punkte verbindet.\\
+    $$p(x) = y_0 + (x-x_0) \frac{y_1-y_0}{x_1-x_0}$$
+  \item n=2: \\
+    $(x_0, y_0),(x_1,y_1),(x_2,y_2)$ \\
+    $$p(x) = y_0 + (x-x_0) \frac{y_1-y_0}{x_1-x_0} + a(x-x_0)(x-x_1)$$
+    Bestimme $a$ so, dass $p(x_2) = y_2$
+    \begin{align*}
+    y_2 \overset{!}{=} y_0 + (x-x_0) \frac{y_1-y_0}{x_1-x_0} + a(x-x_0)(x-x_1)\\
+    a(x_2-x_0)(x_2-x_1) = y_2 - y_0 - (x_2-x_1) \frac{y_1-y_0}{x_1-x_0} - y_1 + y_0 \\
+    \Rightarrow a = \frac{1}{x_2-x_0} \left( \frac{y_2-y_1}{x_2-x_1} - \frac{y_1-y_0}{x_1-x_0} \right) 
+     \end{align*}
+\end{description}
 \end{example}
 
-\subsection{Ein adaptives Programm}
-
-Gegeben sei eine QF mit $(b_i, c_i)_{i=1}^s$ mit Ordnung $p=2s$ (die höchste Ordnung, die es gibt) z.B. $s=15$ \\
-\underline{Ziel:} Ein Computerprogramm adagaussqf(f, a, b, Tol), welches für eine Funktion $f$ auf dem Interval $[a, b]$ eine Approximation an $\int_a^b f(x) dx$ berechnet, sodass der Fehler $\leq$ Tol ist (für viele Funktionen). \\
-Konstruiere eine Zerlegung $\Delta = \left\{ a = x_0 < ... < x_n = b\right\}$ des Intervalls, sodass für die Approximation 
-$$I_\Delta := \sum_{j=0}^{n-1} h_{j+1} \sum_{i=1}^s b_if(x_i + c_ih_{j+1})$$
-gilt 
-$$\vert I_\Delta - \int_a^b f(x) dx \vert \leq Tol \int_a^b \vert f(x) \vert dx $$
-Schwierigkeiten:
-
-\begin{enumerate}
-  \item[a)] Schätzung des Fehlers
-  \item[b)] Wahl der Zerlegung des Intervalls 
-\end{enumerate}
-
-\begin{nothing}[Zerlegung des Intervalls]
-Für ein Teilintervall $[x_j, x_{j+1}]$ von $[a,b]$ lassen sich 
-$$res[x_j, x_{j+1}] := h_{j+1} \sum_{i=1}^s b_i f(x_j + c_i h_{j+1})$$
-und
-$$ resabs[x_j, x_{j+1}] := h_{j+1} \sum_{i=1}^s \vert b_i f(x_j + c_i h_{j+1}) \vert$$
-berechnen.\\
-Angenommen wir können eine Schätzung des Fehlers $err[x_, x_{j+1}]$ berechnen mit
-$$err[x_, x_{j+1}] \approx res[x_, x_{j+1}] - \int_{x_j}^{x_{j+1}} f(x) dx,$$
-dann bietet sich zur folgendes Verfahren zur Konstruktion einer Zerlegung an:
-\begin{enumerate}
-  \item Berechne $res[a,b]$, $resabs[a,b]$ und $err[a, b]$. \\
-    if $\vert err[a,b] \leq Tol \thinspace resabs[a,b]$ return $res[a,b]$ \\
-    else
-    
-  \item Zerlege $[a,b]$ in 
-    $$I_0 = \left[a,\frac{b-a}{2}\right]$$
-    und
-    $$I_1 = \left[ \frac{b-a}{2}, b \right]$$
-    und berechne 
-    \begin{description}
-      \item $res \thinspace I_0$, $resabs \thinspace I_0$, $err \thinspace I_0$ und
-      \item $res \thinspace I_1$, $resabs \thinspace I_1$, $err \thinspace I_1$ 
-    \end{description}
-    n = 2.
-    
-  \item Falls 
-    $$ \sum_{j=0}^{n-1} \vert err \thinspace I_j \vert \leq Tol \thinspace \sum_{j=0}^{n-1} resabs \thinspace I_j$$
-    return
-    $$ \sum_{j=0}^{n-1} res \thinspace I_j$$
-    sonst: \\
-    Unterteile das Intervall $I_k$, in dem der Fehler maximal ist in zwei Teilintervalle $I_k$ und $I_n$ und berechne:
-    \begin{description}
-      \item $res \thinspace I_k$, $resabs \thinspace I_k$, $err \thinspace I_k$ und
-      \item $res \thinspace I_n$, $resabs \thinspace I_n$, $err \thinspace I_n$ 
-    \end{description}
-    $n =n+1$ \\
-    Gehe zu 3)
-\end{enumerate}
-\end{nothing}
-
-\begin{nothing}[Schätzung des Fehlers]
-\underline{Ziel:} Berechne Approximation an 
-$$\int_{x_j}^{x_{x+1}} f(x)dx - h_{j+1} \sum_{i=1}^s b_i f(x_j + h_{j+1} c_i)$$
-ohne zusätzliche Funktionsauswertungen.\\
-\underline{Idee:} Konstruiere eingebettete QF, d.h. QF zu den selben Knoten $c_i$ mit Gewichten $b_i$ und Ordnung $\hat{p} < p$ \\
-\underline{Bemerkung:} Falls $p=2s$ ist, so gilt $\hat{p} \leq s-1$ (wäre $\hat{p} \geq s$, so wäre nach (2.8) $\hat{b}_i < b_i$).\\
-Eine Approximation des Fehlers für die eingebettete QF ist durch 
-$$\text{diff} \thinspace [x_j, x_{j+1}] = h_{j+1} \sum_{i=1}^s b_i f(x_j + c_i h_{j+1}) - h_{j+1} \sum_{i=1}^s \hat{b}_i f(x_j + c_i h_{j+1})$$
-$$ = h_{j+1} \sum_{i=1}^s (b_i - \hat{b}_i) f(x_j+c_i h_{j+1})$$
-gegeben. Es gilt
-$$\text{diff} \thinspace [x_j, x_{j+1}] = h_{j+1} \sum_{i=1}^s b_i f(x_j + c_i h_{j+1}) - \int_{x_j}^{x_{j+1}} f(x)dx$$ 
-$$- \left( h_{j+1} \sum_{i=1}^s \hat{b}_i f(x_j + c_i h_{j+1}) - \int_{x_j}^{x_{j+1}} f(x)dx \right)$$
-$$ = \text{Fehler der QF } (b_i, c_i)_{i=1}^s - \text{Fehler der QF } (\hat{b}_i, c_i)_{i=1}^s$$
-$$ = C_1 h_{j+1}^{p+1} + C_2h_{j+1}^{\hat{p}+1}$$
-Falls $h_{j+1}$ klein ist ist $C_1 h_{j+1}^{p+1} << C_2h_{j+1}^{\hat{p}+1}$.\\
-Drei Möglichkeiten den Fehler zu schätzen:
-\begin{enumerate}
-  \item[I)] $\text{err }[x_j, x_{j+1}] \approx \text{diff }[x_j, x_{j+1}]$. Sehr pessimistisch
-  \item[II)] $\text{err }[x_j, x_{j+1}] \approx (\text{diff }[x_j, x_{j+1}])^2$, falls $p=2s$ und $\hat{p} = s-1$. Wenig verlässlich
-  \item[III)] Verwende dritte eingebettete QF 
-    \begin{description}
-      \item $(\hat{\hat{h}}_i, c_i)$ der Ordnung 6 
-      \item zu $(b_i, c_i)$ der Ordnung $30 = 2s$, $s=15$
-      \item und $(\hat{b}_i, c_i)$ der Ordnung 14
-      \item $\hat{\text{diff}} = h_{j+1} \sum_{i=1}^s (b_i - \hat{\hat{b}}_i) f(x_{j+1} + c_i h_{j+1}) \approx C_3 h^7$
-      \item $$\text{err }[x_j, x_{j+1}] = \text{diff }[x_j, x_{j+1}] \left( \frac{\text{diff}}{\hat{\text{diff}}} \right) ^2$$
-      $$ = C_2 \frac{C_2^2}{C_3^2} h_{j+1}^{15} \left( \frac{h_{j+1}^{15}}{h_{j+1}^7} \right) = C h_{j+1}^{31}$$
-    \end{description}
-\end{enumerate}
-\end{nothing}
+\begin{definition}[dividierte Differenzen]
+Für $(x_0,y_0), (x_1, y_1), ..., (x_n, y_n)$ mit paarweise verschiedenen Stützstellen $x_j$ definieren wir
+$$ y[x_j] := y_j \quad \left( = \delta^0 y[x_j] \right) $$ 
+$$ \delta y[x_j, x_{j+1}] := \frac{y_{j+1} - y_j}{x_{j+1}-x_j} = \frac{\delta^0 y[x_{j+1}]-\delta^0 y[x_{j}]}{x_{j+1} - x_j}$$
+$$ \delta ^2 y[x_j, x_{j+1}, x_{j+2}] := \frac{\delta y[x_{j+1}, x_{j+2}]-\delta y[x_{j}, x_{j+1}]}{x_{j+2} - x_j}$$
+$$ \delta ^k y[x_j, x_{j+1},..., x_{j+k}] := \frac{1}{x_{j+k}-x_j} \left( \delta^{k-1} y[x_{j+1}, ..., x_{j+k}] - \delta^{k-1} y[x_j, ..., x_{j+k-1}] \right)$$
+\end{definition}
 
 \end{document}
