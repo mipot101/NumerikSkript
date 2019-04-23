@@ -1,0 +1,72 @@
+\subsection{Quadratur mit hoher Ordnung}
+$c_1< ... < c_s$ Knoten gegeben. Aus $\S2$ wissen wir: \\
+Es gibt Gewichte $b_1, ..., b_s$, sodass $p \leq s$. \\
+\underline{Fragen:} 
+\begin{itemize}
+  \item Kann man $c_j$ so wählen, dass $p>s$?
+  \item Wenn ja, wie?
+  \item Wie groß kann $p$ maximal werden?
+\end{itemize}
+\underline{Ziel:} QF mit Ordnung $p=s+m$ für $m \in \mathbb{N}, m > 1$
+Sei $g \in \mathcal{P}_{s+m-1}$ (Polynome von Grad $\leq s+m-1$).\\
+$g$ soll durch die QF exakt integriert werden.\\
+\underline{Idee:} Dividiere $g$ durch $M(t) = \prod_{i=1}^s (t-c_i)$ "Knotenpolynom"\\
+$deg(M) = s$ \\
+$g(t) = M(t) h(t) + r(t)$ mit Rest $r$, $deg(r) \leq s-1$ und $deg(h) \leq m-1$ \\
+Dann gilt einerseits
+$$\int_0^1 g(t)dt = \int_0^1 M(t)h(t)dt + \int_0^1r(t)dt$$
+und andererseits
+\begin{gather*}\sum_{i=1}^s b_ig(c_i) = \sum_{i=1}^s b_i \underbrace{M(c_i)}_{= 0} h(c_i) + \sum_{i=1}^s b_ir(c_i) \\
+ = 0 + \int_0^1 r(t)dt,\end{gather*}
+ da $p \leq s$\\
+Damit ist gezeigt:
+
+\begin{theorem}
+Sei $(b_i, c_i)_{i=1}^s$ der Ordnung $p \geq s$. Äquivalent sind:
+\begin{enumerate}
+  \item QF hat Ordnung $s+m$
+  \item $\forall h \in \mathcal(P)_{m-1}:\int_0^1 M(t)h(t)dt = 0$
+\end{enumerate}
+\end{theorem}
+
+\begin{korollar}
+Die Ordnung einer $s$-stufigen QF ist höchstens $2s$
+\end{korollar}
+
+\begin{nothing}[Beispiele/Korollare]
+\begin{description} \item \end{description}
+\begin{enumerate}
+  \item Jede 3-stufige QF mit Ordnung $\geq 4$ muss
+    $$\int_0^1 (t-c_1)(t-c_2)(t-c_3)dt = 0$$
+    $$\int_0^1 t^3 + t^2(-c_1-c_2-c_3) + t(c_1c_2+c_2c_3+c_1c_3) - c_1c_2c_3 dt$$
+    $$ = \frac{1}{4} + \frac{1}{3}(-c_1-c_2-c_3) + \frac{1}{2}(c_1c_2 + c_2c_3 + c_1c_3) - c_1c_2c_3$$
+    erfüllen, dh
+    $$ c_3 = \frac{\frac{1}{4} - (c_1+c_2)\frac{1}{3} + c_1c_2 \frac{1}{2}}{\frac{1}{3} - (c_2+c_1)\frac{1}{2} + c_1c_2}$$
+    
+  \item Zur Berechnung der Knoten einer $3$-stufigen QF der Ordnung $6$ verwenden wir $(4.2)$ mit $h(t) = 1, t, t^2$
+    $$\int_0^1 M(t)h(t) = 0$$
+    \begin{description}
+      \item $h(t) = 1 \rightarrow c_1c_2c_3 - \frac{1}{2}(c_1c_2 + c_2c_3 + c_1c_3) + \frac{1}{3}(c_1+c_2+c_3) = \frac{1}{4}$
+      
+      \item $h(t) = t \rightarrow \frac{1}{2}c_1c_2c_3 - \frac{1}{3}(c_1c_2 + c_2c_3 + c_1c_3) + \frac{1}{4}(c_1+c_2+c_3) = \frac{1}{5}$
+      
+      \item $h(t) = t^2 \rightarrow \frac{1}{3}c_1c_2c_3 - \frac{1}{4}(c_1c_2 + c_2c_3 + c_1c_3) + \frac{1}{5}(c_1+c_2+c_3) = \frac{1}{6}$
+    \end{description}
+    nichtlineares Gleichungssystem in $c_1, c_2, c_3$ \\
+    \underline{Trick:}
+    \begin{description}
+      \item $\sigma_1 = c_1+c_2+c_3$
+      \item $\sigma_2 = c_1c_2 + c_1c_3 + c_2c_3$
+      \item $\sigma_2 = c_1c_2c_3$
+    \end{description} 
+    Das sind die Koeffizienten von $M(t)$ in der Monombasis. \\
+    $M(t) = (t-c_1)(t-c_2)(t-c_3) = t^3 - \sigma_1t^2 + \sigma_2t - \sigma_3$ \\
+    und das Gleichungssystem ist linear in $\sigma_1, \sigma_2, \sigma_3$ \\
+    mit Lösung $\sigma_1 = \frac{3}{2}, \sigma_2 = \frac{3}{5}, \sigma_3 = \frac{1}{20}$ \\
+    und damit ist $M(t) = t^3 - \frac{3}{2}t^2 + \frac{3}{5}t - \frac{1}{20}$ \\
+    $ = (t-\frac{1}{2})(t-\frac{5-\sqrt{15}}{10})(t-\frac{5 + \sqrt{15}}{10})$ \\
+    Glücklicherweise sind die Wurzeln von $M(t)$ in $[0,1]$. Damit lassen sich die Gewichte mit $(2.4)$ berechnen und wir erhalten
+    $$\int_0^1 g(t) dt = \frac{5}{18} g\left(\frac{5-\sqrt{15}}{10}\right) + \frac{8}{18} g\left(\frac{1}{2}\right) + \frac{5}{18}g\left(\frac{5+\sqrt{15}}{10}\right)$$
+    \underline{Ziel:} Konstruktion von QF der Ordnung $2s$ mit Hilfe von orthogonalen Polynomen.
+\end{enumerate}
+\end{nothing}

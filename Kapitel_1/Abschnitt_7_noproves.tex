@@ -1,0 +1,42 @@
+\subsection{Gauß- und Lobatto Quadraturformeln}
+
+\underline{Ziel:} Konstruktion einer s-stufigen QF der Ordnung $p=2s$.\\
+Für $M(t) = CP_s(2t-1)$, wobei $P_s$ das Legendrepolynom vom Grad s ist (siehe (5.5)), $C \in \mathbb{R}$, erhalten wir mit (5.4) und (4.1):
+
+\begin{theorem}
+Für jedes $s \in \mathbb{N}$ gibt es eine eindeutige QF der Ordnung $p=2s$, die sogenannte Gauß-QF. Ihre Knoten sind die Wurzeln von $P_s(2t-1)$, ihre Gewichte sind durch (2.8) gegeben. 
+\end{theorem}
+\underline{Beispiele:} \\
+\begin{tabular}{ll}
+ 
+$s=1$ & Mittelpunktsregel \\
+
+$s=2$ & $c_{1,2} = \frac{1}{2} \mp \frac{\sqrt{3}}{6}$, $b_1=\frac{1}{2} = b_2$ \\
+
+$s=3$ & (4.3) 2) \\
+
+\end{tabular}
+
+\begin{nothing}[Bezeichnung der Knoten der Gauß-QF]
+Details: Siehe Homepage (Übungsaufgabe). \\
+\underline{Idee:} Die Wurzeln der Polynome, die durch Rekursion (5.3) erzeugt werden, sind die Eigenwerte einer symmetrischen Tridiagonalmatrix (Matrix: Siehe Homepage).\\
+In Numerik II lernen Sie Verfahren kennen, um die Eigenwerte zu berechnen.
+\end{nothing}
+
+\begin{nothing}[Lobatto Quadraturformeln]
+Ein Vorteil der Simpsonquadraturformel war, dass $c_1=0$ und $c_s=1$ gilt. Damit muss man den Integranten in $x_j$ nur einmal auswerten. Zur Konstruktion einer s-stufigen QF der Ordnung $p=2s-2$ mit $c_1=0$ und $c_s=1$ setzt man 
+$$M(t) = P_s(2t-1) - P_{s-2}(2t-1)$$
+Da die Legendre-Polynome folgende Rekursion erfüllen
+$$P_0(x)=1 \quad P_1(x) = x $$
+$$ (n+1)P_{n+1}(x) = (2n+1)xP_n(x) - nP_{n-1}(x)$$
+ist 
+$$ P_s(1) = 1 \quad \text{und} \quad P_s(-1) = (-1)^s$$
+und damit 
+$$M(0) = 0 = M(1)$$
+Die restlichen Nullstellen (oder Wurzeln) von $M(t)$ sind reell, einfach und liegen in (0,1), wie man analog zu (5.4) zeigt.\\
+Damit gilt:
+\begin{description}
+  \item[\textbf{Satz}]
+    Für $s \in \mathbb{N}$, $s \geq 2$ gibt es eine eindeutige s-stufige QF der Ordnung $2s-2$ mit $c_1=0$ und $c_s=1$
+\end{description}
+\end{nothing}
