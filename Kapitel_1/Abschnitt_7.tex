@@ -1,4 +1,4 @@
-\subsection{Gauß- und Loballo Quadraturformeln}
+\subsection{Gauß- und Lobatto Quadraturformeln}
 
 \underline{Ziel:} Konstruktion einer s-stufigen QF der Ordnung $p=2s$.\\
 Für $M(t) = CP_s(2t-1)$, wobei $P_s$ das Legendrepolynom vom Grad s ist (siehe (5.5)), $C \in \mathbb{R}$, erhalten wir mit (5.4) und (4.1):
@@ -24,7 +24,7 @@ In Numerik II lernen Sie Verfahren kennen, um die Eigenwerte zu berechnen.
 \end{nothing}
 
 \begin{nothing}[Lobatto Quadraturformeln]
-Ein Vorteil der Simpsonquadraturformel war, dass $c_1=0$ und $c_3=1$ gilt. Damit muss man den Integranten in $x_j$ nur einmal auswerten. Zur Konstruktion einer s-stufigen QF der Ordnung $p=2s-2$ mit $c_1=0$ und $c_s=1$ setzt man 
+Ein Vorteil der Simpsonquadraturformel war, dass $c_1=0$ und $c_s=1$ gilt. Damit muss man den Integranten in $x_j$ nur einmal auswerten. Zur Konstruktion einer s-stufigen QF der Ordnung $p=2s-2$ mit $c_1=0$ und $c_s=1$ setzt man 
 $$M(t) = P_s(2t-1) - P_{s-2}(2t-1)$$
 Da die Legendre-Polynome folgende Rekursion erfüllen
 $$P_0(x)=1 \quad P_1(x) = x $$

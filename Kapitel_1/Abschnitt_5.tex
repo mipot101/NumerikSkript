@@ -40,8 +40,8 @@ Es existiert eine eindeutige Folge von Polynomen $p_0, p_1, ...$ mit
   \item $p_k(x) = x^k + r$ mit $deg(r) \leq  k-1$ "Normierung"
 \end{enumerate}
 Diese Polynome lassen sich rekursiv berechnen durch \\
-$ p_{k+1}(x) := (x- \beta_{k+1}) p_k(x) - \gamma_{k+1}^2 p_{k-1}(x)$ für $k \geq 1$ \\
-$ p_0(x) := 1$, $p_{-1}(x) := 0$ \\
+$ p_{k+1}(x) := (x- \beta_{k+1}) p_k(x) - \gamma_{k+1}^2 p_{k-1}(x)$ für $k \geq 2$ \\
+$ p_0(x) := 1$, $p_{1}(x) := x$ \\
 $ \beta_{k+1} := \frac{\langle xp_k, p_k \rangle}{\langle p_k, p_k \rangle}$ \\
 $ \gamma_{k+1}^2 := \frac{\langle p_k, p_k \rangle}{\langle p_{k-1}, p_{k-1} \rangle}$
 \begin{proof}[Beweis]
