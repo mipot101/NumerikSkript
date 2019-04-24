@@ -21,7 +21,8 @@
 \theoremstyle{break}
 
 \renewcommand{\thesection}{\Roman{section}}
-\renewcommand{\thesubsection}{\arabic{subsection}}
+\counterwithout{subsection}{section}
+%\renewcommand{\thesubsection}{\arabic{subsection}}
 
 %Definiere Satz, Definition,...
 \newtheorem{theorem}{Satz}[subsection]
@@ -78,20 +79,125 @@
     $(x_0, y_0),(x_1,y_1),(x_2,y_2)$ \\
     $$p(x) = y_0 + (x-x_0) \frac{y_1-y_0}{x_1-x_0} + a(x-x_0)(x-x_1)$$
     Bestimme $a$ so, dass $p(x_2) = y_2$
-    \begin{align*}
-    y_2 \overset{!}{=} y_0 + (x-x_0) \frac{y_1-y_0}{x_1-x_0} + a(x-x_0)(x-x_1)\\
-    a(x_2-x_0)(x_2-x_1) = y_2 - y_0 - (x_2-x_1) \frac{y_1-y_0}{x_1-x_0} - y_1 + y_0 \\
-    \Rightarrow a = \frac{1}{x_2-x_0} \left( \frac{y_2-y_1}{x_2-x_1} - \frac{y_1-y_0}{x_1-x_0} \right) 
-     \end{align*}
+    \begin{flalign*}
+    y_2 &\overset{!}{=} y_0 + (x-x_0) \frac{y_1-y_0}{x_1-x_0} + a(x-x_0)(x-x_1)&\\
+    a(x_2-x_0)(x_2-x_1) &= y_2 - y_0 - (x_2-x_1) \frac{y_1-y_0}{x_1-x_0} - y_1 + y_0 &\\
+    \Rightarrow a &= \frac{1}{x_2-x_0} \left( \frac{y_2-y_1}{x_2-x_1} - \frac{y_1-y_0}{x_1-x_0} \right) 
+     \end{flalign*}
 \end{description}
 \end{example}
 
 \begin{definition}[dividierte Differenzen]
 Für $(x_0,y_0), (x_1, y_1), ..., (x_n, y_n)$ mit paarweise verschiedenen Stützstellen $x_j$ definieren wir
-$$ y[x_j] := y_j \quad \left( = \delta^0 y[x_j] \right) $$ 
-$$ \delta y[x_j, x_{j+1}] := \frac{y_{j+1} - y_j}{x_{j+1}-x_j} = \frac{\delta^0 y[x_{j+1}]-\delta^0 y[x_{j}]}{x_{j+1} - x_j}$$
-$$ \delta ^2 y[x_j, x_{j+1}, x_{j+2}] := \frac{\delta y[x_{j+1}, x_{j+2}]-\delta y[x_{j}, x_{j+1}]}{x_{j+2} - x_j}$$
-$$ \delta ^k y[x_j, x_{j+1},..., x_{j+k}] := \frac{1}{x_{j+k}-x_j} \left( \delta^{k-1} y[x_{j+1}, ..., x_{j+k}] - \delta^{k-1} y[x_j, ..., x_{j+k-1}] \right)$$
+\begin{flalign*}
+y[x_j] &:= y_j \quad \left( = \delta^0 y[x_j] \right) &\\
+\delta y[x_j, x_{j+1}] &:= \frac{y_{j+1} - y_j}{x_{j+1}-x_j} = \frac{\delta^0 y[x_{j+1}]-\delta^0 y[x_{j}]}{x_{j+1} - x_j} &\\
+\delta ^2 y[x_j, x_{j+1}, x_{j+2}] &:= \frac{\delta y[x_{j+1}, x_{j+2}]-\delta y[x_{j}, x_{j+1}]}{x_{j+2} - x_j} &\\
+\delta ^k y[x_j, x_{j+1},..., x_{j+k}] &:= \frac{1}{x_{j+k}-x_j} \left( \delta^{k-1} y[x_{j+1}, ..., x_{j+k}] - \delta^{k-1} y[x_j, ..., x_{j+k-1}] \right)
+\end{flalign*}
+\underline{Schema:}\\
+\begin{tabular}{ccccc}
+ 
+$x_0$ & $y_0$ & & &\\
+ & & $\delta^1y[x_0, x_1]$ & &\\
+$x_1$ & $y_1$ & &$\delta^2y[x_0, x_1, x_2]$ &\\
+ & & $\delta^1y[x_1, x_2]$ & & $\delta^3y[x_0, x_1, x_2, x_3]$\\
+$x_2$ & $y_2$ & & $\delta^2y[x_1, x_2, x_3]$ &\\
+ & & $\delta^1y[x_2, x_3]$ & &\\
+$x_3$ & $y_3$ & & &\\
+ 
+\end{tabular}
 \end{definition}
+
+\begin{comment}
+Falls die $x_i$ äquidistant, dh $x_i = x_0+ih$ so ist: \\
+\begin{flalign*}
+\delta y[x_i, x_{i+1}] &= \frac{y_{i+1} - y_i}{h} =: \frac{1}{h} \Delta y_i &\\
+\delta ^2 y[x_i, x_{i+1}, x_{i+2}] &= \frac{\frac{1}{h} \Delta y_{i+1} - \frac{1}{h} \Delta y_{i}}{2h} = \frac{1}{2h^2} \Delta ^2 y_i &\\
+\delta ^k y[x_i, ..., x_{i+k}] &= \frac{1}{k!h^k} \Delta^k y_i
+\end{flalign*}
+\end{comment}
+
+\begin{theorem}[Newtonsche Interpolationsformel]
+Zu paarweise verschiedenen reellen $x_i$, $i=0,..., n$ existiert ein eindeutiges Polynom $p \in \mathcal{P}_n$ durch die Punkte $(x_i, y_i)$, $i=0,...,n$ (d.h. $p(x_i) = y_i$ für $i=1,...,n$). Es lässt sich berechnen durch:
+\begin{flalign*}
+p(x) &= y[x_0] + (x-x_0) \delta y[x_0,x_1] + ... + (x-x_0)(x-x_1)...(x-x_{n-1}) \delta ^n y[x_0, ..., x_n] &\\
+&= \sum_{i=0}^n \prod_{j=0}^{i-1} (x-x_j) \delta^iy[x_0,...,x_i] 
+\end{flalign*}
+\begin{proof}[Beweis](Induktion)
+\begin{description}
+  \item[IA] $n=1$ (und $n=2$) vgl. Beispiel (1.1)
+  \item[IS] $n-1 \rightarrow n$\\
+    $$p_0(x) = y[x_0] + (x-x_0) \delta y[x_1, x_0] + ... + (x-x_0)...(x-x_{n-2}) \delta ^{n-1}y[x_0,..., x_{n-1}]$$ 
+    ist das eindeutige interpolierende Polynom mit 
+    $$\text{deg}(p_0) \leq n-1$$
+    zu $(x_0,y_0), (x_1, y_1), ..., (x_{n-1}, y_{n-1})$. \\
+    Für den Ansatz
+    $$p(x) = p_0(x) + a(x-x_0)(x-x_1)...(x-x_{n-1})$$
+    ergibt die Forderung $p(x_n) = y_n$
+    $$a = \frac{y_n-p_0(x_n)}{(x_n-x_0)(x_n-x_1)...(x_n-x_{n-1})}$$
+    Da $a$ eindeutig ist, ist $p$ eindeutig.\\
+    Es bleibt zu zeigen: $a = \delta^n y[x_0, ..., x_n]$\\
+    Sei dazu ein Polynom $p_1(x)$, welches durch $(x_1, y_1), ..., (x_n, y_n)$ läuft, mit $\text{deg}(p_1) \leq n-1$. Nach Induktionsannahme gilt 
+    \begin{flalign*}
+    p_1(x) &= y[x_1] + (x-x_1) \delta^1y[x_1, x_2] + ... + (x-x_1)...(x-x_{n-1}) \delta ^{n-1}y[x_1, ..., x_n]&\\
+    &=x^{n-1} \delta^{n-1}y[x_1, ..., x_n] + r
+    \end{flalign*}
+    mit $\text{deg}(r) \leq n-2$.\\
+    Setze Polynom
+    $$p(x) := \frac{x_n-x}{x_n-x_0} p_0(x) + \frac{x-x_0}{x_n-x_0}p_1(x)$$
+    mit $\text{deg}(p) \leq n$ durch $(x_0, y_0), ..., (x_n, y_n)$. \\
+    Das gilt, da: 
+    \begin{flalign*}
+    p(x_0) &= p_0(x_0) = y_0 &\\
+    p(x_n) &= p_1(x_n) = y_n &\\
+    \text{Für } i=1,...,n-1: &\\
+    p(x_i) &= \frac{x_n-x_i}{x_n-x_0} \underbrace{p_0(x_i)}_{y_i} + \frac{x_i-x_0}{x_n-x_0} \underbrace{p_1(x_i)}_{y_i} = y_i
+    \end{flalign*}
+    Andererseits:
+    $$p(x) = ax^n + r \quad \text{mit  deg}(r) \leq n-1$$
+    Koeffizientenvergleich:
+    \begin{align*}
+    a &= - \frac{1}{x_n-x_0} \delta^{n-1}y[x_0, ..., x_{n-1}] + \frac{1}{x_n-x_0} \delta^{n-1}y[x_1, ..., x_{n}] &\\
+    &= \delta^n y[x_0, ..., x_n]
+    \end{align*}
+\end{description}
+\end{proof}
+\end{theorem}
+
+\begin{nothing}[Hornerschema]
+Zur Auswertung des Interpolationspolynom $p$ an der Stelle $x$ verwendet man 
+$$
+p(x) = y[x_0] + (x-x_0) \left( \delta y[x_0, x_1] + (x-x_1) \left( \delta ^2 y[x_0, x_1, x_2] + (x-x_2) \left(  ... \left( \delta^n y[x_0, ..., x_n] \right) \right) \right) \right)
+$$
+\underline{Algorithmus:} \\
+$s = \delta y^n[x_0, .., x_n]$ \\
+for $k = n-1, ...,0$: \\
+\space$s = \delta^k y[x_0, ..., x_k] + (x-x_k) s$
+\end{nothing}
+
+\begin{example}
+\begin{tabular}{lllrrrrrr}
+$i$ & $x_i$ & $y_i$ & & & & &\\
+ &&&&&&&&\\
+0 & -1 & 0 & & &&&&\\
+& & & $\frac{1-0}{0-(-1)} = 1$ & &&&&\\
+1 & 0 & 1 & & $\frac{0-1}{2-(-1)} = -\frac{1}{3}$ &&&&\\
+& & & 0 & & $\frac{\frac{2}{3} - (-\frac{1}{3})}{3-(-1)} = \frac{1}{4}$ &&&\\
+2 & 2 & 1 & & $\frac{2-0}{3-0} = \frac{2}{3}$ &&& $\frac{-\frac{2}{5} - \frac{1}{4}}{5-(-1)} = \frac{13}{120}$&\\
+& & & $\frac{3-1}{3-2} = 2$ & & $\frac{-\frac{4}{3} - \frac{2}{3}}{5-0} = -\frac{2}{5}$ &&&...\\
+3 & 3 & 3 & & $\frac{-2-2}{5-2} = -\frac{4}{3}$ &&& ...&\\
+& & & $\frac{-1-3}{5-3} = -2$ & & $\frac{\frac{9}{56} - (-\frac{4}{3})}{17-2} = \frac{251}{2520}$ &&&\\
+4 & 5 & -1 & & $\frac{\frac{1}{4} -(-2)}{17-3} = \frac{9}{56}$ &&&& \\
+& & & $\frac{2-(-1)}{17-5} = \frac{1}{4}$ &&&&& \\
+5 & 17 & 2 & & &&&& \\
+\end{tabular} \\
+Das Interpolationspolynom ist also
+$$p(x) = 0 + (x+1) *1 - \frac{1}{3}(x+1)(x) + \frac{1}{4}(x+1)x(x-2)+(x+1)x(x-2)(x-3)\frac{13}{120}$$
+bzw. nach Hornerschema
+\begin{align*}
+p(x) &= 0+(x+1)\left(1+ x\left(-\frac{1}{3} + (x-2)\left(\frac{1}{4} + (x-3)\frac{13}{120}\right)\right)\right) &\\
+\end{align*}
+\end{example}
 
 \end{document}
