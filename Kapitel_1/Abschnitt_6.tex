@@ -77,7 +77,7 @@ Drei Möglichkeiten den Fehler zu schätzen:
       \item $(\hat{\hat{b}}_i, c_i)$ der Ordnung 6 
       \item zu $(b_i, c_i)$ der Ordnung $30 = 2s$, $s=15$
       \item und $(\hat{b}_i, c_i)$ der Ordnung 14
-      \item $\hat{\text{diff}} = h_{j+1} \sum_{i=1}^s (b_i - \hat{\hat{b}}_i) f(x_{j+1} + c_i h_{j+1}) \approx C_3 h^7$
+      \item $\hat{\text{diff}} = h_{j+1} \sum_{i=1}^s (b_i - \hat{\hat{b}}_i) f(x_{j} + c_i h_{j+1}) \approx C_3 h^7$
       \item $$\text{err }[x_j, x_{j+1}] = \text{diff }[x_j, x_{j+1}] \left( \frac{\text{diff}}{\hat{\text{diff}}} \right) ^2$$
       $$ = C_2 \frac{C_2^2}{C_3^2} h_{j+1}^{15} \left( \frac{h_{j+1}^{15}}{h_{j+1}^7} \right) = C h_{j+1}^{31}$$
     \end{description}
