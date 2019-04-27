@@ -32,6 +32,7 @@
 \newtheorem{algorithm}[theorem]{Algorithmus}
 \newtheorem{comment}[theorem]{Bemerkung}
 \newtheorem*{comment*}{Bemerkung}
+\newtheorem*{example*}{Beispiel}
 \newtheorem{problem}[theorem]{Problem}
 \newtheorem{example}[theorem]{Beispiel}
 \newtheorem{nothing}[theorem]{}
@@ -82,7 +83,7 @@
     $$p(x) = y_0 + (x-x_0) \frac{y_1-y_0}{x_1-x_0} + a(x-x_0)(x-x_1)$$
     Bestimme $a$ so, dass $p(x_2) = y_2$
     \begin{flalign*}
-    y_2 &\overset{!}{=} y_0 + (x-x_0) \frac{y_1-y_0}{x_1-x_0} + a(x-x_0)(x-x_1)&\\
+    y_2 &\overset{!}{=} y_0 + (\overset{-x_1+x_1}{\check{x_2\thinspace-}}x_0) \frac{y_1-y_0}{x_1-x_0} + a(x_2-x_0)(x-x_1)&\\
     a(x_2-x_0)(x_2-x_1) &= y_2 - y_0 - (x_2-x_1) \frac{y_1-y_0}{x_1-x_0} - y_1 + y_0 &\\
     \Rightarrow a &= \frac{1}{x_2-x_0} \left( \frac{y_2-y_1}{x_2-x_1} - \frac{y_1-y_0}{x_1-x_0} \right) 
      \end{flalign*}
@@ -100,7 +101,7 @@ y[x_j] &:= y_j \quad \left( = \delta^0 y[x_j] \right) &\\
 \underline{Schema:}\\
 \begin{tabular}{ccccc}
  
-$x_0$ & $y_0$ & & &\\
+$x_0$ & $y_0$& & &\\
  & & $\delta^1y[x_0, x_1]$ & &\\
 $x_1$ & $y_1$ & &$\delta^2y[x_0, x_1, x_2]$ &\\
  & & $\delta^1y[x_1, x_2]$ & & $\delta^3y[x_0, x_1, x_2, x_3]$\\
@@ -112,21 +113,22 @@ $x_3$ & $y_3$ & & &\\
 \end{definition}
 
 \begin{comment}
-Falls die $x_i$ äquidistant, dh $x_i = x_0+ih$ so ist: \\
+Falls die $x_i$ äquidistant, dh. $x_i = x_0+ih$ so ist: \\
 \begin{flalign*}
 \delta y[x_i, x_{i+1}] &= \frac{y_{i+1} - y_i}{h} =: \frac{1}{h} \Delta y_i &\\
 \delta ^2 y[x_i, x_{i+1}, x_{i+2}] &= \frac{\frac{1}{h} \Delta y_{i+1} - \frac{1}{h} \Delta y_{i}}{2h} = \frac{1}{2h^2} \Delta ^2 y_i &\\
-\delta ^k y[x_i, ..., x_{i+k}] &= \frac{1}{k!h^k} \Delta^k y_i
+\delta ^k y[x_i, ..., x_{i+k}] &= \frac{1}{k!h^k} \Delta^k y_i,
 \end{flalign*}
+wobei $\Delta^k := \Delta^{k-1}y_{i+1} - \Delta^{k-1}y_i$.
 \end{comment}
 
 \begin{theorem}[Newtonsche Interpolationsformel]
-Zu paarweise verschiedenen reellen $x_i$, $i=0,..., n$ existiert ein eindeutiges Polynom $p \in \mathcal{P}_n$ durch die Punkte $(x_i, y_i)$, $i=0,...,n$ (d.h. $p(x_i) = y_i$ für $i=1,...,n$). Es lässt sich berechnen durch:
+Zu paarweise verschiedenen reellen $x_i$, $i=0,..., n$, existiert ein eindeutiges Polynom $p \in \mathcal{P}_n$ durch die Punkte $(x_i, y_i)$, $i=0,...,n$ (d.h. $p(x_i) = y_i$ für $i=1,...,n$). Es lässt sich berechnen durch:
 \begin{flalign*}
 p(x) &= y[x_0] + (x-x_0) \delta y[x_0,x_1] + ... + (x-x_0)(x-x_1)...(x-x_{n-1}) \delta ^n y[x_0, ..., x_n] &\\
 &= \sum_{i=0}^n \prod_{j=0}^{i-1} (x-x_j) \delta^iy[x_0,...,x_i] 
 \end{flalign*}
-\begin{proof}[Beweis](Induktion)
+\begin{proof}[Beweis](Induktion)\phantom{\qedhere}
 \begin{description}
   \item[IA] $n=1$ (und $n=2$) vgl. Beispiel (1.1)
   \item[IS] $n-1 \rightarrow n$\\
@@ -161,8 +163,9 @@ p(x) &= y[x_0] + (x-x_0) \delta y[x_0,x_1] + ... + (x-x_0)(x-x_1)...(x-x_{n-1}) 
     Koeffizientenvergleich:
     \begin{align*}
     a &= - \frac{1}{x_n-x_0} \delta^{n-1}y[x_0, ..., x_{n-1}] + \frac{1}{x_n-x_0} \delta^{n-1}y[x_1, ..., x_{n}] &\\
-    &= \delta^n y[x_0, ..., x_n]
+    &= \delta^n y[x_0, ..., x_n]&\\\tag*{\qed}
     \end{align*}
+    
 \end{description}
 \end{proof}
 \end{theorem}
@@ -172,51 +175,54 @@ Zur Auswertung des Interpolationspolynom $p$ an der Stelle $x$ verwendet man
 $$
 p(x) = y[x_0] + (x-x_0) \left( \delta y[x_0, x_1] + (x-x_1) \left( \delta ^2 y[x_0, x_1, x_2] + (x-x_2) \left(  ... \left( \delta^n y[x_0, ..., x_n] \right) \right) \right) \right)
 $$
-\underline{Algorithmus:} \\
-$s = \delta y^n[x_0, .., x_n]$ \\
-for $k = n-1, ...,0$: \\
-\space$s = \delta^k y[x_0, ..., x_k] + (x-x_k) s$
+\underline{Algorithmus:}
+\begin{algorithmic}
+\STATE $s = \delta^n y[x_0, ..., x_n]$
+\FOR{$k = n-1, ...,0$}
+\STATE $s = \delta^k y[x_0, ..., x_k] + (x-x_k) s$
+\ENDFOR
+\end{algorithmic}
 \end{nothing}
 
 \begin{example}
-\begin{tabular}{lllrrrrrr}
-$i$ & $x_i$ & $y_i$ & & & & &\\
- &&&&&&&&\\
-0 & -1 & 0 & & &&&&\\
-& & & $\frac{1-0}{0-(-1)} = 1$ & &&&&\\
-1 & 0 & 1 & & $\frac{0-1}{2-(-1)} = -\frac{1}{3}$ &&&&\\
-& & & 0 & & $\frac{\frac{2}{3} - (-\frac{1}{3})}{3-(-1)} = \frac{1}{4}$ &&&\\
-2 & 2 & 1 & & $\frac{2-0}{3-0} = \frac{2}{3}$ &&& $\frac{-\frac{2}{5} - \frac{1}{4}}{5-(-1)} = -\frac{13}{120}$&\\
-& & & $\frac{3-1}{3-2} = 2$ & & $\frac{-\frac{4}{3} - \frac{2}{3}}{5-0} = -\frac{2}{5}$ &&&...\\
-3 & 3 & 3 & & $\frac{-2-2}{5-2} = -\frac{4}{3}$ &&& ...&\\
-& & & $\frac{-1-3}{5-3} = -2$ & & $\frac{\frac{9}{56} - (-\frac{4}{3})}{17-2} = \frac{251}{2520}$ &&&\\
-4 & 5 & -1 & & $\frac{\frac{1}{4} -(-2)}{17-3} = \frac{9}{56}$ &&&& \\
-& & & $\frac{2-(-1)}{17-5} = \frac{1}{4}$ &&&&& \\
-5 & 17 & 2 & & &&&& \\
-\end{tabular} \\
+\begin{tabular}{||l|l|l|rrrr||}
+\hline
+$i$ & $x_i$ & $y_i$ & $\delta^1 y[x_0, x_1]$& $\delta^2 y[x_0, x_1, x_2]$& $\delta^3 y[x_0, .., x_3]$& $\delta^4 y[x_0, .., x_4]$\\
+\hline
+$0$ & $-1$ & $0$&&&&\\
+& & & $\frac{1-0}{0-(-1)} = 1$&&&\\
+$1$ & $0$ & $1$ & & $\frac{0-1}{2-(-1)} = -\frac{1}{3}$&&\\
+& & & $0$ & & $\frac{\frac{2}{3} - (-\frac{1}{3})}{3-(-1)} = \frac{1}{4}$&\\
+$2$ & $2$ & $1$ & & $\frac{2-0}{3-0} = \frac{2}{3}$ && $\frac{-\frac{2}{5} - \frac{1}{4}}{5-(-1)} = -\frac{13}{120}$\\
+& & & $\frac{3-1}{3-2} = 2$ & & $\frac{-\frac{4}{3} - \frac{2}{3}}{5-0} = -\frac{2}{5}$&\\
+$3$ & $3$ & $3$ & & $\frac{-2-2}{5-2} = -\frac{4}{3}$&&\\
+& & & $\frac{-1-3}{5-3} = -2$&&&\\
+$4$ & $5$ & $-1$&&&&\\
+\hline
+\end{tabular} \\\\
 Das Interpolationspolynom ist also
 $$p(x) = 0 + (x+1) *1 - \frac{1}{3}(x+1)(x) + \frac{1}{4}(x+1)x(x-2)+(x+1)x(x-2)(x-3)\left(-\frac{13}{120}\right)$$
 bzw. nach Hornerschema
-\begin{align*}
+\begin{flalign*}
 p(x) &= 0+(x+1)\left(1+ x\left(-\frac{1}{3} + (x-2)\left(\frac{1}{4} + (x-3)\left(-\frac{13}{120}\right)\right)\right)\right) &\\
-\end{align*}
+\end{flalign*}
 Werte $p(x)$ an der Stelle 1 aus:
-\begin{align*}
+\begin{flalign*}
 -\frac{13}{120}* (-2) &= \frac{26}{120} &\\
 \left( \frac{1}{4} + \frac{26}{120} \right)(-1) &= -\frac{56}{120} = -\frac{7}{15} &\\
 \left( -\frac{7}{15} - \frac{1}{3}\right) 1 &= -\frac{12}{15} = -\frac{4}{5} &\\
 \left(-\frac{4}{5} + 1\right)2 &= \frac{2}{5} = p(1) &\\
-\end{align*}
+\end{flalign*}
 \end{example}
 
 \subsection{Fehler bei der Polynominterpolation}
 
-\underline{Problem:} $f: \thinspace [a,b] \rightarrow \mathbb{R}$ werde interpoliert in Stützstellen $x_0, ..., x_n \in [a,b]$ durch $p \in \mathcal{P}_n$ mit $p(x_i) = f(x_i)$ für $i=0,...,n$ \\
+\underline{Problem:} $f: \thinspace [a,b] \rightarrow \mathbb{R}$ werde interpoliert in Stützstellen $x_0, ..., x_n \in [a,b]$ durch $p \in \mathcal{P}_n$ mit $p(x_i) = f(x_i)$ für $i=0,...,n$. \\
 Wie groß ist der Fehler $f(x)-p(x)$?
 
 \begin{theorem}
 Sei $f: [a,b] \rightarrow \mathbb{R}$ (n+1)-mal stetig differenzierbar, $p \in \mathcal{P}_n$ mit $p(x_i) = f(x_i)$ ($i=0,...,n$) das Interpolationspolynom zu paarweise verschiedenen Stützstellen $x_i \in [a,b]$ ($i=0,..., n$). Dann gilt: \\
-$\forall x \in [a,b] \exists \xi = \xi(x) \in (a,b): f(x)-p(x) = \prod_{i=0}^n (x-x_i) \frac{f^{(n+1)}(\xi)}{(n+1)!}$
+\[\forall x \in [a,b] \exists \xi = \xi(x) \in (a,b): f(x)-p(x) = \frac{f^{(n+1)}(\xi)}{(n+1)!}\prod_{i=0}^n (x-x_i) \]
 \begin{proof}[Beweis]
 Siehe (9.4)
 \end{proof}
@@ -226,8 +232,8 @@ Siehe (9.4)
 $f(x) = log_{10}(x), \quad x \in [55, 58]$\\
 Wähle Stützstellen:\\
 $x_0 = 55, \quad x_1 = 56, \quad x_2 = 57, \quad x_3=58$ \\
-Berechne Näherung an $log_{10}(56.5)$, falls $log_{10}(55), log_{10}(56), log_{10}(57) \text{ und } log_{10}(58)$ bereits bekannt sind.\\
-$\rightsquigarrow$ Interpolationspolynom $p$:
+Es seien \[log_{10}(55), \medspace log_{10}(56), \medspace log_{10}(57) \text{ und } log_{10}(58)\] bereits bekannt. Berechne eine Näherung von \(f\) an bei \(log_{10}(56.5)\) \\
+$\rightarrow$ Interpolationspolynom $p$:
 \begin{flalign*}
 log_{10}(65.5) &= 1.752048448 &\\
 p(56.5) &= 1.75204845 &\\

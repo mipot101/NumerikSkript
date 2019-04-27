@@ -6,7 +6,7 @@ Für $M(t) = CP_s(2t-1)$, wobei $P_s$ das Legendrepolynom vom Grad s ist (siehe 
 \begin{theorem}
 Für jedes $s \in \mathbb{N}$ gibt es eine eindeutige QF der Ordnung $p=2s$, die sogenannte Gauß-QF. Ihre Knoten sind die Wurzeln von $P_s(2t-1)$, ihre Gewichte sind durch (2.8) gegeben. 
 \end{theorem}
-\underline{Beispiele:} \\
+\begin{example*}
 \begin{tabular}{ll}
  
 $s=1$ & Mittelpunktsregel \\
@@ -17,9 +17,28 @@ $s=3$ & (4.3) 2) \\
 
 \end{tabular}
 
+\end{example*}
+
 \begin{nothing}[Bezeichnung der Knoten der Gauß-QF]
 Details: Siehe Homepage (Übungsaufgabe). \\
 \underline{Idee:} Die Wurzeln der Polynome, die durch Rekursion (5.3) erzeugt werden, sind die Eigenwerte einer symmetrischen Tridiagonalmatrix (Matrix: Siehe Homepage).\\
+Zusammengefasst: \\ 
+\begin{description}
+  \item[Satz:] Es seien $P_0, \dots, P_n$ Polynome definiert wie in Satz (5.3). \\
+  $\lambda \in \mathbb{R}$ ist eine Nullstelle von $P_n$ $\Leftrightarrow$ $\lambda$ ist ein Eigenwert der Tridiagonalmatrix $T_n$. $\Phi_n(\lambda)$ ist dann der Eigenvektor zum Eigenwert $\lambda$. \\
+  $T_n$ und $\Phi_n(\lambda)$ sind gegeben durch:
+  \begin{align*}
+    &T_n = 
+    \left[ \begin{array}{rrrrr}
+	\beta_1 & 1 &&&\\
+	\gamma_2^2 & \beta_2 & 1 &&\\
+	& \ddots & \ddots & \ddots & \\
+	&&\gamma_{n-1}^2 & \beta_{n-1}&1 \\
+	&&& \gamma_n^2 & \beta_n \\
+	\end{array}\right] &\\
+	&\Phi_n(\lambda) = \left[P_0 \enspace \dots \enspace P_{n-1} \right]^T
+  \end{align*}
+\end{description}
 In Numerik II lernen Sie Verfahren kennen, um die Eigenwerte zu berechnen.
 \end{nothing}
 

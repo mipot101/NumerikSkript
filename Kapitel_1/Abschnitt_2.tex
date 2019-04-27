@@ -2,13 +2,14 @@
 
 \begin{definition}
 Eine Quadraturformel (QF) mit Gewichten und Knoten $(b_i, c_i)_{i=1}^{s}$ hat \textbf{Ordnung p}, falls sie exakt ist für alle Polynome von Grad $ \leq p-1$.\\
-$\mathcal{P}$: Menge aller Polynome $$\left\{ \sum_{i=0}^{n}a_i*X^i , a_i \in \mathbb{R} (\mathbb{C}) \right\}  $$ \\
-deg(q): Grad des Polynoms
+$$\mathcal{P} := \left\{ \sum_{i=0}^{n}a_iX^i, a_i \in \mathbb{R} (\mathbb{C}) \right\}, \quad \text{Menge aller Polynome}  $$
+Für $q \in \mathcal{P}$ ist $\text{deg}(q)$ der Grad des Polynoms.
 \end{definition}
 
 \begin{theorem}
 Ein QF $(b_i, c_i)_{i=1}^{s}$ für $[0,1]$ hat Ordnung $p$ genau dann, wenn
-$$\sum_{i=1}^{s} b_i c_i^{q-1} = \frac{1}{q}$$ für $q = 1,..,p$
+
+$$\sum_{i=1}^{s} b_i c_i^{q-1} = \frac{1}{q}$$ für $q = 1,..,p$.
 \begin{proof}[Beweis]
 \begin{description}
   \item
@@ -33,15 +34,17 @@ $$\sum_{i=1}^{s} b_i c_i^{q-1} = \frac{1}{q}$$ für $q = 1,..,p$
   \item Mittelpunktsregel: $p=2$
   \item Trapezregel: $p=2$
   \item Simpsonregel: $p \geq 3$ nach Konstruktion \\
-  $q = 4$: $1/6 * 0^3 + 4/6 * (1/2)^3 + 1/6 * 1^3 = 1/4 = 1/4$ \\
-  $q = 5$: $1/6 * 0^4 + 4/6 * (1/2)^4 + 1/6 * 1^4 = 5/24 \neq 1/5$ \\
-  Damit ist die Ordnung 4!
+  \begin{align*}
+  q &= 4: \quad \frac{1}{6} * 0^3 + \frac{4}{6} * \left(\frac{1}{2}\right)^3 + \frac{1}{6}*1^3 = \frac{1}{4} &\\
+  q &= 5: \quad \frac{1}{6} * 0^4 + \frac{4}{6} * \left(\frac{1}{2}\right)^4 + \frac{1}{6}*1^4 = \frac{5}{24} \neq \frac{1}{5}&\\
+  \end{align*}
+  Nach Satz (2.2) ist damit die Ordnung der Simpsonregel $p=4$.
   \item "pulcherina et utilissima": Übung
 \end{enumerate}
 \end{example}
 
 \begin{comment}
-Zu vergebenen paarweise verschiedenen Knoten $c_1, ..., c_s$ lässt sich aus (*) für $p=s$ ein lineares Gleichungssystem für die Gewichte $b_1, ..., b_s$ aufstellen.\\
+Zu vergebenen paarweise verschiedenen Knoten $c_1, ..., c_s$ lässt sich mit Satz (2.2) für $p=s$ ein lineares Gleichungssystem für die Gewichte $b_1, ..., b_s$ aufstellen.\\
 
 $$
 \underbrace{\left[ \begin{array}{rrrr}
@@ -69,15 +72,15 @@ Falls die Vandermonde-Matrix V invertierbar ist, so lassen sich die Gewichte $b_
 \end{comment}
 
 \begin{definition}
-Eine QF heißt symmetrisch, falls für $i = 1,...,s$
+Eine QF heißt symmetrisch, falls für $i = 1,...,s$ gilt:
 \begin{enumerate}
   \item $c_i = 1 - c_{s+1-i}$
   \item $b_i = b_{s+1-i}$
 \end{enumerate}
 \end{definition}
 
-\begin{example}
-MP, TP, Simpson,...
+\begin{example}[Symmetrische QF]
+Mittelpunktsregel, Trapezregel, Simpsonregel,...
 \end{example}
 
 \begin{theorem}
@@ -111,16 +114,6 @@ Trick: $f(t) = c(t-\frac{1}{2})^{2m-1} + \tilde{g}(t)$ mit $\tilde{g} \in \mathc
 \begin{theorem}
 Sind Knoten $c_1 < c_2 < ... < c_s$ ($c_i \in \mathbb{R}, i = 1,...s$) gegeben, so existieren eindeutig bestimmte Gewichte $b_1 ,..., b_s$ derart, dass die QF $(b_i, c_i)_{i=1}^s$ die maximale Ordnung $p \geq s$ hat. \\
 Es gilt $$b_i = \int_0^1 l_i(t) dt$$ mit $$l_i(t) = \frac{\prod_{j=1, j\neq i}^s (t-c_j)}{\prod_{j=1, j\neq i}^s (c_i-c_j)}$$
-Bemerkung/Definition
-\begin{description}
-  \item $l_i$ ist das i-te Lagrangepolynom zu den Knoten $c_i, ...,c_s$. Es gilt $deg(l_i) = s-1$ 
-  $$l_i(c_j) = \left\{
-\begin{array}{ll}
-0 & \,i \neq j \\
-1 & \, i = j\\
-\end{array}
-\right. $$
-\end{description}
 
 \begin{proof}[Beweis] von 2.8 \\
 \begin{enumerate}
@@ -130,3 +123,17 @@ Bemerkung/Definition
 \end{enumerate}
 \end{proof}
 \end{theorem}
+
+\begin{comment*}[zu Satz (2.8)]
+$l_i$ ist das i-te Lagrangepolynom zu den Knoten $c_1, ...,c_s$. Es gilt:
+\begin{enumerate}
+  \item $deg(l_i) = s-1$
+  \item $l_i(c_j) = \left\{
+\begin{array}{ll}
+0 & \,i \neq j \\
+1 & \, i = j\\
+\end{array}
+\right. $, für $j=1,...,s$
+\end{enumerate}
+
+\end{comment*}

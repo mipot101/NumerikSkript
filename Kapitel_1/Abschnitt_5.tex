@@ -28,8 +28,9 @@ definieren wir auf den Vektorraum
 $$ V = \left\{ f: [a,b] \rightarrow \mathbb{R}: f \medspace stetig \medspace und \int_a^b f(x)^2 \omega(x) dx < \infty \right\} $$
 das gewichtete Skalarprodukt
 $$ \langle f, g \rangle_\omega := \int_a^b \omega(x)f(x)g(x)dx$$
-für $f, g \in V$ \\
-$f \perp_\omega g :\Leftrightarrow \langle f, g, \rangle_\omega = 0$
+für $f, g \in V$. \\
+Zudem definiere:
+$$f \perp_\omega g :\Leftrightarrow \langle f, g, \rangle_\omega = 0$$
 \end{definition}
 
 \begin{theorem}
@@ -39,11 +40,16 @@ Es existiert eine eindeutige Folge von Polynomen $p_0, p_1, ...$ mit
   \item $\forall q \in \mathcal{P}_{k-1}:p_k \perp q$ für $k \geq 1$
   \item $p_k(x) = x^k + r$ mit $deg(r) \leq  k-1$ "Normierung"
 \end{enumerate}
-Diese Polynome lassen sich rekursiv berechnen durch \\
-$ p_{k+1}(x) := (x- \beta_{k+1}) p_k(x) - \gamma_{k+1}^2 p_{k-1}(x)$ für $k \geq 2$ \\
-$ p_0(x) := 1$, $p_{1}(x) := x$ \\
-$ \beta_{k+1} := \frac{\langle xp_k, p_k \rangle}{\langle p_k, p_k \rangle}$ \\
-$ \gamma_{k+1}^2 := \frac{\langle p_k, p_k \rangle}{\langle p_{k-1}, p_{k-1} \rangle}$
+Diese Polynome lassen sich rekursiv berechnen durch
+\begin{flalign*}
+&p_0(x) := 1\\
+&p_{1}(x) := x \\
+&p_{k+1}(x) := (x- \beta_{k+1}) p_k(x) - \gamma_{k+1}^2 p_{k-1}(x), \quad \text{für $k \geq 2$} \\
+\intertext{Wobei $\beta$ und $\gamma$ definiert sind durch:}
+&\beta_{k+1} := \frac{\langle xp_k, p_k \rangle}{\langle p_k, p_k \rangle} \\
+&\gamma_{k+1}^2 := \frac{\langle p_k, p_k \rangle}{\langle p_{k-1}, p_{k-1} \rangle}
+\end{flalign*}
+
 \begin{proof}[Beweis]
 (vgl. Gram-Schmidt Orthogonalisierung LinA) \\
 Sei $p_0, ..., p_k$ bereits bekannt. Zur Konstruktion von $p_{k+1}$ setzen wir
@@ -71,10 +77,12 @@ Zur Bestimmung der $\alpha_j$:
 \end{proof}
 \end{theorem}
 
+\begin{comment*}
 Für eine QF maximaler Ordnung müssen nach Satz (4.1) die Knoten $c_i$, $i=1, ...,s$ so gewählt werden, dass 
 $$M(t) = \prod_{i=1}^s(t-c_i)$$
 das Orthogonalpolynom vom Grad $s$ bezüglich des Skalarprodukts mit $\omega(x) \equiv 1$ auf $[0,1]$ ist. \\
 \underline{Frage:} Sind die Wurzeln der Orthogonalpolynome aus (5.3) reell? (Spoiler: Ja)
+\end{comment*}
 
 \begin{theorem}
 Sei $p_k$ das Orthogonalpolynom wie in (5.3) definiert (bzgl. $\langle f, g \rangle = \int_a^b f(x)g(x)\omega(x)dx$). Alle Wurzeln von $p_k$ sind einfach und liegen im offenen Intervall $(a,b)$.

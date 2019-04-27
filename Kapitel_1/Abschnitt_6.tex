@@ -21,11 +21,13 @@ $$ resabs[x_j, x_{j+1}] := h_{j+1} \sum_{i=1}^s \vert b_i f(x_j + c_i h_{j+1}) \
 berechnen.\\
 Angenommen wir können eine Schätzung des Fehlers $err[x_, x_{j+1}]$ berechnen mit
 $$err[x_, x_{j+1}] \approx res[x_, x_{j+1}] - \int_{x_j}^{x_{j+1}} f(x) dx,$$
-dann bietet sich zur folgendes Verfahren zur Konstruktion einer Zerlegung an:
+dann bietet sich folgendes Verfahren zur Konstruktion einer Zerlegung an:
 \begin{enumerate}
   \item Berechne $res[a,b]$, $resabs[a,b]$ und $err[a, b]$. \\
-    if $\vert err[a,b] \vert \leq Tol \thinspace resabs[a,b]$ return $res[a,b]$ \\
-    else
+    Falls 
+    $$\vert err[a,b] \vert \leq Tol \thinspace resabs[a,b]$$
+    Gebe $res[a,b]$ zurück.\\
+    Ansonsten:
     
   \item Zerlege $[a,b]$ in 
     $$I_0 = \left[a,\frac{b-a}{2}\right]$$
@@ -40,13 +42,17 @@ dann bietet sich zur folgendes Verfahren zur Konstruktion einer Zerlegung an:
     
   \item Falls 
     $$ \sum_{j=0}^{n-1} \vert err \thinspace I_j \vert \leq Tol \thinspace \sum_{j=0}^{n-1} resabs \thinspace I_j$$
-    return
+    Gebe
     $$ \sum_{j=0}^{n-1} res \thinspace I_j$$
-    sonst: \\
-    Unterteile das Intervall $I_k$, in dem der Fehler maximal ist in zwei Teilintervalle $I_k$ und $I_n$ und berechne:
+    zurück. Ansonsten: \\
+    Unterteile das Intervall $I_k = [a_k, b_k]$, in dem der Fehler maximal ist in zwei Teilintervalle 
+    $$I_l = \left[a_k,\frac{b_k-a_k}{2}\right]$$
+    und
+    $$I_m = \left[ \frac{b_k-a_k}{2}, b_k \right]$$
+    und berechne:
     \begin{description}
-      \item $res \thinspace I_k$, $resabs \thinspace I_k$, $err \thinspace I_k$ und
-      \item $res \thinspace I_n$, $resabs \thinspace I_n$, $err \thinspace I_n$ 
+      \item $res \thinspace I_l$, $resabs \thinspace I_l$, $err \thinspace I_l$ und
+      \item $res \thinspace I_m$, $resabs \thinspace I_m$, $err \thinspace I_m$
     \end{description}
     $n =n+1$ \\
     Gehe zu 3)
@@ -55,18 +61,22 @@ dann bietet sich zur folgendes Verfahren zur Konstruktion einer Zerlegung an:
 
 \begin{nothing}[Schätzung des Fehlers]
 \underline{Ziel:} Berechne Approximation an 
-$$\int_{x_j}^{x_{x+1}} f(x)dx - h_{j+1} \sum_{i=1}^s b_i f(x_j + h_{j+1} c_i)$$
+$$\int_{x_j}^{x_{j+1}} f(x)dx - h_{j+1} \sum_{i=1}^s b_i f(x_j + h_{j+1} c_i)$$
 ohne zusätzliche Funktionsauswertungen.\\
-\underline{Idee:} Konstruiere eingebettete QF, d.h. QF zu den selben Knoten $c_i$ mit Gewichten $b_i$ und Ordnung $\hat{p} < p$ \\
-\underline{Bemerkung:} Falls $p=2s$ ist, so gilt $\hat{p} \leq s-1$ (wäre $\hat{p} \geq s$, so wäre nach (2.8) $\hat{b}_i < b_i$).\\
+\underline{Idee:} Konstruiere eingebettete QF, d.h. QF zu den selben Knoten $c_i$ mit Gewichten $\hat{b}_i$ und Ordnung $\hat{p} < p$. \\
+\underline{Bemerkung:} Falls $p=2s$ ist, so gilt $\hat{p} \leq s-1$ (wäre $\hat{p} \geq s$, so wäre nach (2.8) $\hat{b}_i = b_i$).\\
 Eine Approximation des Fehlers für die eingebettete QF ist durch 
-$$\text{diff} \thinspace [x_j, x_{j+1}] = h_{j+1} \sum_{i=1}^s b_i f(x_j + c_i h_{j+1}) - h_{j+1} \sum_{i=1}^s \hat{b}_i f(x_j + c_i h_{j+1})$$
-$$ = h_{j+1} \sum_{i=1}^s (b_i - \hat{b}_i) f(x_j+c_i h_{j+1})$$
+\begin{align*}
+\text{diff} \thinspace [x_j, x_{j+1}] &= h_{j+1} \sum_{i=1}^s b_i f(x_j + c_i h_{j+1}) - h_{j+1} \sum_{i=1}^s \hat{b}_i f(x_j + c_i h_{j+1})&\\
+&= h_{j+1} \sum_{i=1}^s (b_i - \hat{b}_i) f(x_j+c_i h_{j+1})
+\end{align*}
 gegeben. Es gilt
-$$\text{diff} \thinspace [x_j, x_{j+1}] = h_{j+1} \sum_{i=1}^s b_i f(x_j + c_i h_{j+1}) - \int_{x_j}^{x_{j+1}} f(x)dx$$ 
-$$- \left( h_{j+1} \sum_{i=1}^s \hat{b}_i f(x_j + c_i h_{j+1}) - \int_{x_j}^{x_{j+1}} f(x)dx \right)$$
-$$ = \text{Fehler der QF } (b_i, c_i)_{i=1}^s - \text{Fehler der QF } (\hat{b}_i, c_i)_{i=1}^s$$
-$$ = C_1 h_{j+1}^{p+1} + C_2h_{j+1}^{\hat{p}+1}$$
+\begin{align*}
+\text{diff} \thinspace [x_j, x_{j+1}] &= h_{j+1} \sum_{i=1}^s b_i f(x_j + c_i h_{j+1}) - \int_{x_j}^{x_{j+1}} f(x)dx &\\
+& \quad - \left( h_{j+1} \sum_{i=1}^s \hat{b}_i f(x_j + c_i h_{j+1}) - \int_{x_j}^{x_{j+1}} f(x)dx \right)&\\
+&= \text{Fehler der QF } (b_i, c_i)_{i=1}^s - \text{Fehler der QF } (\hat{b}_i, c_i)_{i=1}^s &\\
+&= C_1 h_{j+1}^{p+1} + C_2h_{j+1}^{\hat{p}+1}
+\end{align*}
 Falls $h_{j+1}$ klein ist, ist $C_1 h_{j+1}^{p+1} << C_2h_{j+1}^{\hat{p}+1}$.\\
 Drei Möglichkeiten den Fehler zu schätzen:
 \begin{enumerate}
@@ -78,8 +88,11 @@ Drei Möglichkeiten den Fehler zu schätzen:
       \item zu $(b_i, c_i)$ der Ordnung $30 = 2s$, $s=15$
       \item und $(\hat{b}_i, c_i)$ der Ordnung 14
       \item $\hat{\text{diff}} = h_{j+1} \sum_{i=1}^s (b_i - \hat{\hat{b}}_i) f(x_{j} + c_i h_{j+1}) \approx C_3 h^7$
-      \item $$\text{err }[x_j, x_{j+1}] = \text{diff }[x_j, x_{j+1}] \left( \frac{\text{diff}}{\hat{\text{diff}}} \right) ^2$$
-      $$ = C_2 \frac{C_2^2}{C_3^2} h_{j+1}^{15} \left( \frac{h_{j+1}^{15}}{h_{j+1}^7} \right) = C h_{j+1}^{31}$$
+      \item 
+        \begin{align*}
+        \text{err }[x_j, x_{j+1}] &= \text{diff }[x_j, x_{j+1}] \left( \frac{\text{diff}}{\hat{\text{diff}}} \right) ^2&\\
+        &= C_2 \frac{C_2^2}{C_3^2} h_{j+1}^{15} \left( \frac{h_{j+1}^{15}}{h_{j+1}^7} \right) = C h_{j+1}^{31}
+        \end{align*}
     \end{description}
 \end{enumerate}
 \end{nothing}
