@@ -3,7 +3,7 @@
 Gegeben sei eine QF mit $(b_i, c_i)_{i=1}^s$ mit Ordnung $p=2s$ (die höchste Ordnung, die es gibt) z.B. $s=15$ \\
 \underline{Ziel:} Ein Computerprogramm adagaussqf(f, a, b, Tol), welches für eine Funktion $f$ auf dem Interval $[a, b]$ eine Approximation an $\int_a^b f(x) dx$ berechnet, sodass der Fehler $\leq$ Tol ist (für viele Funktionen). \\
 Konstruiere eine Zerlegung $\Delta = \left\{ a = x_0 < ... < x_n = b\right\}$ des Intervalls, sodass für die Approximation 
-$$I_\Delta := \sum_{j=0}^{n-1} h_{j+1} \sum_{i=1}^s b_if(x_i + c_ih_{j+1})$$
+$$I_\Delta := \sum_{j=0}^{n-1} h_{j+1} \sum_{i=1}^s b_if(x_j + c_ih_{j+1})$$
 gilt 
 $$\vert I_\Delta - \int_a^b f(x) dx \vert \leq Tol \int_a^b \vert f(x) \vert dx $$
 Schwierigkeiten:
@@ -91,7 +91,7 @@ Drei Möglichkeiten den Fehler zu schätzen:
       \item 
         \begin{align*}
         \text{err }[x_j, x_{j+1}] &= \text{diff }[x_j, x_{j+1}] \left( \frac{\text{diff}}{\hat{\text{diff}}} \right) ^2&\\
-        &= C_2 \frac{C_2^2}{C_3^2} h_{j+1}^{15} \left( \frac{h_{j+1}^{15}}{h_{j+1}^7} \right) = C h_{j+1}^{31}
+            &= C_2 \frac{C_2^2}{C_3^2} h_{j+1}^{15} \left( \frac{h_{j+1}^{15}}{h_{j+1}^7} \right) ^2 = C h_{j+1}^{31}
         \end{align*}
     \end{description}
 \end{enumerate}
