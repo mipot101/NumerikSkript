@@ -342,4 +342,162 @@ klar
 \end{itemize}
 \end{example}
 
+\begin{theorem}
+Sei $f: [a,b] \rightarrow \mathbb{R}$ stetig, $p$ Interpolationspolynom zu $f$ in den Stützstellen $x_0,..., x_n \in [a,b]$. So gilt:
+\[ \forall q \in \mathcal{P}_{n+1}: \quad \max_{x \in [a,b] } \vert f(x) -p(x) \vert \leq (1+ \Lambda_n) \max_{x \in [a,b]} \vert q(x) - f(x) \vert .\]
+Hierbei ist $\Lambda_n$ die Lebesgue-Konstante zu $(x_i)_{i=0}^n$ auf $[a,b]$.
+\begin{proof}[Beweis]
+Sei $q \in \mathcal{P}$.
+\[ f-p = (f-q) + (q-p)\]
+$q$ ist das Interpolationspolynom zu sich selbst in den $x_0,..., x_n$. Nach (9.7) gilt für $y_i = f(x_i)$ $\tilde{y_i}  = q(x_i)$.
+\begin{align*}
+\max_{x \in [a,b]} \vert p(x) - q(x) \vert &\leq \Lambda_n \max_{i=0,...,n} \vert f(x_i) - q(x_i) \vert &\\
+&\leq \Lambda_n \max_{x \in [a,b]} \vert f(x)-q(x) \vert &\\
+\Rightarrow \max_{x \in [a,b]} \vert f(x) - p(x) \vert &\leq \max_{x \in [a,b]} \vert f(x)-q(x) \vert + \max_{x \in [a,b]} \vert p(x)-q(x) \vert &\\
+&\leq (1+ \Lambda_n) \max_{x \in [a,b]} \vert q(x) - f(x) \vert 
+\end{align*}
+\end{proof}
+\end{theorem}
+
+\subsection{Tschebyscheff-Interpolation}
+
+\underline{Ziel:} Interpoliere $f: [a,b] \rightarrow \mathbb{R}$ in "guten" Stützstellen. \\
+Ohne Einschränkungen sei $[a,b] = [-1, 1]$
+
+\begin{definition}
+$T_n(x) = cos(n * arccos(x))$ für $x \in [-1, 1]$ heißt n-tes Tschebyscheff-Polynom.
+\end{definition}
+
+\begin{lemma}
+$T_n(x)$ ist für $x \in [-1, 1]$ ein Polynom mit folgenden Eigenschaften:
+\begin{enumerate}
+  \item[i)] $T_0(x) = 1$, $T_1(x) = x$
+  \item[ii)] $T_n(x) = 2^{n-1} x^n + r(x)$ mit $r_n \in \mathcal{P}_{n-1}$
+  \item[iii)] $T_{n+1}(x) = 2xT_n(x) - T_{n-1}(x)$
+  \item[iv)] $\forall x \in [-1, 1]: \quad \vert T_n(x) \vert \leq 1$
+  \item[v)] $T_n(cos(\frac{k\pi}{n})) = (-1)^k, \quad k=0,...,n$
+  \item[vi)] $T_n(cos(\frac{(2k+1)\pi}{2n})) = 0, \quad k=0,...,n-1$ 
+\end{enumerate}
+\begin{proof}[Beweis]\leavevmode
+\begin{enumerate}
+  \item[i)] klar, da $T_0(x) = cos(0) = 1$, $T_1(x) = cos(arccos(x)) = x, \quad x \in [a,b]$
+  \item[iii)]$cos((n+1)\phi) + cos((n-1)\phi)$\\
+    $= \medspace cos(n\phi)cos(\phi) - sin(n\phi)sin(\phi) + cos(n\phi)cos(-\phi) - sin(n\phi)sin(-\phi)$ \\
+    $= \medspace 2cos(n\phi)cos(\phi)$
+  \item[ii)] folgt aus i) und iii)
+  \item[iv)] klar, da $cos: [-1, 1] \rightarrow \mathbb{R}$
+  \item[v) + vi)] ebenfalls klar, da $T_n(cos(\frac{k\pi}{n})) = cos(n \frac{k\pi}{n}) = cos(k\pi) = (-1)^k$\\
+  analog: $T_n(cos(\frac{(2k+1)\pi}{2n})) = cos(n \frac{(2k+1)\pi}{2n})  = 0$
+\end{enumerate}
+\end{proof}
+\end{lemma}
+
+\begin{example} \leavevmode
+\begin{description}
+  \item $T_2(x) = 2x^2 - 1$
+  \item $T_3(x) = 2x(2x^2 -1) - x = 4x^3 -3x$
+\end{description}
+\end{example}
+
+\begin{lemma}
+Sei $q \in \mathcal{P}_n$, $q(x) = 2^{n-1} x^n + r(x)$ mit $r(x) \in \mathcal{P}_{n-1}, q \neq T_n$. Dann gilt
+\[ \max_{x\in [-1, 1]} \vert q(x) \vert > \max_{x\in [-1, 1]} \vert T_n(x) \vert \quad(=1)\]
+
+\begin{proof}[Beweis]\leavevmode
+Annahme: $\forall x \in [-1, 1]: \quad \vert q(x) \vert \leq 1$
+\begin{description}
+  \item $T_n(1) = 1$
+  \item $T_n(cos(\frac{\pi}{n})) = -1$
+\end{description}
+Nach dem Zwischenwertsatz hat $q-T_n$ eine Nullstelle im Intervall $[cos(\frac{\pi}{n}), 1]$. Falls ein "Randpunkt" $x$ eine Nullstelle ist, so handelt es sich um eine doppelte Nullstelle, da $q'(x) = 0 = T_n'(x)$. Ebenso existiert in $[cos(\frac{2\pi}{n}), cos(\frac{\pi}{n})]$ und allgemein in $[cos(\frac{(k+1)\pi}{n}), cos(\frac{k\pi}{n})]$ für $k=0,...,n-1$.\\
+Nullstelle $\Rightarrow$ $q-T_n$ hat n Nullstellen.\\
+Andererseits ist $q-T_n \in \mathcal{P}_{n-1} \quad \Rightarrow q-T_n \equiv 0 \quad \Rightarrow q = T_n \quad \lightning$
+\end{proof}
+\end{lemma}
+
+\begin{theorem}
+Unter allen Unterteilungen $\{x_0,...,x_n\}$ von $[-1,1]$ wird 
+$$ \max_{x \in [-1, 1]} \vert (x-x_0)(x-x_1)...(x-x_n) \vert $$
+minimal für $x_k = cos\left( \frac{2k+1}{n+1} \frac{\pi}{2}\right), \quad k=0,...,n$ (d.h. $x_k$ sind die Wurzeln von $T_{n+1}$)
+
+\begin{proof}[Beweis]
+Nach Lemma (10.4) wird $\max_{x \in [-1, 1]} \vert (x-x_0)(x-x_1)...(x-x_n) \vert$ minimal gdw.  $(x-x_0)...(x-x_n) = 2^{-n} T_{n+1}(x)$, d.h. falls $x_k$ Wurzeln von $T_{n+1}$ sind.
+\end{proof}
+\end{theorem}
+
+\begin{theorem}
+Die Lebesguekonstanten $\Lambda_n$ zu den Tschebyscheffknoten (Wurzeln von $T_{n+1}$) erfüllen
+\begin{description}
+  \item $\Lambda_n \leq 3$ für $n\leq 20$
+  \item $\Lambda_n \leq 4$ für $n\leq 100$
+  \item $\Lambda_n \approx \frac{2}{\pi} log(n)$ für $n \rightarrow \infty$
+\end{description}
+\begin{proof}[Beweis]
+ohne Beweis.
+\end{proof}
+\end{theorem}
+Nach Satz (9.9) liefert die Interpolation in den Wurzeln der Tschebyscheffpolynome eine fast optimale Polynominterpolation an $f$.\\
+Dazu kommen Eigenschaften, die die Berechnung eines Interpolationspolynoms in den Tschebyscheffknoten (Wurzeln der Tschebyscheffpolynome) vereinfachen.
+
+\begin{lemma}
+Die Tschebyscheffpolynome sind orthogonal, bzgl. des Skalarprodukts 
+\[ \langle f, g \rangle := \int_{-1}^1 f(x)g(x) \frac{1}{\sqrt{1-x^2}} dx\]
+
+\begin{proof}[Beweis]
+Übungsaufgabe
+\end{proof}
+\end{lemma}
+
+\begin{lemma}
+Die Tschebyscheffpolynome $T_k, k = 0, ..., n$ sind orthogonal bzgl. des Skalarprodukts (auf $\mathcal{P}_n$)
+\[(f, g) := \sum_{l=0}^n f(x_l)g(x_l), \quad \text{wobei } x_0, ..., x_n \medspace \text{Wurzeln von } T_{n+1}(x) \]
+
+\begin{proof}[Beweis]\leavevmode
+\begin{align*}
+T_k(x_l) &= \text{cos}(k *\text{arccos}( \text{cos} ( \frac{2l-1}{n+1} \frac{\pi}{2}))) &\\
+&= \text{cos}( k \frac{2l+1}{n+1} \frac{\pi}{2}) &\\
+&= \text{cos}(k (l+ \frac{1}{2})h )
+\end{align*}
+für $h = \frac{\pi}{n+1}$\\
+Damit ist 
+\begin{align*}
+(T_k, T_j) &= \sum_{l=0}^n \text{cos}(k(l+\frac{1}{2})h) * \text{cos}(j(l+\frac{1}{2})h), &\\
+\intertext{da $\text{cos}(x)\text{cos}(y) = \frac{1}{2}(\text{cos}(x+y) + \text{cos}(x-y))$}
+&= \frac{1}{2} \sum_{l=0}^n \text{cos}((k+j)(l+\frac{1}{2})h) * \text{cos}((k-j)(l+\frac{1}{2})h) &\\
+\intertext{Es gilt: $\text{cos}(x) = \text{Re} (e^{ix})$}
+&= \frac{1}{2} \text{Re}\left( \sum_{l=0}^n e^{i(k+j)(l+\frac{1}{2})h} + e^{i(k-j)(l+\frac{1}{2})h}\right) &\\
+&= \frac{1}{2} \text{Re}\left( \sum_{l=0}^n e^{i(k+j)lh}e^{i(k+j)\frac{h}{2}} + e^{i(k-j)lh}e^{i(k-j)\frac{h}{2}}\right) &\\
+&= \frac{1}{2} \text{Re} \left( e^{i(k+j)\frac{h}{2}} \frac{e^{i(k+j)h(n+1)} -1}{ e^{i(k+j)h} - 1} + e^{i(k-j)\frac{h}{2}} \frac{e^{i(k-j)h(n+1)} -1}{ e^{i(k-j)h} - 1}\right), \quad \text{für }k \neq j &\\
+\intertext{Es gilt $k(n+1) = \pi$. Behauptung:}
+&= \begin{cases}
+0 & k \neq j \\
+\frac{1}{2} (n+1) & k=j\neq 0 \\
+(n+1) & k = j = 0
+\end{cases}
+\end{align*}
+\begin{description}
+  \item[Fall 1:] $k=j=0 \Rightarrow \frac{1}{2} \sum_{l=0}^n(1+1)$
+  \item[Fall 2:] $k=j\neq0 \Rightarrow \frac{1}{2} \sum_{l=0}^n\left( e^{i2k(l+\frac{1}{2})h} \right) = \dots$ 
+  \item[Fall 3:] $k \neq j$:
+    \begin{description}
+      \item[Fall 1:] $k+j$ ist gerade und $k-j$ ist gerade 
+      \item[Fall 2:] $k+j$ ist ungerade und $k-j$ ist ungerade
+    \end{description}
+\end{description}
+\end{proof}
+\end{lemma}
+
+\begin{comment*}
+$(\thinspace \dot \thinspace, \thinspace \dot \thinspace )$ ist ein Skalarprodukt auf $\mathcal{P}_n$, da 
+\begin{enumerate}
+  \item[i)] bilinear
+  \item[ii)] symmetrisch
+  \item[iii)] positiv definit \\
+    $(f,f) = \sum_{l=0}^n f(x_l)^2 \geq 0$\\
+    $(f,f) = 0 \overset{!}{\Rightarrow} f \equiv 0$\\
+    $\sum_{l=0}^n f(x_l)^2 = 0 \Rightarrow \forall l: \medspace f(x_l) = 0$
+    $\Leftrightarrow f \equiv 0$, da $\text{deg}(f) \leq n$ 
+\end{enumerate}
+\end{comment*}
+
 \end{document}
