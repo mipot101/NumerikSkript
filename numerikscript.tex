@@ -466,29 +466,35 @@ Damit ist
 &= \frac{1}{2} \sum_{l=0}^n \text{cos}((k+j)(l+\frac{1}{2})h) * \text{cos}((k-j)(l+\frac{1}{2})h) &\\
 \intertext{Es gilt: $\text{cos}(x) = \text{Re} (e^{ix})$}
 &= \frac{1}{2} \text{Re}\left( \sum_{l=0}^n e^{i(k+j)(l+\frac{1}{2})h} + e^{i(k-j)(l+\frac{1}{2})h}\right) &\\
-&= \frac{1}{2} \text{Re}\left( \sum_{l=0}^n e^{i(k+j)lh}e^{i(k+j)\frac{h}{2}} + e^{i(k-j)lh}e^{i(k-j)\frac{h}{2}}\right) &\\
+&= \frac{1}{2} \text{Re}\left( \sum_{l=0}^n \left( e^{i(k+j)lh}e^{i(k+j)\frac{h}{2}} + e^{i(k-j)lh}e^{i(k-j)\frac{h}{2}}\right)\right) &\\
 &= \frac{1}{2} \text{Re} \left( e^{i(k+j)\frac{h}{2}} \frac{e^{i(k+j)h(n+1)} -1}{ e^{i(k+j)h} - 1} + e^{i(k-j)\frac{h}{2}} \frac{e^{i(k-j)h(n+1)} -1}{ e^{i(k-j)h} - 1}\right), \quad \text{für }k \neq j &\\
-\intertext{Es gilt $k(n+1) = \pi$. Behauptung:}
-&= \begin{cases}
+\intertext{Es gilt $k(n+1) = \pi$}
+&\overset{\text{Behauptung}}{=} \begin{cases}
 0 & k \neq j \\
 \frac{1}{2} (n+1) & k=j\neq 0 \\
 (n+1) & k = j = 0
 \end{cases}
 \end{align*}
 \begin{description}
-  \item[Fall 1:] $k=j=0 \Rightarrow \frac{1}{2} \sum_{l=0}^n(1+1)$
-  \item[Fall 2:] $k=j\neq0 \Rightarrow \frac{1}{2} \sum_{l=0}^n\left( e^{i2k(l+\frac{1}{2})h} \right) = \dots$ 
+  \item[Fall 1:] $k=j=0 \Rightarrow \frac{1}{2} \sum_{l=0}^n(1+1) = (n+1)$
+  \item[Fall 2:] $k=j\neq0 \Rightarrow \frac{1}{2} \text{Re} \left( (n+1) + e^{ijh} \underbrace{\frac{e^{i2j\overbrace{(n+1)h}^{= \pi}}-1}{e^{i2jh}-1}}_{=0}\right) = \frac{1}{2} (n+1)$ 
   \item[Fall 3:] $k \neq j$:
     \begin{description}
-      \item[Fall 1:] $k+j$ ist gerade und $k-j$ ist gerade 
-      \item[Fall 2:] $k+j$ ist ungerade und $k-j$ ist ungerade
+      \item[Fall 1:] $k+j$ ist gerade $\Rightarrow$ $k-j$ ist gerade \\
+        $\Rightarrow \medspace \frac{1}{2} \text{Re} \left(0+0\right) = 0$
+      \item[Fall 2:] $k+j$ ist ungerade $\Rightarrow$ $k-j$ ist ungerade \\
+        \begin{align*}
+        &\Rightarrow \medspace  \frac{1}{2} \text{Re} \left( e^{i(k+j)\frac{h}{2}} \frac{-2}{ e^{i(k+j)h} - 1} + e^{i(k-j)\frac{h}{2}} \frac{-2}{ e^{i(k-j)h} - 1}\right)&\\
+        &= \frac{1}{2} \text{Re} \left(\underbrace{\frac{-2}{ e^{i(k+j)\frac{h}{2}} + e^{-i(k+j)\frac{h}{2}}}}_{\text{rein imaginär}} +  \underbrace{\frac{-2}{ e^{i(k-j)\frac{h}{2}} - e^{-i(k-j)\frac{h}{2}}}}_{\text{rein imaginär}}\right)&\\
+        &= 0
+        \end{align*}
     \end{description}
 \end{description}
 \end{proof}
 \end{lemma}
 
 \begin{comment*}
-$(\thinspace \dot \thinspace, \thinspace \dot \thinspace )$ ist ein Skalarprodukt auf $\mathcal{P}_n$, da 
+$(\thinspace \cdot \thinspace, \thinspace \cdot \thinspace )$ ist ein Skalarprodukt auf $\mathcal{P}_n$, da 
 \begin{enumerate}
   \item[i)] bilinear
   \item[ii)] symmetrisch
@@ -499,5 +505,126 @@ $(\thinspace \dot \thinspace, \thinspace \dot \thinspace )$ ist ein Skalarproduk
     $\Leftrightarrow f \equiv 0$, da $\text{deg}(f) \leq n$ 
 \end{enumerate}
 \end{comment*}
+
+\begin{theorem}
+Sei $p$ das Interpolationspolynom zur Funktion $f$ in den Tschebyscheffknoten $x_0, \dots, x_n$ (Wurzeln von $T_{n+1}$), so gilt:
+\begin{align*}
+&p(x) = \frac{1}{2} c_0 + \sum_{j=1}^n c_j T_j(x), &\\
+\intertext{wobei}
+&c_k = \frac{2}{n+1} \sum_{l=0}^n f(x_l) \cos(k \frac{2l+1}{n+1}\frac{\pi}{2}), \quad \text{für $k=0,...,n$}
+\end{align*}
+
+\begin{proof}[Beweis]
+Betrachte $(p, T_k)$
+\begin{align*}
+(p, T_k) &= \frac{1}{2} (T_0, T_k) + \sum_{l=1}^n c_l (T_l, T_k) &\\
+&= \begin{cases}
+c_k (T_k, T_k) & \text{für }k \neq 0 \\
+\frac{1}{2} c_0 (T_0, T_0)  & \text{für }k = 0 
+\end{cases}&\\
+&\overset{(10.8)}{=} \frac{n+1}{2} c_k&\\
+&= \frac{n+1}{2} \sum_{l=0}^n f(x_l) T_k(x_l) &\\
+&= \frac{n+1}{2} \sum_{l=0}^n f(x_l) \cos\left(k \underbrace{\arccos\left(\cos\left(\frac{2l+1}{n+1}\frac{\pi}{2}\right)\right)}_{ = \frac{2l+1}{n+1}\frac{\pi}{2}}\right) &\\
+\end{align*}
+\end{proof}
+\end{theorem}
+$p(x)$ lässt sich als bei bekannten Koeffizienten $c_k$ leicht berechnen/auswerten.
+
+\begin{theorem}[Clenshaw Algorithmus]
+Sei $p \in \mathcal{P}_n$ durch die Koeffizienten $c_0, ..., c_n$ in der Form
+\begin{align*}
+&p(x) = \frac{1}{2} c_0 + \sum_{j=1}^n c_j T_j(x)&\\
+\intertext{gegeben. Setzt man }
+&d_{n+1} = d_{n+2} = 0 &\\
+\intertext{und definiert für $x$}
+&d_k = c_k + 2x d_{k+1} - d_{k+2}, \quad \text{für }k=n,n-1,...,1, 0&\\
+\intertext{so gilt:}
+&p(x) = \frac{1}{2} (d_0-d_2)&\\
+\end{align*}
+\begin{proof}[Beweis]
+Verwende die Rekursionsformel aus (10.2) iii) ($T_{k+1} = 2x T_k + T_{k-1}$). Dann ist 
+\begin{align*}
+p(x) &= \frac{1}{2} c_0 + \sum_{l=1}^n c_l T_l(x) &\\
+&= \frac{1}{2} c_0 + \sum_{l=1}^{n-3} c_l T_l(x) + c_{n-2} T_{n-2}(x) + c_{n-1} T_{n-1}(x) + c_{n} T_{n}(x) &\\
+&= \frac{1}{2} c_0 + \sum_{l=1}^{n-3} c_l T_l(x) + (c_{n-2} - \underbrace{c_n}_{=d_n}) T_{n-2}(x) + \underbrace{(c_{n-1} + 2xc_n)}_{=d_{n-1}} T_{n-1}(x) &\\
+&= \frac{1}{2} c_0 + \sum_{l=1}^{n-4} c_l T_l(x) + (c_{n-3} - d_{n-1}) T_{n-3}(x) + \underbrace{(c_{n-2} - d_n + 2xd_{n-1})}_{=d_{n-2}} T_{n-2}(x) &\\
+\intertext{induktiv erhält man}
+&= (\frac{1}{2} c_0 - d_2) \underbrace{T_0(x)}_{=1} + \underbrace{(c_1 - d_3 + 2xd_2)}_{=d_1} \underbrace{T_1(x)}_{=x} &\\
+&= \frac{1}{2} (\underbrace{c_0 - 2d_1x - d_2}_{=d_0} -d_2) &\\
+&= \frac{1}{2} (d_0-d_2)
+\end{align*}
+\end{proof}
+\end{theorem}
+
+\begin{comment*}
+Bei der Verwendung von Rekursionen ist es wichtig zu verstehen, wie sich Rundungsfehler auswirken. 
+\begin{description}
+  \item[Beispiel:]
+    $x_{n+1} = 10x_n - 9, \quad x_0 = 1$ \\
+    $ \Rightarrow \forall n \in \mathbb{N}: \medspace x_n = 1$ \\
+    Was passiert bei fehlerhafter Startwerten $\tilde{x}_0 = 1+ \epsilon$? \\
+    $ \tilde{x}_{n+1} = 10 \tilde{x}_n - 9, \quad \tilde{x}_n = 1+ 10^n \epsilon$
+\end{description}
+Der Clenshaw-Algorithmus ist stabil, wie im Folgenden gezeigt wird:
+\end{comment*}
+
+\begin{theorem}
+Für den Clanshaw-Algorithmus mit Fehlern $\epsilon_k$ in der Rekursion, d.h. für 
+\begin{align*}
+&\tilde{d}_{n+1} = \tilde{d}_{n+2} = 0 &\\
+&\tilde{d}_k = c_k + 2x \tilde{d}_{k+1} - \tilde{d}_{k+2} + \epsilon_k, \quad k=n, n-1, ..., 0 &\\
+\intertext{Dabei ist $\epsilon_k$ der Rundungsfehler in der k-ten Iteration. Für
+$\tilde{p}(x) = \frac{1}{2} (\tilde{d}_0 - \tilde{d}_2)$ gilt:}
+& \vert \tilde{p}(x) - p(x) \vert \leq \sum_{j=0}^n \vert \epsilon_j \vert, \quad \text{für } \vert x \vert < 1,
+\intertext{wobei $p(x)$ mit (10.10) berechnet wird.}
+\end{align*}
+
+\begin{proof}[Beweis]
+Setze $\epsilon_k := \tilde{d}_k - d_k$ (für $d_k$ aus (10.10)). Dann gilt:
+\begin{align*}
+& \epsilon_k = \epsilon_k + 2x \epsilon_{k+1} - \epsilon_{k+2}, \quad \text{für } k=n,...,0 &\\
+&\epsilon_{n+1} = 0 \quad \text{und} \quad \epsilon_{n+2} = 0
+\end{align*}
+Mit Satz (10.10) gilt für $c_k = \epsilon_k$ und $d_k = \epsilon_k$:
+\begin{align*}
+& \frac{1}{2} (\epsilon_0 -\epsilon_2) = \frac{1}{2} \epsilon_0 + \sum_{j=1}^n \epsilon_j T_j(x) 
+\intertext{Da $\vert T_j(x) \vert \leq 1$ für $x \in [1, 1]$ gilt:}
+& \vert \tilde{p}(x) - p(x) \vert \overset{\Delta-UGL}{\leq} \frac{1}{2} \vert \epsilon_0 \vert + \sum_{j=1}^n \vert \epsilon_j \vert  
+\end{align*}
+\end{proof}
+\end{theorem}
+
+\begin{comment*}
+Die Approximation einer Funktion durch die Summe von Tschebyscheffpolynomen wird im Computer zur Berechnung von Funktionen wie log, exp, sin, cos,... verwendet.
+\end{comment*}
+
+\begin{example}
+\underline{Ziel:} Berechne $\ln(x)$ für $0 \leq x_{\min} < x \leq x_{\max}$. $x_{\min}, x_{\max}$ ist die kleinste/größte positive darstellbare Zahl auf dem gegebenen Computer. \\
+$x \medspace \text{"="} \medspace \underbrace{\left[ 1, b_1, b_2, ..., b_M \right]}_{\text{"Mantisse"}} * 2^N, \quad b_j \in \{0,1\}$\\
+d.h. $ x = 2^N (1+ b_1 \frac{1}{2} + b_2 \frac{1}{4} + ... + b_M \frac{1}{2^M}) = 2^N (1+t), \quad t \in (0,1)$ \\
+$\ln(x) = \ln(1+t) + N \underbrace{\ln(2)}_{\text{Konstante}}$ \\
+Das Problem $\ln(x)$ zu berechnen ist damit auf das Problem $\ln(1+t)$ für $t \in [0,1]$ zu berechnen reduziert worden. \\
+Tschebyscheffinterpolation: $[-1, 1] \rightarrow [0,1], \medspace x \mapsto t = \frac{1+x}{2} \quad (\Leftrightarrow x=2t-1)$ \\
+Für den Interpolationsfehler gilt:
+\begin{align*}
+\ln(1+ \frac{1+x}{2}) -p(x) &= \underbrace{\prod_{j=0}^n (x-x_j)}_{=2^{-n} \text{ für Tschebyscheff}} \frac{1}{(n+1)!} \frac{(-1)^{n-1} (n-1)!}{(1+\frac{1+\xi}{2})^n} \left(\frac{1}{2}\right)^n, \quad \xi \in [-1, 1] &\\
+\Leftrightarrow \quad \vert \ln(1+ \frac{1+x}{2}) -p(x) \vert &= \frac{1}{4^n} \frac{1}{(n+1)^n}
+\end{align*}
+Für n=15 ist $\frac{1}{4^n} \frac{1}{(n+1)^n} \leq 10^{-11}$ \\
+Berechnet werden also $c_0,..., c_{15}$ (einmal für alle Zeiten):
+\begin{align*}
+c_0 &= 0.75290562... &\\
+c_1 &= 0.34... &\\
+c_2 &= -0.029... &\\
+c_3 &= 0.0036... &\\
+c_4 &= -0.00004 &\\
+\vert c_k \vert &\leq 10^{-9}, \quad \text{für }k >10 &\\
+\end{align*}
+Beobachtung: $c_k$ werden schnell klein.\\
+Um eine Genauigkeit von $10^{-8}$ (einfache Genauigkeit) zu erreichen, benötigt man nur $c_0,..., c_9$.\\
+Die Auswertung mit dem Clenshaw-Algorithmus benötigen wir 10 Multiplikation (vgl. Taylor $\log(1+t) = \sum_{k=1}^{\infty} \frac{(-1)^k}{k}t^k$)
+\end{example}
+
+\subsection{Hermit\'{e}-Interpolation}
 
 \end{document}
