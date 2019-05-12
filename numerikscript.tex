@@ -365,7 +365,7 @@ $q$ ist das Interpolationspolynom zu sich selbst in den $x_0,..., x_n$. Nach (9.
 Ohne Einschränkungen sei $[a,b] = [-1, 1]$
 
 \begin{definition}
-$T_n(x) = cos(n * arccos(x))$ für $x \in [-1, 1]$ heißt n-tes Tschebyscheff-Polynom.
+$T_n(x) = \cos(n * \arccos(x))$ für $x \in [-1, 1]$ heißt n-tes Tschebyscheff-Polynom.
 \end{definition}
 
 \begin{lemma}
@@ -454,9 +454,9 @@ Die Tschebyscheffpolynome $T_k, k = 0, ..., n$ sind orthogonal bzgl. des Skalarp
 
 \begin{proof}[Beweis]\leavevmode
 \begin{align*}
-T_k(x_l) &= \text{cos}(k *\text{arccos}( \text{cos} ( \frac{2l-1}{n+1} \frac{\pi}{2}))) &\\
-&= \text{cos}( k \frac{2l+1}{n+1} \frac{\pi}{2}) &\\
-&= \text{cos}(k (l+ \frac{1}{2})h )
+T_k(x_l) &= \text{cos}\left(k *\text{arccos}\left( \text{cos} \left( \frac{2l-1}{n+1} \frac{\pi}{2}\right)\right)\right) &\\
+&= \text{cos}\left( k \frac{2l+1}{n+1} \frac{\pi}{2}\right) &\\
+&= \text{cos}\left(k (l+ \frac{1}{2})h \right)
 \end{align*}
 für $h = \frac{\pi}{n+1}$\\
 Damit ist 
@@ -511,7 +511,7 @@ Sei $p$ das Interpolationspolynom zur Funktion $f$ in den Tschebyscheffknoten $x
 \begin{align*}
 &p(x) = \frac{1}{2} c_0 + \sum_{j=1}^n c_j T_j(x), &\\
 \intertext{wobei}
-&c_k = \frac{2}{n+1} \sum_{l=0}^n f(x_l) \cos(k \frac{2l+1}{n+1}\frac{\pi}{2}), \quad \text{für $k=0,...,n$}
+&c_k = \frac{2}{n+1} \sum_{l=0}^n f(x_l) \cos\left(k \frac{2l+1}{n+1}\frac{\pi}{2}\right), \quad \text{für $k=0,...,n$}
 \end{align*}
 
 \begin{proof}[Beweis]
