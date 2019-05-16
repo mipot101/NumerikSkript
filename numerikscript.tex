@@ -53,7 +53,7 @@
 \input{Kapitel_1/Abschnitt_4} %Quadratur mit hoher Ordnung
 \input{Kapitel_1/Abschnitt_5} %Orthogonalpolynome
 \input{Kapitel_1/Abschnitt_6} %Ein adaptives Programm
-\input{Kapitel_1/Abschnitt_7} %Gauß- und Loballo Quadraturformeln
+\input{Kapitel_1/Abschnitt_7} %Gauß- und Lobatto Quadraturformeln
 
 \section{Interpolation und Approximation}
 
@@ -287,7 +287,7 @@ Sei $\bar{x} \in [a,b]$ beliebig.
 \underline{Fragen:}
 \begin{itemize}
   \item Für welche Wahl der Stützstellen $x_i$ ($i=0,...,n$, n fest) ist 
-    $$\max_{x\in[a,b]} \vert \prod_{i=0}^n(x-x_i)\vert$$
+    $$\max_{x\in[a,b]} \left\vert \prod_{i=0}^n(x-x_i)\right\vert$$
     minimal? (Siehe Abschnitt 10)
   \item Wie wirken sich Fehler in den Funktionsauswertungen (etwa Messfehler oder Rechenfehler) auf das Interpolationspolynom aus?
 \end{itemize}
@@ -456,14 +456,14 @@ Die Tschebyscheffpolynome $T_k, k = 0, ..., n$ sind orthogonal bzgl. des Skalarp
 \begin{align*}
 T_k(x_l) &= \text{cos}\left(k *\text{arccos}\left( \text{cos} \left( \frac{2l-1}{n+1} \frac{\pi}{2}\right)\right)\right) &\\
 &= \text{cos}\left( k \frac{2l+1}{n+1} \frac{\pi}{2}\right) &\\
-&= \text{cos}\left(k (l+ \frac{1}{2})h \right)
+&= \text{cos}\left(k \left(l+ \frac{1}{2}\right)h \right)
 \end{align*}
 für $h = \frac{\pi}{n+1}$\\
 Damit ist 
 \begin{align*}
-(T_k, T_j) &= \sum_{l=0}^n \text{cos}(k(l+\frac{1}{2})h) * \text{cos}(j(l+\frac{1}{2})h), &\\
+(T_k, T_j) &= \sum_{l=0}^n \text{cos}\left(k\left(l+\frac{1}{2}\right)h\right) * \text{cos}\left(j\left(l+\frac{1}{2}\right)h\right), &\\
 \intertext{da $\text{cos}(x)\text{cos}(y) = \frac{1}{2}(\text{cos}(x+y) + \text{cos}(x-y))$}
-&= \frac{1}{2} \sum_{l=0}^n \text{cos}((k+j)(l+\frac{1}{2})h) * \text{cos}((k-j)(l+\frac{1}{2})h) &\\
+&= \frac{1}{2} \sum_{l=0}^n \text{cos}\left(\left(k+j\right)\left(l+\frac{1}{2}\right)h\right) * \text{cos}\left((k-j)\left(l+\frac{1}{2}\right)h\right) &\\
 \intertext{Es gilt: $\text{cos}(x) = \text{Re} (e^{ix})$}
 &= \frac{1}{2} \text{Re}\left( \sum_{l=0}^n e^{i(k+j)(l+\frac{1}{2})h} + e^{i(k-j)(l+\frac{1}{2})h}\right) &\\
 &= \frac{1}{2} \text{Re}\left( \sum_{l=0}^n \left( e^{i(k+j)lh}e^{i(k+j)\frac{h}{2}} + e^{i(k-j)lh}e^{i(k-j)\frac{h}{2}}\right)\right) &\\

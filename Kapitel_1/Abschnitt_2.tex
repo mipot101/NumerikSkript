@@ -17,7 +17,7 @@ $$\sum_{i=1}^{s} b_i c_i^{q-1} = \frac{1}{q}$$ für $q = 1,..,p$.
 \begin{description}
   \item $"\Rightarrow"$ \\
   QF hat Ordnung p $\Rightarrow$ QF ist exakt für $g(t) = t^{q-1}$ für $q = 1,..,p$ auf $[0,1]$ \\
-  $\Rightarrow$ $$\sum b_i c_i^{q-1} = \int_{0}^{1} t^{q-1} dt = [\frac{t^q}{q}]_{t=0}^{1} = \frac{1}{q}$$
+  $\Rightarrow$ $$\sum b_i c_i^{q-1} = \int_{0}^{1} t^{q-1} dt = \left[\frac{t^q}{q}\right]_{t=0}^{1} = \frac{1}{q}$$
   \item $"\Leftarrow"$\\
   Jedes Polynom von Grad $p-1$ lässt sich als Linearkombination von $1, t, t^2, ...,t^{p-1}$. Die Behauptung folgt aus der Linearität in $g$ von $$\int_{0}^{1} g(t) dt$$ und $$\sum_{i=1}^{s}b_i g(c_i)$$
 \end{description}
@@ -96,16 +96,16 @@ Trick: $f(t) = c(t-\frac{1}{2})^{2m-1} + \tilde{g}(t)$ mit $\tilde{g} \in \mathc
 
 \begin{enumerate}
   \item Für $\tilde{g}$ ist die QF exakt
-  \item $$\int_0^1 (t-\frac{1}{2})^{2m-1} dt = \left[\frac{1}{2m-2}(t-\frac{1}{2})^{2m-2}\right]_0^1 = 0$$
-  $$ \sum_{i=1}^{s} b_i (c_i - \frac{1}{2})^{2m-1}$$ 
+  \item $$\int_0^1 \left(t-\frac{1}{2}\right)^{2m-1} dt = \left[\frac{1}{2m-2}\left(t-\frac{1}{2}\right)^{2m-2}\right]_0^1 = 0$$
+  $$ \sum_{i=1}^{s} b_i \left(c_i - \frac{1}{2}\right)^{2m-1}$$ 
   Symmetrie $\Rightarrow$
-  $$= \sum_{i=1}^{s} b_{s+1-i} (\frac{1}{2} - c_{s+1-i})^{2m-1} $$
+  $$= \sum_{i=1}^{s} b_{s+1-i} \left(\frac{1}{2} - c_{s+1-i}\right)^{2m-1} $$
   Definiere $j := s+1-i$
-  $$ = \sum_{i=1}^{s} b_i \frac{1}{2} - c_i)^{2m-1} = -\sum_{i=1}^{s} b_i (c_i - \frac{1}{2})^{2m-1}$$
-  $$\Rightarrow 2*\sum_{i=1}^{s} b_i (c_i - \frac{1}{2})^{2m-1} = 0$$
-  $$\Rightarrow \sum_{i=1}^{s} b_i (c_i - \frac{1}{2})^{2m-1} = 0$$
-  $$\sum_{i=1}^{s}b_if(c_i) = c \sum_{i=1}^{s}b_i(c_i-\frac{1}{2})^{2m-1} + \sum_{i=1}^{s}b_i\tilde{g}(c_i)$$
-  $$ = c\int_0^1(t-\frac{1}{2})^{2m-1} dt + \int_0^1 \tilde{g}(t)dt = \int_0^1 f(t)dt$$
+  $$ = \sum_{i=1}^{s} b_i \left(\frac{1}{2} - c_i\right)^{2m-1} = -\sum_{i=1}^{s} b_i \left(c_i - \frac{1}{2}\right)^{2m-1}$$
+  $$\Rightarrow 2*\sum_{i=1}^{s} b_i \left(c_i - \frac{1}{2}\right)^{2m-1} = 0$$
+  $$\Rightarrow \sum_{i=1}^{s} b_i \left(c_i - \frac{1}{2}\right)^{2m-1} = 0$$
+  $$\sum_{i=1}^{s}b_if(c_i) = c \sum_{i=1}^{s}b_i\left(c_i-\frac{1}{2}\right)^{2m-1} + \sum_{i=1}^{s}b_i\tilde{g}(c_i)$$
+  $$ = c\int_0^1\left(t-\frac{1}{2}\right)^{2m-1} dt + \int_0^1 \tilde{g}(t)dt = \int_0^1 f(t)dt$$
   $\Rightarrow$ QF hat mind. Ordnung $2m$.
 \end{enumerate}
 \end{proof}
@@ -117,7 +117,7 @@ Es gilt $$b_i = \int_0^1 l_i(t) dt$$ mit $$l_i(t) = \frac{\prod_{j=1, j\neq i}^s
 
 \begin{proof}[Beweis] von 2.8 \\
 \begin{enumerate}
-  \item Hat die QF die Ordnung $p \geq s$, so ist wegen $deg(l_i) = s-1)$:
+  \item Hat die QF die Ordnung $p \geq s$, so ist wegen $deg(l_i) = s-1$:
   $$ \int_0^1 l_i(t) dt = \sum_{j=1}^s b_j l_i(c_j) = b_i$$
   \item Zu den Knoten $c_i, ...c_s$ definiere $b_i$ wie angegeben. Die QF ist dann exakt für alle Polynome von Grad $ \leq s-1$, da die $l_1, ...,l_s$ linear unabhängig sind und eine Basis des Vektorraums der Polynome von Grad $\leq s-1$ bilden.
 \end{enumerate}
