@@ -96,13 +96,13 @@ Trick: $f(t) = c(t-\frac{1}{2})^{2m-1} + \tilde{g}(t)$ mit $\tilde{g} \in \mathc
 
 \begin{enumerate}
   \item Für $\tilde{g}$ ist die QF exakt
-  \item $$\int_0^1 (t-\frac{1}{2})^{2m-1} dt = \left[\frac{1}{2m-2}\left(t-\frac{1}{2}\right)^{2m-2}\right]_0^1 = 0$$
+  \item $$\int_0^1 \left(t-\frac{1}{2}\right)^{2m-1} dt = \left[\frac{1}{2m-2}\left(t-\frac{1}{2}\right)^{2m-2}\right]_0^1 = 0$$
   $$ \sum_{i=1}^{s} b_i \left(c_i - \frac{1}{2}\right)^{2m-1}$$ 
   Symmetrie $\Rightarrow$
   $$= \sum_{i=1}^{s} b_{s+1-i} \left(\frac{1}{2} - c_{s+1-i}\right)^{2m-1} $$
   Definiere $j := s+1-i$
   $$ = \sum_{i=1}^{s} b_i \left(\frac{1}{2} - c_i\right)^{2m-1} = -\sum_{i=1}^{s} b_i \left(c_i - \frac{1}{2}\right)^{2m-1}$$
-  $$\Rightarrow 2*\sum_{i=1}^{s} b_i (c_i - \frac{1}{2})^{2m-1} = 0$$
+  $$\Rightarrow 2*\sum_{i=1}^{s} b_i \left(c_i - \frac{1}{2}\right)^{2m-1} = 0$$
   $$\Rightarrow \sum_{i=1}^{s} b_i \left(c_i - \frac{1}{2}\right)^{2m-1} = 0$$
   $$\sum_{i=1}^{s}b_if(c_i) = c \sum_{i=1}^{s}b_i\left(c_i-\frac{1}{2}\right)^{2m-1} + \sum_{i=1}^{s}b_i\tilde{g}(c_i)$$
   $$ = c\int_0^1\left(t-\frac{1}{2}\right)^{2m-1} dt + \int_0^1 \tilde{g}(t)dt = \int_0^1 f(t)dt$$
