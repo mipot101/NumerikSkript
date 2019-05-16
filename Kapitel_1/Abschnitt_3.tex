@@ -130,7 +130,7 @@ err &= \sum_{j=0}^{n-1} E(f, x_j, h)
       \end{align*}
       Zudem gilt 
       \begin{align*} 
-      \vert err \vert &= \vert \sum_{j=0}^{n-1} E(f, x_j, h_{j+1}) \vert &\\
+      \vert err \vert &= \left\vert \sum_{j=0}^{n-1} E(f, x_j, h_{j+1}) \right\vert &\\
       &\leq \sum_{j=0}^{n-1} \vert E(f, x_j, h_{j+1}) \vert &\\
       &\leq \underbrace{\sum_{j=0}^{n-1} h_{j+1}}_{b-a} \underbrace{h_{j+1}^k}_{\leq h^k} \int_0^1 \vert K_k(\tau) \vert d\tau \underbrace{\max_{x \in [x_j, x_{j+1}]} \vert f^{(k)} (x) \vert}_{\leq \max_{x\in[a,b] \vert f^{(k)}(x) \vert}}
       \end{align*}
