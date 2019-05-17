@@ -1020,11 +1020,14 @@ $$\Lambda_n = \max_{x \in [a,b]} \sum_{i=0}^n \vert l_i(x) \vert $$
 	$\vdots$ & $\vdots$\\
 	$x_n$ & $y_n = f(x_n)$
   \end{tabular}\\\\
-  Algorithmus zur Berechnung von $p'(x)$:\\
-  $c_1 = b_1$\\
-  Für $k=n-1, ..., 1$: \\
-  $\quad c_k = b_k + (x-x_{k-1})c_{k+1}$\\
-  $p'(x) = c_1$
+  \underline{Algorithmus zur Berechnung von $p'(x)$:}
+  \begin{algorithmic}
+  \STATE $c_n = b_n$
+  \FOR{$k = n-1, ...,1$}
+  	\STATE $c_k = b_k + (x-x_{k-1})c_{k+1}$
+  \ENDFOR
+  \STATE $p'(x) = c_1$
+  \end{algorithmic}
 \end{description}
 
 \begin{theorem}
