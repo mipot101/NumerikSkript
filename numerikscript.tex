@@ -749,7 +749,7 @@ Seien $f, s \in \mathcal{C}^2 ([a,b], \mathbb{R})$ zwei Funktionen, die in $a=x_
 \begin{align*}
 f(x_i) = s(x_i) \medspace &(i=0,...,n)
 \quad \text{und } \quad 
-s\mid_{[x_{i-1}, x_i]} &\in \mathcal{P}_3 \quad \text{für } i=1,...,n
+s\,\rule[-2mm]{0.1mm}{5mm}_{\thinspace [x_{i-1}, x_i]} &\in \mathcal{P}_3 \quad \text{für } i=1,...,n
 \intertext{Falls}
 s''(a) [f'(a) - s'(a)] &= s''(b) [f'(b) - s'(b)], \quad (*) 
 \intertext{so gilt:}
@@ -789,7 +789,7 @@ s_i'(x_i) &= \delta y[x_{i-1}, x_i] + \alpha (x_i - x_{i-1})^2 = \tau_i &\\
 \Rightarrow \alpha &= \frac{\tau_i - \delta y[x_{i-1}, x_i]}{(x_i - x_{i-1})^2} &\\
 \beta &= \frac{\tau_{i-1} - \delta y[x_{i-1}, x_i]}{(x_{i-1}- x_i)^2} &\\
 h_i &= x_i-x_{i-1} &\\
-\Rightarrow s_i(x) &= y_{i+1} + (x-x_{i-1}) \delta y [x_{i-1}, x_i] &\\ 
+\Rightarrow s_i(x) &= y_{i-1} + (x-x_{i-1}) \delta y [x_{i-1}, x_i] &\\ 
 &+ \frac{(x-x_{i-1} )(x-x_i)}{h_i^2} \left( (\tau_i - \delta y[x_{i-1},x_i])(x-x_{i-1})(\tau_{i-1} - \delta y[x_{i-1},x_i])(x-x_i) \right) &\\
 \end{align*}
 Für beliebige $\tau_0,..., \tau_n$ erhalten wir $s: [a,b] \rightarrow \mathbb{R}$ mit 
