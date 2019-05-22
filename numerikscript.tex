@@ -790,7 +790,7 @@ s_i'(x_i) &= \delta y[x_{i-1}, x_i] + \alpha (x_i - x_{i-1})^2 = \tau_i &\\
 \beta &= \frac{\tau_{i-1} - \delta y[x_{i-1}, x_i]}{(x_{i-1}- x_i)^2} &\\
 h_i &= x_i-x_{i-1} &\\
 \Rightarrow s_i(x) &= y_{i-1} + (x-x_{i-1}) \delta y [x_{i-1}, x_i] &\\ 
-&+ \frac{(x-x_{i-1} )(x-x_i)}{h_i^2} \left( (\tau_i - \delta y[x_{i-1},x_i])(x-x_{i-1})(\tau_{i-1} - \delta y[x_{i-1},x_i])(x-x_i) \right) &\\
+&+ \frac{(x-x_{i-1} )(x-x_i)}{h_i^2} \left( (\tau_i - \delta y[x_{i-1},x_i])(x-x_{i-1})+(\tau_{i-1} - \delta y[x_{i-1},x_i])(x-x_i) \right) &\\
 \end{align*}
 Für beliebige $\tau_0,..., \tau_n$ erhalten wir $s: [a,b] \rightarrow \mathbb{R}$ mit 
 \begin{enumerate}
