@@ -916,7 +916,7 @@ Für $i=1, ..., n-1$ erfüllen die $\tau_i$
 &= h^2 \left( f^{(4)}(\xi_i) + f^{(4)}(\eta_i) \right) \int_0^1 \frac{(1-t)^2}{2} - \frac{(1-t)^3}{2} dt &\\
 &=\frac{h^2}{24} \left(f^{(4)}(\xi_i) + f^{(4)}(\eta_i)\right), \quad \xi_i \in [x_{i-1},x_i], \medspace \eta_i \in [x_i, x_{i+1}] &\\
 \Rightarrow \vert \delta_i \vert &\leq \frac{h^2}{12} \max_{\xi \in [a,b]} \vert f^{(4)}(\xi) \vert
-\intertext{Definiere nun $e_i := f'(x_i) - \tau_i$ für $i=0,...,n$. Diese erfüllen die Bedingung $e_0 = 0, \medspace e_n = 0$ vom eingespannten Spline. Für $f' = (f'(x_1),..., f'(x_{n-1})^T$, $\delta = (\delta_1, ..., \delta_{n-1})^T$ und $e = (e_1, ..., e_{n-1})$ gilt: $A \tau = b$ und $Af' = b+ \delta$. Mit (12.4) gilt dann}
+\intertext{Definiere nun $e_i := f'(x_i) - \tau_i$ für $i=0,...,n$. Diese erfüllen die Bedingung $e_0 = 0, \medspace e_n = 0$ vom eingespannten Spline. Für $f' = (f'(x_1),..., f'(x_{n-1}))^T$, $\delta = (\delta_1, ..., \delta_{n-1})^T$ und $e = (e_1, ..., e_{n-1})$ gilt: $A \tau = b$ und $Af' = b+ \delta$. Mit (12.4) gilt dann}
 \max_i \vert e_i \vert & \leq \frac{h}{2} \max_i \vert \delta_i \vert \leq \frac{h^3}{24} \max_{\xi \in [a,b]} \vert f^{(4)}(\xi) \vert 
 \end{align*}
 \end{proof}
@@ -1044,4 +1044,182 @@ Sei \={x} fest aber beliebig, $\bar{p}$ das Hermiteinterpolationspolynom zu
 Newtonschema und Newtoninterpolationspolynome liefert das Ergebnis.
 \end{proof}
 \end{theorem}
+
+\section{Lineare Gleichungssysteme und lineare Ausgleichsrechnung}
+%
+\begin{description}
+  \item[Ziele:]
+    \begin{itemize}
+      \item Berechne $x \in \mathbb{R}^n$, welches Lösung von $Ax = b$ ist, wobei $A \in \mathbb{R}^{n\times n}$ invertierbar und $b \in \mathbb{R}^n$.
+      \item Berechne $x \in \mathbb{R}^m$, welches Lösung von $\min_{x\in \mathbb{R}^m} \Vert Ax - b \Vert _2$ ist, wobei $A \in \mathbb{R}^{n\times m}$, $b \in \mathbb{R}^n$ und $n>m$.
+    \end{itemize}
+\end{description}
+
+\subsection{Gaußelimination}
+%
+\begin{example}\leavevmode
+\begin{enumerate}
+  \item[a)] Splineinterpolation $A\tau = b$, $A$ tridiagonal und symmetrisch.
+  \item[b)] Computertomographie \\
+    \includegraphics[width=11cm]{Bild1.png}\\
+    $\Delta I$: gemessener Intensitätsunterschied zwischen Quelle und Detektor \\
+    $\Delta I = \int_{[a,b]} \alpha(x) dx$\\
+    Dabei ist $\alpha(x)$ der Absorptionskoeffizient\\
+    Annahme: $\alpha$ ist konstant in jeder Volumenzelle (Voxel) $\Rightarrow$\\
+    $\Delta I = \sum_{j \in \text{Voxel}} \alpha_j l_j$\\
+    $l_j$: Länge des Weges $[a,b]$ in Voxel $j$\\
+    Viele Strahlen: $L_j(t) = \omega ( \phi_j ) s_j + \omega^{\perp} ( \phi_j ) t$\\
+    \includegraphics[width=8cm]{Bild2.png}\\
+    $\omega(\phi_j) = (\cos(\phi_j), \sin(\phi_j))$\\
+    $\omega^{\perp}(\phi_j) = (-\sin(\phi_j), \cos(\phi_j))$ \\\\
+    $\begin{bmatrix} 
+    l_{11} & l_{12} & \dots & l_{1M} \\
+    \vdots & \vdots & & \vdots \\
+    l_{N1} & l_{N2} & \dots & l_{NM} \\
+    \end{bmatrix}
+    \begin{bmatrix}
+    \alpha_1 \\
+    \vdots \\
+    \alpha_M \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+    \Delta I_1 \\
+    \vdots \\
+    \Delta I_N \\
+    \end{bmatrix}$\\\\
+    $M$ ist dabei die Anzahl der Voxel.\\
+    $l_{ij}$: Länge des i-ten Strahl im j-ten Voxel\\
+    $\alpha_j$: Absorption im j-ten Voxel \\
+    $\Delta I_i$: Intensitätsunterschied entlang vom Strahl i
+\end{enumerate}
+\end{example}
+
+\begin{nothing}[Herleitung des Verfahrens (Wdh. LA)]
+$Ax = b$, $A = (a_{ij})_{i,j = 1}^n$, $b = (b_i)_{i=1}^n$\\\\
+%
+$a_{11} x_1 + a_{12}x_2 + \dots + a_{1n}x_n = b_1$\\
+$a_{21} x_1 + a_{22}x_2 + \dots + a_{2n}x_n = b_2$\\
+$\vdots$ \\
+$a_{n1} x_1 + a_{n2}x_2 + \dots + a_{nn}x_n = b_n$\\\\
+%
+Ohne Einschränkungen sei $a_{11} \neq 0 $. Da $A$ invertierbar ist, ist mindestens ein Element aus $\{a_{i1}, i=1,...,n\}$ ungleich 0. Man kann also Zeilen/Gleichungen so vertauschen, dass $a_{11} \neq 0$. Für $i=2,3,...,n$ multipliziere die 1-te Zeile mit $l_{i1} := \frac{a_{i1}}{a_{11}}$ und ersetze die i-te Zeile durch $\text{(i-te Zeile)} - l_{i1} * \text{(1-ste Zeile)}$. Dann ergibt sich folgendes Gleichungssystem: \\\\
+%
+$a_{11}^{(1)} x_1 + a_{12}^{(1)}x_2 + \dots + a_{1n}^{(1)}x_n = b_1^{(1)}$\\
+$0 + a_{22}^{(1)}x_2 + \dots + a_{2n}^{(1)}x_n = b_2^{(1)}$\\
+$\vdots$ \\
+$0+ a_{n2}^{(1)}x_2 + \dots + a_{nn}^{(1)}x_n = b_n^{(1)}$\\\\
+%
+Dabei ist\\
+$a_{1j}^{(1)} = a_{1j}$ für $j=1,...,n$, \\
+$b_1^{(1)} = b_1$, \\
+$(a_{i1}^{(1)} = 0)$\\
+$a_{ij}^{(1)} = a_{ij} - l_{i1} a_{1j}$,\\
+$b_i^{(1)} = b_i - l_{i1} b_1$ für $i=2,...,n$, $j=1,...,n$.\\\\
+%
+Da die $(n-1)\times (n-1)$ Untermatrix $A^{(1)} (2:n, 2:n)$ ebenfalls invertierbar ist, wiederholt man den eben beschriebenen Schritt.\\
+Nach eventuellem Zeilentausch ist $a_{22}^{(1)} \neq 0$
+%
+\begin{align*}
+l_{i2} &:= \frac{a_{i2}^{(1)}}{a_{22}^{(1)}}, \quad i=3,...,n &\\
+b_2^{(2)} &= b_2^{(1)}, \quad a_{2j}^{(2)} = a_{2j}^{(1)}, \quad j=2,...,n &\\
+b_i^{(2)} &= b_i^{(1)} - l_{i2} b_2^{(1)}, \quad i=3,...,n &\\
+a_{ij}^{(2)} &= a_{ij}^{(1)} - l_{i2} a_{2j}^{(1)}, \quad i=3,...,n, \medspace j=2,...,n &\\
+\end{align*}
+%
+Damit entsteht eine Folge\\ 
+$(A, b), (A^{(1)}, b^{(1)}), (A^{(2)}, b^{(2)}),..., (A^{(n-1)}, b^{(n-1)}) =: (R,c)$\\
+für eine obere Dreiecksmatrix $R$ (d.h. alle Einträge unter der Diagonalen sind 0).\\
+Das Gleichungssystem mit ($r_{ii} \neq 0$)\\
+%
+\begin{align*}
+r_{11}x_1 + r_{12}x_2 + \dots + r_{1n}x_n &= c_1 &\\
+r_{22}x_2 + \dots + r_{2n}x_n &= c_2 &\\
+\vdots& &\\
+r_{nn}x_n &= c_{n} &\\
+\end{align*}
+%
+Dabei ist\\
+$x_n = \frac{c_n}{x_{nn}}$\\
+$x_i = \frac{1}{r_{ii}}(c_i - \sum_{j=i+1}^n r_{ij}x_j)$ für $i=n-1,...,1$
+\end{nothing}
+
+\begin{theorem}
+Für eine invertierbare Matrix $A \in \mathbb{R}^{n\times n}$ liefert das in (15.2) beschriebene Verfahren 
+$$PA = LR,$$
+wobei 
+$$L = 
+\begin{bmatrix} 
+1 &&& 0 &\\
+l_{21} & \ddots &\\
+\vdots &\ddots& \ddots &\\
+l_{n1} &\dots& l_{n(n-1)}& 1 &\\
+\end{bmatrix}$$
+$$R = 
+\begin{bmatrix} 
+r_{11} & r_{12} & \dots & r_{1n} &\\
+& \ddots &  & \vdots &\\
+&\\
+0&&& r_{nn} &\\
+\end{bmatrix}$$
+und $P$ eine Permutationsmatrix ist.
+\begin{proof}[Beweis]
+Nehme an, dass die notwendige Zeilenvertauschungen bereits durchgeführt wurden, d.h. ersetze $A$ durch $PA$ (Zeilen und Spalten von $P$ bestehen aus kanonischen Einheitsvektoren z.B. $ P = \begin{bmatrix} 0&1&0&\\1&0&0&\\0&0&1&\\ \end{bmatrix}$)\\
+Bezeichne mit $L_i \in \mathbb{R}^{n\times n}$:
+$$L_i = 
+\begin{bmatrix}
+1 &&&&&0\\
+& \ddots &\\
+&& 1 &\\
+&& -l_{i+1,i} &  &\\
+&& \vdots &&\ddots&\\
+&& \underbrace{-l_{n,i}}_{\text{i-te Spalte}} &&&1 &\\
+\end{bmatrix}$$
+Damit ist
+\begin{align*}
+A^{(1)} &= L_1 A, \quad a_{ij}^{(1)} = a_{ij} - l_{i1} a_{1j} &\\
+A^{(k)} &= L_k A^{(k-1)}, \quad k = 2,...,n-1 &\\
+R &= A^{(n-1)} = L_{n-1}L_{n-2} ... L_1 A &\\
+\Rightarrow A &= \underbrace{L_1^{-1}...L_{n-2}^{-1}L_{n-1}^{-1}}_{=L} R
+\end{align*}
+Setzt man 
+$$V_i = 
+\begin{bmatrix}
+0 &\\
+& \ddots &\\
+&& 0 &\\
+&& l_{i+1,i} &  &\\
+&& \vdots &&\ddots&\\
+&& \underbrace{l_{n,i}}_{\text{i-te Spalte}} &&&0 &\\
+\end{bmatrix}
+\in \mathbb{R}^{n\times n}$$
+so ist $L_i = I_n - V_i$, da $V_iV_k = 0$ für $i \leq k$.\\\\
+$\underbrace{(I_n - V_i)}_{=L_i} (I_n + V_i) = I_n + V_i - V_i + \underbrace{V_iV_i}_{=0} = I_n$\\\\
+d.h. $L_i^{-1} = I_n + V_i$.\\
+Damit folgt $L = L_1^{-1}L_2^{-1} ... L_{n-1}^{-1} = (I_n + V_1)(I_n + V_2) ... (I_n + V_{n-1}) = I_n + V_1 + V_2 +... + V_{n-1} + \underbrace{V_1V_2 + ...}_{=0} = L$\\
+Das schließende $L$ ist dabei das $L$ aus (15.2).
+\end{proof}
+\end{theorem}
+
+\begin{comment*}
+\begin{align*}
+\det(PA) &= \det(P)\det(A) = (-1)^{\text{\# Vertauschungen}} \det(A) &\\
+\det(PA) &= \det(LR) = \underbrace{\det(L)}_{=1} \det(R) = \prod_{i=1}^n r_{ii}
+\end{align*}
+\end{comment*}
+
+\begin{nothing}[Vorwärts- und Rückwärts-Substitution]
+Sobald man die LR-Zerlegung (ln-decomposition) von $A$ kennt, löst man $Ax = b$ wie folgt:
+$$Pb = PAx = L\underbrace{Rx}_{=: c}$$
+Löse $Lc = Pb$:\\
+$c_1 = (Pb)_1$\\
+für $i=2,...,n$:\\
+$c_i = (Pb)_i - \sum_{j=1}^{i-1} l_{ij}c_j$\\\\
+%
+"Vorwärtssubstitution"\\\\
+%
+und anschließend:\\
+Löse $Rx = c$ wie in (15.2) angegeben ("Rückwärtssubsitution")
+\end{nothing}
+
 \end{document}
