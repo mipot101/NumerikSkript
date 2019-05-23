@@ -1061,7 +1061,7 @@ Newtonschema und Newtoninterpolationspolynome liefert das Ergebnis.
 \begin{enumerate}
   \item[a)] Splineinterpolation $A\tau = b$, $A$ tridiagonal und symmetrisch.
   \item[b)] Computertomographie \\
-    \includegraphics[width=11cm]{Bild1.png}\\
+    %\includegraphics[width=11cm]{Bild1.png}\\
     $\Delta I$: gemessener Intensitätsunterschied zwischen Quelle und Detektor \\
     $\Delta I = \int_{[a,b]} \alpha(x) dx$\\
     Dabei ist $\alpha(x)$ der Absorptionskoeffizient\\
@@ -1069,7 +1069,7 @@ Newtonschema und Newtoninterpolationspolynome liefert das Ergebnis.
     $\Delta I = \sum_{j \in \text{Voxel}} \alpha_j l_j$\\
     $l_j$: Länge des Weges $[a,b]$ in Voxel $j$\\
     Viele Strahlen: $L_j(t) = \omega ( \phi_j ) s_j + \omega^{\perp} ( \phi_j ) t$\\
-    \includegraphics[width=8cm]{Bild2.png}\\
+    %\includegraphics[width=8cm]{Bild2.png}\\
     $\omega(\phi_j) = (\cos(\phi_j), \sin(\phi_j))$\\
     $\omega^{\perp}(\phi_j) = (-\sin(\phi_j), \cos(\phi_j))$ \\\\
     $\begin{bmatrix} 
@@ -1209,17 +1209,161 @@ Das schließende $L$ ist dabei das $L$ aus (15.2).
 \end{comment*}
 
 \begin{nothing}[Vorwärts- und Rückwärts-Substitution]
-Sobald man die LR-Zerlegung (ln-decomposition) von $A$ kennt, löst man $Ax = b$ wie folgt:
+Sobald man die LR-Zerlegung (lu-decomposition) von $A$ kennt, löst man $Ax = b$ wie folgt:
 $$Pb = PAx = L\underbrace{Rx}_{=: c}$$
-Löse $Lc = Pb$:\\
-$c_1 = (Pb)_1$\\
-für $i=2,...,n$:\\
-$c_i = (Pb)_i - \sum_{j=1}^{i-1} l_{ij}c_j$\\\\
+Löse $Lc = Pb$ ("Vorwärtssubstitution"):
 %
-"Vorwärtssubstitution"\\\\
+\begin{algorithmic}
+\STATE $c_1 = (Pb)_1$
+\FOR{$i=2,...,n$}
+\STATE $c_i = (Pb)_i - \sum_{j=1}^{i-1} l_{ij}c_j$
+\ENDFOR
+\end{algorithmic}
 %
 und anschließend:\\
-Löse $Rx = c$ wie in (15.2) angegeben ("Rückwärtssubsitution")
+Löse $Rx = c$ wie in (15.2) angegeben ("Rückwärtssubstitution").
 \end{nothing}
 
+\begin{nothing}[Aufwand]
+Beim Schritt $A \rightarrow A^{(1)}$ benötigt man 
+\begin{itemize}
+  \item $(n-1) \in \mathcal{O}(n)$ Divisionen 
+  \item $(n-1)^2 \in \mathcal{O}(n^2)$ Multiplikationen
+  \item $(n-1)^2 \in \mathcal{O}(n^2)$ Additionen
+\end{itemize}
+Also insgesamt Operationen aus $\mathcal{O}(n^2)$.\\
+$A^{(1)} \rightarrow A^{(2)}$: $(n-1)^2$ Operationen. \\
+$A^{(2)} \rightarrow A^{(3)}$: $(n-2)^2$ Operationen. \\
+$\vdots$\\
+$A \rightarrow L,R$: $\sum_{j=1}^n j^2 \approx \frac{1}{3}n^3 \medspace \left(\in \mathcal{O}(n^3)\right)$, da $\underbrace{\frac{1}{n} \sum_{j=0}^n (\frac{j}{n})^2}_{ \approx \int_0^1 x^2 = \frac{1}{3}} n^3$\\
+Die Lösung von $Lc = Pb$ kostet ebenso wie die Lösung von $Rx = c$ \\
+$1+2+...+(n-1) \approx \frac{1}{2} n^2$ Operationen.\\
+Der Hauptaufwand steckt also in der Berechnung der Zerlegung $PA = LR$. 
+\end{nothing}
+
+\begin{comment*}[Einschub zur Gleitkommarechnung (floating point arithmetic)]
+Jeder reelle Zahl $0 \neq x$ kann für festes $B \in \mathbb{N}$, $B \geq 2 $ eindeutig durch
+$$x = \pm \thinspace m \thinspace B^e$$
+dargestellt werden, wobei $m \in [1, B)$, die Mantisse, $e \in \mathbb{Z}$, der Exponent und $B$ die Basis ist. \\
+Durch den Computer kommen folgende Einschränkungen hinzu:
+\begin{itemize}
+  \item Es stehen nur $l$ Ziffern für die Mantisse $m$ zur Verfügung $\rightarrow$ $m$ wird gerundet.
+  \item Es stehen nur $r$ Ziffern für den Exponenten zur Verfügung
+\end{itemize}
+%Beginne mit den Sätzen, Definitionen,...
+\begin{description}
+  \item[Definition] $\thinspace$\\
+    Eine $l$-stellige-Basis-$B$-Gleitkommazahl mit Exponentialbereich $[e_{\min}, e_{\max}]$ ist ein Tripel $(\sigma, m, e)$. Dabei ist 
+    \begin{itemize}
+      \item $\sigma$ das Vorzeichen
+      \item $m$ eine $l$-stellige Zahl zur Basis $B$ mit festgelegter Kommastelle
+      \item $e$ die ganze Zahl in $[e_{\min}, e_{\max}]$
+    \end{itemize}
+    Der Wert von $(\sigma, m, e)$ ist $\sigma * m * B^e$.
+  %
+  \item[Beispiel] $\thinspace$\\
+    Betrachte den Standard IEEE 754.\\
+    Dieser stellt eine Zahl mit einfacher Genauigkeit dar zur Basis $B=2$ mit $l=32$ und $[e_{\min}, e_{\max}] = [-128, 127]$.
+    \begin{figure}[!htb]
+      \centering
+      \includegraphics[width=10cm]{Bild3.png}
+      \caption{From https://de.wikipedia.org/wiki/IEEE\_754}
+    \end{figure}\\
+    Der Wert lässt sich berechnen aus
+    $$(-1)^{\sigma} * (1,m) * 2^{\sum_{j} e_j^{2^j} - 127}$$
+    Dabei ist $m$ binär dargestellt.
+  %
+  \item[Definition] $\thinspace$ \\
+    Für eine reelle Zahl $x$ bezeichnen wir mit $fl(x)$ eine $l$-stellige-Basis-10-Darstellung von $x$ mit unbeschränktem Exponenten $e$, sodass 
+    $$fl(x) = \pm \thinspace m \thinspace 10^e,$$
+    wobei $m$ eine Zahl mit $l$ Stellen ist.\\
+    Die \underline{Maschinengenauigkeit} $\text{eps}$ ist die kleinste positive Zahl, sodass $fl(1+ \text{eps}) > 1$. Also ist $\text{eps}$ der Abstand zwischen zwei benachbarten Mantissen.
+  %
+  \item[Beispiele] $\thinspace$ 
+    \begin{description}
+      \item Dezimalsystem ($B=10$) $\Rightarrow \quad \text{eps} = 5 * 10^{-e}$
+      \item Binärsystem ($B=2$) $\quad \medspace \medspace  \thinspace \Rightarrow \quad \text{eps} = 2^{-e}$
+    \end{description}
+\end{description}
+\end{comment*}
+
+\subsection{Wahl des Pivotelements}
+
+\begin{example}
+\begin{align*}
+10^{-4}x_1 + x_2 &= 1 &\\
+x_1 + x_2 &= 2 &\\
+\end{align*}
+exakte Lösung:
+\begin{align*}
+x_1 = \frac{1}{0.9999} &= 1.0001\overline{0001} &\\
+x_2 = \frac{0.9998}{0.9999} &= 0.9998\overline{9998} &\\
+\end{align*}
+bei dreistelliger dezimaler Gleitkommaartihmetik (Mantissenlänge 3, Basis 10)
+\begin{align*}
+0.100 * 10^{-3} x_1 + 0.100 * 10^1 x_2 &= 0.199 * 10^1 &\\
+0.100 * 10^1 x_1 + 0.100 * 10^1 x_2 &= 0.200 * 10^1
+\end{align*}
+und damit erhält man für 
+\begin{enumerate}
+  \item [a)] $a_{11} = 10^{-4}$ (Pivot) \\
+    \begin{align*}
+    l_{21} &= \frac{a_{21}}{a_{11}} = 10^4 = 0.100 * 10^5 &\\
+    a_{22}^{(1)} &= 0.100 * 10^1 - 0.100 * 10^5 = -0.100 * 10^5 &\\
+    b_2^{(1)} &= 0.200 * 101 - 0.100 * 10^5 = -0.100 *10^5 &\\
+    \end{align*}
+    Aus $-0.100 * 10^5 x_2 = -0.100 *10^5$ folgt $x_2 = 0.100 * 10^1 = 1$ \\
+    $\Rightarrow$ $x_1 = \frac{b_1 - a_{12}x_2}{a_{11}} = \frac{0.100 * 10^1 - 0.100 * 10^1 x_2}{0.100 * 10^1} = 0$
+  \item [b)] Wähle Pivot $a_{21} = 1$:
+    \begin{align*}
+    x_1 + x_2 &= 2 &\\
+    10^{-4} x_1 + x_2 &= 1 &\\
+    \end{align*}
+    ... $l_{21} = 10^{-4} \Rightarrow x_2 = 1, \medspace x_1 = 1$
+\end{enumerate} 
+\begin{description}
+  \item[Erläuterung:] $\thinspace$ \\
+    Falls $\vert l_{21} \vert$ groß ist, ergibt sich
+    \begin{align*}
+    a_{22}^{(1)} &= a_{22} - l_{21} a_{12} \approx l_{21} a_{12} &\\
+    b_2^{(1)} &= b_2 - l_{21} b_1 \approx l_{21}b_1 &\\
+    x_2 &= \frac{b_2^{(1)}}{a_{22}^{(1)}} \approx \frac{b_1}{a_{21}} &\\
+    \end{align*}
+    Bei der Berechnung von $x_1$ kommt es zu einer Stellenauslöschung $x_1 = {(b_1 - \underbrace{a_{12} x_2}_{b_1})}:{a_{11}} \approx 0$\\
+    \underline{Ausweg:} Zeilentausch, sodass $\vert a_{21} \vert \leq \vert a_{11} \vert $. Dann ist $\vert l_{21} \vert \leq 1$.\\
+    Spaltenpivotsuche: \\
+    Nehme Pivotelement im $(k+1)$-ten Schritt
+    $$a_{j(k+1)}^{(k)} \quad \text{mit} \quad \vert a_{j(k+1)}^{(k)} \vert = \max_{i=k+1,...,n} \vert a_{i(k+1)}^{(k)} \vert, $$
+    d.h. das betragsmäßig größte Element der $(k+1)$-ten Spalte von $A^{(k)}$ unterhalb der Diagonalen inklusive des Diagonalelements. \\
+    \begin{figure}[!htb]
+    \centering
+    \includegraphics[width=6cm]{Bild4.png}
+    \end{figure}\\
+    Damit erreicht man
+    $$ \vert l_{i, (k+1)} \vert = \frac{\vert a_{i, k+1}^{(k)} \vert }{ \vert a_{k+1, k+1}^{(k)} \vert} \leq 1, \quad i=k+2,...,n$$
+\end{description}
+\end{example}
+
+\subsection{Cholesky-Zerlegung für symmetrische positiv definite Matrizen}
+
+\begin{definition}
+Eine Matrix $A = (a_{ij})_{i,j=1}^n \in \mathbb{R}^{n\times n}$ heißt symmetrisch, falls $\forall i,j = 1,...,n: \medspace a_{ij} = a_{ji}$, d.h. $A = A^T$.\\
+Eine Matrix $A$ ist positiv definit, falls 
+$$\forall x \in \mathbb{R}^n: \medspace x^T Ax > 0$$
+\end{definition}
+
+\begin{theorem}
+Sei $A$ symmtrisch positiv definit (spd), $A \in \mathbb{R}^{n\times n}$. Dann gilt:
+\begin{enumerate}
+  \item[i)] Die Gaußelimination kann ohne Zeilenvertauschungen durchgeführt werden
+  \item[ii)] Für die Zerlegung $A=LR$ gilt $R = DL^T$ für eine Diagonalmatrix 
+  $$D =
+  \begin{bmatrix}
+  r_1 && 0 &\\
+  & \ddots &\\
+  0 && r_{nn} &\\
+  \end{bmatrix}, \quad \text{wobei }\forall i = 1,...,n: \medspace r_{ii} > 0$$ 
+\end{enumerate}
+\end{theorem}
+%entklammere Graphiken mit \includegraphics wieder 
 \end{document}
