@@ -7,6 +7,7 @@
 \usepackage{amssymb}
 \usepackage{amsthm} %Für Theoreme und Beweise
 \usepackage{graphicx} %Für Bilder
+\usepackage{nicefrac}
 
 \newtheoremstyle{break}% name
   {}%         Space above, empty = `usual value'
@@ -795,7 +796,7 @@ h_i &= x_i-x_{i-1} &\\
 Für beliebige $\tau_0,..., \tau_n$ erhalten wir $s: [a,b] \rightarrow \mathbb{R}$ mit 
 \begin{enumerate}
   \item[i)] $s\,\rule[-2mm]{0.1mm}{5mm}_{\thinspace [x_{i-1}, x_i]} \in \mathcal{P}_3$
-  \item[ii)] $s(x_i) = y_i)$
+  \item[ii)] $s(x_i) = y_i$
   \item[iii)] $s \in \mathcal{C}^1([a,b])$
 \end{enumerate} 
 Bestimme $\tau_0,..., \tau_n$ so, dass $s \in \mathcal{C}^2([a,b])$, d.h. $s_i''(x_i) = s_{i+1}''(x_i)$ für $i=1,...,n-1$. Das sind $(n-1)$ Bedingungen. (\#) \\
@@ -808,7 +809,7 @@ Mit
 \intertext{und}
 &\frac{d^2}{dx^2} \left( (x-x_{i-1}) (x-x_i)^2 \right) \rule[-2mm]{0.1mm}{5mm}_{\thinspace x = x_i} = 2h_i
 \intertext{folgendes:}
-s_i''(x) &= \frac{1}{h_i^2} \left( (\tau_i - \delta y[x_{i-1},x_i]) 4h_i + (\tau_{i-1} - \delta y[x_{i-1},x_i]) 2h_i \right) &\\
+s_i''(x_i) &= \frac{1}{h_i^2} \left( (\tau_i - \delta y[x_{i-1},x_i]) 4h_i + (\tau_{i-1} - \delta y[x_{i-1},x_i]) 2h_i \right) &\\
 &= \frac{2}{h_i} \left( 2 \tau_i - 3 \delta y[x_{i-1},x_i] + \tau_{i-1} \right)
 \intertext{Ebenso zeigt man:}
 s_{i+1}''(x_i) &= -\frac{2}{h_{i+1}} \left( 2 \tau_i - 3 \delta y[x_{i},x_{i+1}] + \tau_{i+1} \right)
@@ -1150,17 +1151,17 @@ $$PA = LR,$$
 wobei 
 $$L = 
 \begin{bmatrix} 
-1 &&& 0 &\\
-l_{21} & \ddots &\\
-\vdots &\ddots& \ddots &\\
-l_{n1} &\dots& l_{n(n-1)}& 1 &\\
+1 &&& 0 \\
+l_{21} & \ddots \\
+\vdots &\ddots& \ddots \\
+l_{n1} &\dots& l_{n(n-1)}& 1 \\
 \end{bmatrix}$$
 $$R = 
 \begin{bmatrix} 
-r_{11} & r_{12} & \dots & r_{1n} &\\
-& \ddots &  & \vdots &\\
-&\\
-0&&& r_{nn} &\\
+r_{11} & r_{12} & \dots & r_{1n} \\
+& \ddots &  & \vdots \\
+\\
+0&&& r_{nn} \\
 \end{bmatrix}$$
 und $P$ eine Permutationsmatrix ist.
 \begin{proof}[Beweis]
@@ -1169,11 +1170,11 @@ Bezeichne mit $L_i \in \mathbb{R}^{n\times n}$:
 $$L_i = 
 \begin{bmatrix}
 1 &&&&&0\\
-& \ddots &\\
-&& 1 &\\
-&& -l_{i+1,i} &  &\\
-&& \vdots &&\ddots&\\
-&& \underbrace{-l_{n,i}}_{\text{i-te Spalte}} &&&1 &\\
+& \ddots \\
+&& 1 \\
+&& -l_{i+1,i} &  \\
+&& \vdots &&\ddots\\
+&& \underbrace{-l_{n,i}}_{\text{i-te Spalte}} &&&1 \\
 \end{bmatrix}$$
 Damit ist
 \begin{align*}
@@ -1185,12 +1186,12 @@ R &= A^{(n-1)} = L_{n-1}L_{n-2} ... L_1 A &\\
 Setzt man 
 $$V_i = 
 \begin{bmatrix}
-0 &\\
-& \ddots &\\
-&& 0 &\\
-&& l_{i+1,i} &  &\\
+0 \\
+& \ddots \\
+&& 0 \\
+&& l_{i+1,i} &  \\
 && \vdots &&\ddots&\\
-&& \underbrace{l_{n,i}}_{\text{i-te Spalte}} &&&0 &\\
+&& \underbrace{l_{n,i}}_{\text{i-te Spalte}} &&&0 \\
 \end{bmatrix}
 \in \mathbb{R}^{n\times n}$$
 so ist $L_i = I_n - V_i$, da $V_iV_k = 0$ für $i \leq k$.\\\\
@@ -1335,10 +1336,10 @@ und damit erhält man für
     Nehme Pivotelement im $(k+1)$-ten Schritt
     $$a_{j(k+1)}^{(k)} \quad \text{mit} \quad \vert a_{j(k+1)}^{(k)} \vert = \max_{i=k+1,...,n} \vert a_{i(k+1)}^{(k)} \vert, $$
     d.h. das betragsmäßig größte Element der $(k+1)$-ten Spalte von $A^{(k)}$ unterhalb der Diagonalen inklusive des Diagonalelements. \\
-    \begin{figure}[!htb]
-    \centering
-    \includegraphics[width=6cm]{Bild4.png}
-    \end{figure}\\
+%    \begin{figure}[!htb]
+%    \centering
+%    \includegraphics[width=6cm]{Bild4.png}
+%    \end{figure}\\
     Damit erreicht man
     $$ \vert l_{i, (k+1)} \vert = \frac{\vert a_{i, k+1}^{(k)} \vert }{ \vert a_{k+1, k+1}^{(k)} \vert} \leq 1, \quad i=k+2,...,n$$
 \end{description}
@@ -1353,17 +1354,230 @@ $$\forall x \in \mathbb{R}^n: \medspace x^T Ax > 0$$
 \end{definition}
 
 \begin{theorem}
-Sei $A$ symmtrisch positiv definit (spd), $A \in \mathbb{R}^{n\times n}$. Dann gilt:
+Sei $A$ symmtrisch positiv definit (kurz: spd), $A \in \mathbb{R}^{n\times n}$. Dann gilt:
 \begin{enumerate}
   \item[i)] Die Gaußelimination kann ohne Zeilenvertauschungen durchgeführt werden
   \item[ii)] Für die Zerlegung $A=LR$ gilt $R = DL^T$ für eine Diagonalmatrix 
   $$D =
   \begin{bmatrix}
-  r_1 && 0 &\\
-  & \ddots &\\
-  0 && r_{nn} &\\
+  r_1 && 0 \\
+  & \ddots \\
+  0 && r_{nn} \\
   \end{bmatrix}, \quad \text{wobei }\forall i = 1,...,n: \medspace r_{ii} > 0$$ 
 \end{enumerate}
+\begin{proof}[Beweis]
+Es gilt: $a_{11} = e_{1}^T A e_1 > 0$, da $A$ spd, wobei $e_1 = (1,0,...,0)^T \in \mathbb{R}^n$ der 1. kanonische Basisvektor ist. Also ist $a_{11}$ ein möglicher Pivot. Schreibe $A$ nun als:
+$$\left[
+\begin{array}{c|c}
+a_{11} & z^T \\
+\hline
+z & C \\
+\end{array}
+\right]$$
+wobei $z = (a_{21}, ..., a_{n1})^T \in \mathbb{R}^{n-1}$ und $C$ eine symmetrische $(n-1)\times(n-1)$-Matrix ist. \\
+Nun ist 
+$$A^{(1)} = \left[
+\begin{array}{c|c}
+a_{11} & z^T \\
+\hline
+0 & C^{(1)} \\
+\end{array}
+\right]$$
+$C^{(1)}$ ist symmetrisch, da 
+$$c_{ij}^{(1)} = a_{ij} - \underbrace{\frac{a_{i1}}{a_{11}}}_{= l_{i1}} a_{1j} = a_{ji} - \underbrace{\frac{a_{j1}}{a_{11}}}_{= l_{j1}} a_{1i} = c_{ji}^{(1)}$$
+Also ist $C^{(1)}$ insbesondere spd., da für 
+$\left(
+\begin{array}{c}
+x_1 \\
+\hline
+\vdots \\
+y \\
+\vdots \\
+\end{array}
+\right) \neq 0 $ gilt:
+$$ 0 < 
+\left(
+\begin{array}{c}
+x_1 \\
+\hline
+\vdots \\
+y \\
+\vdots \\
+\end{array}
+\right)^T
+A
+\left(
+\begin{array}{c}
+x_1 \\
+\hline
+\vdots \\
+y \\
+\vdots \\
+\end{array}
+\right) 
+=
+\left(
+\begin{array}{c}
+x_1 \\
+\hline
+\vdots \\
+y \\
+\vdots \\
+\end{array}
+\right) 
+\left[
+\begin{array}{c|c}
+a_{11} & z^T \\
+\hline
+z & C \\
+\end{array}
+\right]
+\left(
+\begin{array}{c}
+x_1 \\
+\hline
+\vdots \\
+y \\
+\vdots \\
+\end{array}
+\right) 
+= a_{11} x_1^2 + \underbrace{y^Tzx_1 + x_1 z^Ty}_{=2x_1y^Tz} +y^T Cy$$
+Weiter ist:
+$$ y^T C^{(1)} y = y^TCy - \frac{1}{a_{11}} y^Tzz^Ty = y^TCy - \frac{1}{a_{11}}(y^Tz)^2$$
+Wählt man nun $x_1 = -\frac{y^Tz}{a_{11}}$, so gilt:
+\begin{align*}
+0 &< a_{11} \left(- \frac{y^Tz}{a_{11}} \right)^2 - 2 \frac{y^Tz}{a_{11}} y^Tz + y^TCy &\\
+&= -\frac{(y^Tz)^2}{a_{11}} + y^TCy &\\
+&= y^TC^{(1)}y
+\end{align*}
+für beliebiges $y \in \mathbb{R}^{n-1}\setminus \{0\}$. \\
+Induktiv folgt dann $a_{22}^{(1)} > 0$ $C^{(2)}$ spd, ...\\\\
+Zeige nun noch ii):\\
+Es gilt 
+$$l_{i1} = \frac{a_{i1}}{a_{11}} = \frac{a_{i1}}{r_{11}} = \frac{r_{1i}}{r_{11}}$$
+da $r_{1i} = a_{1i} = a_{i1}$ für $i=2,...,n$.\\
+Außerdem gilt
+$$l_{i2} = \frac{a_{i2}}{a_{22}} = \frac{a_{i2}}{r_{22}} = \frac{r_{2i}}{r_{22}}$$
+da $r_{2i} = a_{2i}^{(1)} = a_{i2}^{(1)}$ für $i=3,...,n$.\\
+Allgemein gilt also
+$$\forall i > j: \medspace l_{ij} = \frac{r_{ji}}{r_{jj}},$$
+wobei $r_{ii} = a_{ii}^{(i-1)} > 0$ und $r_{ij} = l_{ij} * r_{jj} = r_{jj} * l_{ij}$, d.h. $R = DL^T$ für 
+$$D =
+  \begin{bmatrix}
+  r_1 && 0 \\
+  & \ddots \\
+  0 && r_{nn}\\
+  \end{bmatrix}
+$$
+Es wird die i-te Zeile von $L^T$ mit $r_{ii}$ skaliert.
+\end{proof}
 \end{theorem}
+
+\begin{comment*}
+Wegen $R_{ii} > 0$ ist $D = D^{\nicefrac{1}{2}}D^{\nicefrac{1}{2}}$ mit 
+$$D^{\nicefrac{1}{2}} =
+  \begin{bmatrix}
+  \sqrt{r_1} && 0 \\
+  & \ddots \\
+  0 && \sqrt{r_{nn}} \\
+  \end{bmatrix}
+$$
+Damit erhält man für $\tilde{L} = LD^{\nicefrac{1}{2}}$ (Spaltenskalierung)
+$$A = LDL^T = LD^{\nicefrac{1}{2}}D^{\nicefrac{1}{2}}L^T = (LD^{\nicefrac{1}{2}})(LD^{\nicefrac{1}{2}})^T = \tilde{L}\tilde{L}^T$$
+Wir bezeichnen die Elemente von $\tilde{L}$ wieder mit $l_{ij}$:
+$$\tilde{L} =
+  \begin{bmatrix}
+  l_{11} && 0 \\
+  \vdots& \ddots \\
+  l_{1n} &\dots& l_{nn} \\
+  \end{bmatrix}
+$$
+Diese $l_{ij}$'s lassen sich direkt aus der Gleichung $A = \tilde{L}\tilde{L}^T$ berechnen.
+\begin{align*}
+\begin{bmatrix}
+  l_{11} && 0 \\
+  \vdots& \ddots \\
+  l_{1n} &\dots& l_{nn} \\
+\end{bmatrix}
+\begin{bmatrix}
+  l_{11} &\dots& l_{n1} \\
+  & \ddots &\vdots\\
+  0 && l_{nn}\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  a_{11}&a_{12} \\
+  a_{12}&a_{22}&a_{32} \\
+  &&\ddots \\
+  &&&a_{nn} \\
+\end{bmatrix}
+\end{align*}
+Nun folgt:
+\begin{align*}
+&l_{11}^2 = a_{11} > 0 \quad \Rightarrow \quad l_{11} = \sqrt{a_{11}} &\\
+&l_{11}l_{i1} = a_{i1} \quad \Rightarrow \quad l_{i1} = \frac{a_{i1}}{l_{11}} &\\
+\intertext{allgemein gilt:}
+&a_{kk} = l_{k1}^2 + l_{k2}^2 + ... + l_{kk-1}^2 + l_{kk}^2 &\\
+&l_{kk} = \left( a_{kk} - \sum_{j=1}^{k-1}l_{kj}^2 \right) ^{\nicefrac{1}{2}}
+\intertext{und für $i > k$:}
+& a_{ik} = l_{i1}l_{k1} + l_{i2}l_{k2} + ... + l_{ik-1}l_{kk-1} + l_{ik}l_{kk} \\
+&l_{ik} = \frac{\left(a_{ik} - \sum_{j=1}^{k-1} l_{ij}l_{kj} \right)}{l_{kk}}
+\end{align*}
+\underline{Choleski-Verfahren:}
+\begin{algorithmic}
+\FOR{$k = 1,...,n$}
+  \STATE $l_{kk} = \left( a_{kk} - \sum_{j=1}^{k-1}l_{kj}^2 \right) ^{\nicefrac{1}{2}}$
+  \FOR{$i=k+1,...,n$}
+    \STATE $l_{ik} = \nicefrac{\left(a_{ik} - \sum_{j=1}^{k-1} l_{ij}l_{kj} \right)}{l_{kk}}
+$
+  \ENDFOR
+\ENDFOR
+\end{algorithmic}
+Nun stellen sich folgende zwei Fragen:
+\begin{itemize}
+  \item Wie wirken sich Störungen in $A$ und $b$ auf die Lösung von $Ax=b$ aus?
+  \item Wie wirken sich Rundungsfehler im Verfahren auf die berechnete Lösung aus?
+\end{itemize}
+\end{comment*}
+
+\subsection{Matrixnormen}
+
+\begin{definition}
+Die Abbildung $\Vert \cdot \Vert: \mathbb{R}^n \rightarrow \mathbb{R}^n, \medspace x \mapsto \Vert x \Vert$ ist eine Norm auf dem $\mathbb{R}$- Vektorraum $\mathbb{R}^n$, falls gilt:
+\begin{enumerate}
+  \item[i)] $\forall x \in \mathbb{R}^n: \medspace \Vert x \Vert \geq 0$
+  \item[ii)] $\Vert x \Vert = 0 \Rightarrow \medspace x = 0 \in \mathbb{R}^n$
+  \item[iii)] $\forall \alpha \in \mathbb{R} \forall x \in \mathbb{R}^n: \medspace \Vert \alpha x \Vert = \vert \alpha \vert \Vert x \Vert $
+  \item[iv)] $\Vert x + y \Vert \leq \Vert x \Vert + \Vert y \Vert $
+\end{enumerate}
+\end{definition}
+
+\begin{example} \leavevmode
+\begin{enumerate}
+  \item[i)] $ \Vert x \Vert_1 = \sum_{j=1}^n \vert x_j \vert$ für $x=(x_1, ...,x_n)^T$
+  \item[ii)] $ \Vert x \Vert_2 = \left( \sum_{j=1}^n \vert x_j \vert ^2 \right)^{\nicefrac{1}{2}}$ oder allgemein $\Vert x \Vert_p = \left( \sum_{j=1}^n \vert x_j \vert ^2p\right)^{\nicefrac{1}{p}}$ für $ 1\leq p < \infty$
+  \item[iii)] $\Vert x \Vert_{\infty} = \max_{i=1,...,n} \vert x_i\vert$
+\end{enumerate}
+\end{example}
+
+\begin{definition}
+Sei $A\in \mathbb{R}^{m \times n}$, d.h. $A: \mathbb{R}^n \rightarrow \mathbb{R}^m$ linear. Nun heißt
+$$\Vert A \Vert_{a \rightarrow b} := \sup_{x \notin \mathcal{O}_n, \thinspace x \in \mathbb{R}^n} \frac{\Vert Ax \Vert_a}{\Vert x\Vert_b}$$
+die von den Vektorraumnormen induzierte Norm. Schreibe einfach nur $\Vert \cdot \Vert$.
+\end{definition}
+
+\begin{comment}
+Es gilt für die in (18.3) definierte Matrixnorm
+\begin{enumerate}
+  \item[i)] $\forall x \in \mathbb{R}^n: \medspace \Vert Ax \Vert \leq \Vert A \Vert \Vert x \Vert$ \\
+  $\Vert A \Vert$ ist die kleinste Zahl mit dieser Eigenschaft
+  \item[ii)] $\Vert A \Vert \geq 0$. $\Vert A \Vert = 0 \Rightarrow \medspace A = 0$
+  \item[iii)] $\Vert \alpha A \Vert = \vert \alpha \vert \Vert A \Vert$
+  \item[iv)] $\Vert A + B \Vert \leq \Vert A \Vert + \Vert B \Vert$.\\
+	Damit ist $\Vert \cdot \Vert$ tatsächlich eine Norm.
+  \item[v)] $\Vert I \Vert = 1$ falls $m=n$, $\Vert \cdot \Vert_{\mathbb{R}^m} = \Vert \cdot \Vert_{\mathbb{R}^n}$
+  \item[vi)] $\Vert AB \Vert \leq \Vert A \Vert \thinspace \Vert B \Vert$ (Submultiplikativität)
+\end{enumerate}
+\end{comment}
 %entklammere Graphiken mit \includegraphics wieder 
 \end{document}
