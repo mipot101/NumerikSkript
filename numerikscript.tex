@@ -1069,10 +1069,10 @@ Newtonschema und Newtoninterpolationspolynome liefert das Ergebnis.
     Annahme: $\alpha$ ist konstant in jeder Volumenzelle (Voxel) $\Rightarrow$\\
     $\Delta I = \sum_{j \in \text{Voxel}} \alpha_j l_j$\\
     $l_j$: Länge des Weges $[a,b]$ in Voxel $j$\\
-    Viele Strahlen: $L_j(t) = \omega ( \phi_j ) s_j + \omega^{\perp} ( \phi_j ) t$\\
+    Viele Strahlen: $L_j(t) = \omega ( \varphi_j ) s_j + \omega^{\perp} ( \varphi_j ) t$\\
     %\includegraphics[width=8cm]{Bild2.png}\\
-    $\omega(\phi_j) = (\cos(\phi_j), \sin(\phi_j))$\\
-    $\omega^{\perp}(\phi_j) = (-\sin(\phi_j), \cos(\phi_j))$ \\\\
+    $\omega(\varphi_j) = (\cos(\varphi_j), \sin(\varphi_j))$\\
+    $\omega^{\perp}(\varphi_j) = (-\sin(\varphi_j), \cos(\varphi_j))$ \\\\
     $\begin{bmatrix} 
     l_{11} & l_{12} & \dots & l_{1M} \\
     \vdots & \vdots & & \vdots \\
@@ -1265,11 +1265,11 @@ Durch den Computer kommen folgende Einschränkungen hinzu:
   \item[Beispiel] $\thinspace$\\
     Betrachte den Standard IEEE 754.\\
     Dieser stellt eine Zahl mit einfacher Genauigkeit dar zur Basis $B=2$ mit $l=32$ und $[e_{\min}, e_{\max}] = [-128, 127]$.
-    \begin{figure}[!htb]
-      \centering
-      \includegraphics[width=10cm]{Bild3.png}
-      \caption{From https://de.wikipedia.org/wiki/IEEE\_754}
-    \end{figure}\\
+%    \begin{figure}[!htb]
+%      \centering
+%      \includegraphics[width=10cm]{Bild3.png}
+%      \caption{From https://de.wikipedia.org/wiki/IEEE\_754}
+%    \end{figure}\\
     Der Wert lässt sich berechnen aus
     $$(-1)^{\sigma} * (1,m) * 2^{\sum_{j} e_j^{2^j} - 127}$$
     Dabei ist $m$ binär dargestellt.
@@ -1567,11 +1567,11 @@ die von den Vektorraumnormen induzierte Norm. Schreibe einfach nur $\Vert \cdot 
 \end{definition}
 
 \begin{comment}
-Es gilt für die in (18.3) definierte Matrixnorm
+Sei $A \in \mathbb{R}^{n\times m}$, $\alpha \in \mathbb{R}$ Es gilt für die in (18.3) definierte Matrixnorm
 \begin{enumerate}
   \item[i)] $\forall x \in \mathbb{R}^n: \medspace \Vert Ax \Vert \leq \Vert A \Vert \Vert x \Vert$ \\
   $\Vert A \Vert$ ist die kleinste Zahl mit dieser Eigenschaft
-  \item[ii)] $\Vert A \Vert \geq 0$. $\Vert A \Vert = 0 \Rightarrow \medspace A = 0$
+  \item[ii)] Es gilt $\Vert A \Vert \geq 0$. Weiter gilt $\Vert A \Vert = 0 \Rightarrow \medspace A = 0$
   \item[iii)] $\Vert \alpha A \Vert = \vert \alpha \vert \Vert A \Vert$
   \item[iv)] $\Vert A + B \Vert \leq \Vert A \Vert + \Vert B \Vert$.\\
 	Damit ist $\Vert \cdot \Vert$ tatsächlich eine Norm.
@@ -1579,5 +1579,116 @@ Es gilt für die in (18.3) definierte Matrixnorm
   \item[vi)] $\Vert AB \Vert \leq \Vert A \Vert \thinspace \Vert B \Vert$ (Submultiplikativität)
 \end{enumerate}
 \end{comment}
+
+\begin{theorem}
+Sei $A = (a_{ij})_{i,j=1}^{m,n} \in \mathbb{R}^{m \times n}$. Es gilt für $\Vert A \Vert_p = \sup_{x \neq 0} \frac{\Vert Ax \Vert_p}{\Vert x \Vert_p}$ für $p \geq 1$
+\begin{enumerate}
+  \item[i)] $\Vert A \Vert_1 = \max_{j=1,...,n} \sum_{i=1}^m \vert a_{ij} \vert$ ist die maximale Spaltenbetragssumme
+  \item[ii)] $\Vert A \Vert_2$ ist die Wurzel des größten Eigenwerts von $A^TA$
+  \item[iii)] $\Vert A \Vert_{\infty} = \max_{i=1,...,m} \sum_{j=1}^n \vert a_{ij} \vert$ ist die maximale Zeilenbetragssumme
+\end{enumerate}
+\begin{proof}[Beweis]\leavevmode
+\begin{enumerate}
+  \item[i) + iii)] Übungsaufgabe
+  \item[ii)] $A^TA$ ist symmetrisch und positiv semidefinit. Es gilt nämlich 
+  \begin{align*}
+  &(A^TA)^T = A^T A^{T^T} = A^TA &\\
+  \intertext{und}
+  &x^TA^TAx = (Ax)^T Ax = {\Vert Ax \Vert_2}^2 \geq 0 &\\
+  \end{align*} 
+  Damit ist $A^TA$ orthogonal diagonalisierbar, d.h. es ex. $Q$ mit $Q^TQ = I$ sodass $Q^TA^TAQ = D$ mit 
+  $$D = 
+  \begin{bmatrix}
+  \lambda_1 \\
+  & \ddots \\
+  && \lambda_m
+  \end{bmatrix}$$
+  wobei $\lambda_j \geq 0 \medspace(j=1,...,m)$ die Eigenwerte von $A^TA$ sind.\\
+  Damit ist
+  \begin{align*}
+  {\Vert Ax \Vert_2}^2 &= x^TA^TAx \underset{x = Qy}{=} y^TQ^TA^TAQy = \sum_{j=1}^m \lambda_j y_j^2 \\
+  & \leq \lambda_{\max} \sum_{j=1}^m y_j^2 = \lambda_{\max} y^Ty = \lambda_{\max} {\Vert y \Vert_2}^2 = \lambda_{\max} {\Vert x \Vert_2}^2
+  \end{align*}
+  $\Rightarrow \medspace \Vert A \Vert_2 \leq \sqrt{\lambda_{\max}}$ für den größten Eigenwert $\lambda_{\max}$ von $A^TA$.\\
+  Sei $\tilde{x} = Q\tilde{y}$ mit $\tilde{y} = (0,...,0,\underset{\text{$j_0$-ter Eintrag}}{1},0,...,0)^T$ mit $\lambda_{j_0} = \lambda_{\max}$. Dann ist ${\Vert A\tilde{x} \Vert_2}^2 = \lambda_{\max} {\Vert \tilde{x} \Vert_2}^2 \Rightarrow \medspace \Vert A \Vert_2 = \sqrt{\lambda_{\max}}$.
+\end{enumerate}
+\end{proof}
+\end{theorem}
+
+\subsection{Kondition eines Problems}
+
+\begin{definition}
+Seien $X,Y$ normierte Vektorräume $(X, \Vert \cdot \Vert_X)$, $(Y, \Vert \cdot \Vert_Y)$. Ein Problem bzw. eine Problemstellung ist eine Abbildung $f:X \rightarrow Y$, wobei $X$ die Eingaben und $Y$ die Ausgaben enthält.
+\end{definition}
+
+\begin{example}
+Sei $X = Y = \mathbb{R}^2$ und $\Vert \cdot \Vert_X = \Vert \cdot \Vert_Y = \Vert \cdot \Vert_2$.
+\begin{enumerate}
+  \item[i)] $f: (x_1, x_2) \mapsto A \left(\begin{matrix} x_1 \\x_2 \end{matrix} \right)$ für eine $2 \times 2$ Matrix $A$. "Anwendung der linearen Abbildung $A$"
+  \item[ii)] $f: (p,q) \mapsto \text{Wurzeln von $z^2 + pz + q = 0$}$. "Berechnung der Wurzeln eines normierten quadratischen Polynoms"
+\end{enumerate}
+\end{example}
+
+\begin{definition}[Absolute Kondition]
+Seien $X, Y$ normierte Vektorräume $f: X \rightarrow Y$ ein Problem. Die \textbf{absolute Kondition} von $f$ in $x \in X$ ist 
+$$\kappa_{\text{abs}}(f,x) := \lim_{\delta \rightarrow 0} \sup_{\Vert z \Vert_X \leq \delta} \frac{\Vert f(x+z) - f(x) \Vert_Y}{\Vert z \Vert_X} $$
+%    \begin{figure}[!htb]
+%    \centering
+%    \includegraphics[width=16cm]{Bild5.png}
+%    \end{figure}\\
+\end{definition}
+
+\begin{lemma}
+Sei $f: (\mathbb{R}, \Vert \cdot \Vert) \rightarrow (\mathbb{R}, \Vert \cdot \Vert)$ differenzierbar, so gilt
+$$\kappa_{\text{abs}}(f,x) = \vert f'(x) \vert$$
+\begin{proof}[Beweis]
+Übungsaufgabe.
+\end{proof}
+\end{lemma}
+
+\begin{definition}[Relative Kondition]
+Seien $X, Y$ normierte Räume, $f: X \rightarrow Y$ ein Problem. Die \textbf{relative Kondition} von $f$ in $x \in X$ ist
+$$\kappa_{\text{rel}}(f,x) := \lim_{\delta \rightarrow 0} \sup_{\Vert z \Vert_X \leq \delta} \frac{\frac{\Vert f(x+z) - f(x) \Vert_Y}{\Vert f(x) \Vert_Y}}{\frac{\Vert z \Vert_X}{\Vert x \Vert_X}} $$
+d.h. $\kappa_{\text{rel}}(f,x)$ ist die kleinste Zahl sodass 
+$$\underbrace{\frac{\Vert f(x) - f(x+z) \Vert_Y}{\Vert f(x) \Vert_Y}}_{\underset{\text{statt f(x) das Problem f(x+z) gelöst hat}}{\text{relativer Fehler in der Ausgabe, wenn man}}} \leq \kappa_{\text{rel}}(f,x) \underbrace{\frac{\Vert z \Vert_X}{\Vert x \Vert_X}}_{\text{relativer Fehler in der Eingabe}}$$
+\end{definition}
+
+\begin{example}
+Kondition der Addition:
+\begin{align*}
+&f: (\mathbb{R}^2, \Vert \cdot \Vert_1) \rightarrow (\mathbb{R}, \vert \cdot \vert), \medspace (a, b) \mapsto a+b &\\
+&\kappa_{\text{abs}}(f,(a,b)) = \lim_{\delta \rightarrow 0} \sup_{\vert \alpha \vert + \vert \beta \vert \leq \delta, \medspace z = (\alpha, \beta)} \frac{\vert a + \alpha + b + \beta - a - b \vert}{\vert \alpha \vert + \vert \beta \vert} = 1 &\\
+&\kappa_{\text{rel}}(f,(a,b)) = ... = \frac{^\vert a \vert + \vert b \vert}{\vert a+b \vert} &\\
+\end{align*}
+d.h. für die Addition zweier Zahlen mit gleichem Vorzeichen ist $\kappa_{\text{rel}} = 1$. Für Subtraktion zweier annähernd gleich großer Zahlen ist $\kappa_{\text{rel}}$ groß.
+\end{example}
+
+\begin{definition}
+Ein Problem heißt \textbf{gut konditioniert}, falls $\kappa_{\text{rel}}$ klein ist ($< 10^3$) und \textbf{schlecht konditioniert}, falls $\kappa_{\text{rel}}$ groß ist ($>10^8$).
+\end{definition}
+
+\subsection{Konditionszahl einer Matrix}
+Gegeben sei $Ax = b$. Welchen Einfluss haben Fehler in $A$ und in $b$ auf die Lösung $x$?\\
+In Form von $\S 19$: $f: (A, b) \mapsto x$. Statt $a_{ij}$ stehen nun $\tilde{a}_{ij}= a_{ij}(1+ \varepsilon_{ij})$ und statt $b_i$ nun $b_i(1+ \varepsilon_{i})$ zur Verfügung. Also $\tilde{A} \tilde{x} = \tilde{b}$. 
+
+\begin{theorem}
+Sei $A$ invertierbar, $A \in \mathbb{R}^{n \times n}$, $Ax = b$, $\tilde{A} \tilde{x} = \tilde{b}$, $x \neq 0$. \\
+Falls 
+$$ \frac{\Vert A - \tilde{A} \Vert}{\Vert A \Vert} \leq \varepsilon_A, \quad \frac{\Vert b - \tilde{b} \Vert}{\Vert b \Vert} \leq \varepsilon_b$$
+so gilt für die Lösung des LGS:
+$$\frac{\Vert \tilde{x} - x \Vert }{\Vert x \Vert} \leq \frac{\text{cond($A$)}}{1- \varepsilon_A \text{cond($A$)}}(\varepsilon_A + \varepsilon_b)$$
+falls $\varepsilon_A \text{cond($A$)} < 1$. Hierbei ist $\text{cond($A$)} = \Vert A \Vert \Vert A^-1 \Vert$ die Konditionszahl von $A$ und die Matrixnorm wird von der Vektorraumnorm induziert (vgl. 18.3)
+\begin{proof}[Beweis]
+\begin{align*}
+b - \tilde{b} &= Ax - \tilde{A}\tilde{x} &\\
+&= Ax - A\tilde{x} + A\tilde{x} - \tilde{A}\tilde{x} &\\
+&= A(x-\tilde{x}) + (A- \tilde{A})\tilde{x} &\\
+\Rightarrow x- \tilde{x} &= A^{-1} (b -\tilde{b} - (A - \tilde{A})\tilde{x}) &\\
+\Vert x - \tilde{x} \Vert & \leq \Vert A^{-1} \Vert ( \Vert b \Vert \varepsilon_b + \varepsilon_A \Vert A \Vert \Vert \tilde{x} \Vert ) &\\
+& \underset{b=Ax}{\leq} \text{cond($A$)} ( \Vert x \Vert \varepsilon_b + \varepsilon_A (\Vert \tilde{x} - x \Vert + \Vert x \Vert) &\\
+\Rightarrow (1- \text{cond($A$)} \varepsilon_A) \Vert - \tilde{x} \Vert & \leq \text{cond($A$)} \Vert x \Vert (\varepsilon_b + \varepsilon_A)
+\end{align*}
+\end{proof}
+\end{theorem}
 %entklammere Graphiken mit \includegraphics wieder 
 \end{document}
