@@ -120,7 +120,7 @@ Falls die $x_i$ äquidistant, dh. $x_i = x_0+ih$ so ist: \\
 \delta ^2 y[x_i, x_{i+1}, x_{i+2}] &= \frac{\frac{1}{h} \Delta y_{i+1} - \frac{1}{h} \Delta y_{i}}{2h} = \frac{1}{2h^2} \Delta ^2 y_i &\\
 \delta ^k y[x_i, ..., x_{i+k}] &= \frac{1}{k!h^k} \Delta^k y_i,
 \end{flalign*}
-wobei $\Delta^k := \Delta^{k-1}y_{i+1} - \Delta^{k-1}y_i$.
+    wobei $\Delta^{k}y_i := \Delta^{k-1}y_{i+1} - \Delta^{k-1}y_i$.
 \end{comment}
 
 \begin{theorem}[Newtonsche Interpolationsformel]
@@ -550,7 +550,7 @@ p(x) &= \frac{1}{2} c_0 + \sum_{l=1}^n c_l T_l(x) &\\
 &= \frac{1}{2} c_0 + \sum_{l=1}^{n-3} c_l T_l(x) + (c_{n-2} - \underbrace{c_n}_{=d_n}) T_{n-2}(x) + \underbrace{(c_{n-1} + 2xc_n)}_{=d_{n-1}} T_{n-1}(x) &\\
 &= \frac{1}{2} c_0 + \sum_{l=1}^{n-4} c_l T_l(x) + (c_{n-3} - d_{n-1}) T_{n-3}(x) + \underbrace{(c_{n-2} - d_n + 2xd_{n-1})}_{=d_{n-2}} T_{n-2}(x) &\\
 \intertext{induktiv erhält man}
-&= (\frac{1}{2} c_0 - d_2) \underbrace{T_0(x)}_{=1} + \underbrace{(c_1 - d_3 + 2xd_2)}_{=d_1} \underbrace{T_1(x)}_{=x} &\\
+&= \left(\frac{1}{2} c_0 - d_2\right) \underbrace{T_0(x)}_{=1} + \underbrace{(c_1 - d_3 + 2xd_2)}_{=d_1} \underbrace{T_1(x)}_{=x} &\\
 &= \frac{1}{2} (\underbrace{c_0 - 2d_1x - d_2}_{=d_0} -d_2) &\\
 &= \frac{1}{2} (d_0-d_2)
 \end{align*}
@@ -608,8 +608,8 @@ Das Problem $\ln(x)$ zu berechnen ist damit auf das Problem $\ln(1+t)$ für $t \
 Tschebyscheffinterpolation: $[-1, 1] \rightarrow [0,1], \medspace x \mapsto t = \frac{1+x}{2} \quad (\Leftrightarrow x=2t-1)$ \\
 Für den Interpolationsfehler gilt:
 \begin{align*}
-\ln(1+ \frac{1+x}{2}) -p(x) &= \underbrace{\prod_{j=0}^n (x-x_j)}_{=2^{-n} \text{ für Tschebyscheff}} \frac{1}{(n+1)!} \frac{(-1)^{n-1} (n-1)!}{(1+\frac{1+\xi}{2})^n} \left(\frac{1}{2}\right)^n, \quad \xi \in [-1, 1] &\\
-\Leftrightarrow \quad \vert \ln(1+ \frac{1+x}{2}) -p(x) \vert &= \frac{1}{4^n} \frac{1}{(n+1)^n}
+\ln\left(1+ \frac{1+x}{2}\right) -p(x) &= \underbrace{\prod_{j=0}^n (x-x_j)}_{=2^{-n} \text{ für Tschebyscheff}} \frac{1}{(n+1)!} \frac{(-1)^{n-1} (n-1)!}{\left(1+\frac{1+\xi}{2}\right)^n} \left(\frac{1}{2}\right)^n, \quad \xi \in [-1, 1] &\\
+\Leftrightarrow \quad \left\vert \ln\left(1+ \frac{1+x}{2}\right) -p(x) \right\vert &= \frac{1}{4^n} \frac{1}{(n+1)^n}
 \end{align*}
 Für n=15 ist $\frac{1}{4^n} \frac{1}{(n+1)^n} \leq 10^{-11}$ \\
 Berechnet werden also $c_0,..., c_{15}$ (einmal für alle Zeiten):
@@ -623,7 +623,7 @@ c_4 &= -0.00004 &\\
 \end{align*}
 Beobachtung: $c_k$ werden schnell klein.\\
 Um eine Genauigkeit von $10^{-8}$ (einfache Genauigkeit) zu erreichen, benötigt man nur $c_0,..., c_9$.\\
-Die Auswertung mit dem Clenshaw-Algorithmus benötigen wir 10 Multiplikation (vgl. Taylor $\log(1+t) = \sum_{k=1}^{\infty} \frac{(-1)^k}{k}t^k$)
+Die Auswertung mit dem Clenshaw-Algorithmus benötigen wir 10 Multiplikation $\left(\text{vgl. Taylor }\log(1+t) = \sum_{k=1}^{\infty} \frac{(-1)^k}{k}t^k\right)$.
 \end{example}
 
 \subsection{Hermit\'{e}-Interpolation}
@@ -727,7 +727,7 @@ Spline ist engl. für Holz- oder Metallfeder.\\
   \item[ii)] $s$ muss mind. 2-mal stetig differenzierbar sein und $ \int_a^b (s''(x))^2dx $ soll minimal sein. 'glatt'
 \end{enumerate}
 Dadurch vermeidet man Oszillationen, wie sie bei der Polynominterpolation hohen Grades entstehen.\\
-Wir suchen also eine Funktion $s$, sodass für $\varepsilon \in \mathbb{R}$ und $h \in \mathcal{C}^1([a,b], \mathbb{R})$, $h(x_i) = 0 \medspace (i=,...,n)$ und 
+Wir suchen also eine Funktion $s$, sodass für $\varepsilon \in \mathbb{R}$ und $h \in \mathcal{C}^2([a,b], \mathbb{R})$, $h(x_i) = 0 \medspace (i=0,\ldots,n)$ und 
 \begin{align*}
 \int_a^b (s''(x))^2 dx &\overset{!}{\leq} \int_a^b \left( (s(x) + \varepsilon h(x))'' \right)^2 dx &\\
 &= \int_a^b (s''(x) + \varepsilon h''(x))^2 dx &\\
@@ -1165,7 +1165,7 @@ r_{11} & r_{12} & \dots & r_{1n} \\
 \end{bmatrix}$$
 und $P$ eine Permutationsmatrix ist.
 \begin{proof}[Beweis]
-Nehme an, dass die notwendige Zeilenvertauschungen bereits durchgeführt wurden, d.h. ersetze $A$ durch $PA$ (Zeilen und Spalten von $P$ bestehen aus kanonischen Einheitsvektoren z.B. $ P = \begin{bmatrix} 0&1&0&\\1&0&0&\\0&0&1&\\ \end{bmatrix}$)\\
+Nehme an, dass die notwendige Zeilenvertauschungen bereits durchgeführt wurden, d.h. ersetze $A$ durch $PA$ (Zeilen und Spalten von $P$ bestehen aus kanonischen Einheitsvektoren z.B. $P = \left(\begin{smallmatrix} 0&1&0&\\1&0&0&\\0&0&1&\\ \end{smallmatrix}\right)$\Big). \\
 Bezeichne mit $L_i \in \mathbb{R}^{n\times n}$:
 $$L_i = 
 \begin{bmatrix}
@@ -1570,7 +1570,7 @@ die von den Vektorraumnormen induzierte Norm. Schreibe einfach nur $\Vert \cdot 
 Sei $A \in \mathbb{R}^{n\times m}$, $\alpha \in \mathbb{R}$ Es gilt für die in (18.3) definierte Matrixnorm
 \begin{enumerate}
   \item[i)] $\forall x \in \mathbb{R}^n: \medspace \Vert Ax \Vert \leq \Vert A \Vert \Vert x \Vert$ \\
-  $\Vert A \Vert$ ist die kleinste Zahl mit dieser Eigenschaft
+  $\Vert A \Vert$ ist die kleinste Zahl mit dieser Eigenschaft.
   \item[ii)] Es gilt $\Vert A \Vert \geq 0$. Weiter gilt $\Vert A \Vert = 0 \Rightarrow \medspace A = 0$
   \item[iii)] $\Vert \alpha A \Vert = \vert \alpha \vert \Vert A \Vert$
   \item[iv)] $\Vert A + B \Vert \leq \Vert A \Vert + \Vert B \Vert$.\\
