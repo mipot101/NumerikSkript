@@ -1677,7 +1677,7 @@ Falls
 $$ \frac{\Vert A - \tilde{A} \Vert}{\Vert A \Vert} \leq \varepsilon_A, \quad \frac{\Vert b - \tilde{b} \Vert}{\Vert b \Vert} \leq \varepsilon_b$$
 so gilt für die Lösung des LGS:
 $$\frac{\Vert \tilde{x} - x \Vert }{\Vert x \Vert} \leq \frac{\text{cond($A$)}}{1- \varepsilon_A \text{cond($A$)}}(\varepsilon_A + \varepsilon_b)$$
-falls $\varepsilon_A \text{cond($A$)} < 1$. Hierbei ist $\text{cond($A$)} = \Vert A \Vert \Vert A^-1 \Vert$ die Konditionszahl von $A$ und die Matrixnorm wird von der Vektorraumnorm induziert (vgl. 18.3)
+falls $\varepsilon_A *\text{cond($A$)} < 1$. Hierbei ist $\text{cond($A$)} = \Vert A \Vert \Vert A^-1 \Vert$ die Konditionszahl von $A$ und die Matrixnorm wird von der Vektorraumnorm induziert (vgl. 18.3)
 \begin{proof}[Beweis]
 \begin{align*}
 b - \tilde{b} &= Ax - \tilde{A}\tilde{x} &\\
@@ -1688,6 +1688,177 @@ b - \tilde{b} &= Ax - \tilde{A}\tilde{x} &\\
 & \underset{b=Ax}{\leq} \text{cond($A$)} ( \Vert x \Vert \varepsilon_b + \varepsilon_A (\Vert \tilde{x} - x \Vert + \Vert x \Vert) &\\
 \Rightarrow (1- \text{cond($A$)} \varepsilon_A) \Vert - \tilde{x} \Vert & \leq \text{cond($A$)} \Vert x \Vert (\varepsilon_b + \varepsilon_A)
 \end{align*}
+\end{proof}
+\end{theorem}
+
+\begin{comment}
+Die Abschätzung aus (20.1) ist scharf, d.h. es gibt $\tilde{A}$ und $\tilde{b}$, sodass Gleichheit gilt. Aber sie ist oft zu pessimistisch für Rundungsfehlerabschätzungen.
+\begin{description}
+  \item[Beispiel:] Betrachte folgendes Gleichungssystem: 
+    \begin{align*}
+    \underbrace{\left( \begin{matrix}
+    1 & 1 \\
+    0 & 10^{-8} \\
+    \end{matrix} \right)}_A
+    \left( \begin{matrix}x_1\\x_2\end{matrix} \right)
+    =
+    \left( \begin{matrix}b_1\\b_2\end{matrix} \right)
+    \end{align*}
+    Sei des Weiteren $\vert \varepsilon_j \vert < eps$. \\
+    Es gilt $\text{cond}_{\infty}(A) = \Vert A \Vert_{\infty} \Vert A^{-1} \Vert_{\infty} = 2 * 10^8$. Das gestörte System ist nun:
+    \begin{align*}
+    (1+ \varepsilon_1) \tilde{x}_1 + (1 + \varepsilon_2) \tilde{x}_2 &= \overbrace{b_1 ( 1+ \varepsilon_3)}^{= \tilde{b}_1} &\\
+    (1+\varepsilon_4) 10^{-8} \tilde{x}_2 &= b_2(1+\varepsilon_5)
+    \end{align*}
+    
+    \begin{align*}
+    \intertext{Mit $\frac{1}{1+\varepsilon} = 1 - \varepsilon + \varepsilon^2 - \varepsilon^3 + \varepsilon^4 - ...$ folgt}
+    &\Rightarrow \tilde{x}_2 = 10^8 b_2 \frac{1+\varepsilon_5}{1+\varepsilon_4} = 10^8 b_2(1+\varepsilon_5 - \varepsilon_4) + \mathcal{O}(eps^2) &\\
+    &\Rightarrow \frac{\vert x_2 - \tilde{x}_2 \vert}{\vert x_2 \vert} \leq 2 eps 
+    \end{align*}
+    
+    \begin{alignat*}{2}
+    &\tilde{x}_1 &&= [b_1(1+\varepsilon_3) - x_2(1+\varepsilon_5 - \varepsilon_4 + \varepsilon_3)] (1-\varepsilon_1) + \mathcal{O}(eps^2) \\
+    & &&= [x_1 + \underbrace{b_1}_{=x_1 + x_2} \varepsilon_3 - x_2(\varepsilon_5 - \varepsilon_4 + \varepsilon_2)] (1-\varepsilon_1) + \mathcal{O}(eps^2)
+    \end{alignat*}
+    
+    \begin{align*}
+    &\tilde{x}_1-x_1 = x_1(-\varepsilon_1 + \varepsilon_3) - x_2(-\varepsilon_3 + \varepsilon_5 - \varepsilon_4 + \varepsilon_2) + \mathcal{O}(eps^2)&\\
+    &\frac{\vert \tilde{x}_1 - x_1 \vert}{\vert x_1 \vert} \leq ( 2 + 4 \frac{\vert x_2 \vert}{\vert x_1 \vert} ) eps
+    \end{align*}
+    Dieser Wert kann sehr groß werden für $\frac{\vert x_2 \vert}{\vert x_1 \vert} \rightarrow \infty$, aber $\frac{\vert \tilde{x}_1 - x_1 \vert}{\Vert x_1 \Vert_{\infty}} \leq 6eps$.
+\end{description} 
+\end{comment}
+
+\begin{lemma}
+Sei $A \in \mathbb{R}^{n \times n}$ invertierbar. Dann gilt:
+\renewcommand{\labelenumi}{\roman{enumi})}
+\begin{enumerate}
+  \item $\text{cond}(A) \geq 1$
+  \item $\forall \alpha \in \mathbb{R}\setminus \{0\}: \medspace \text{cond}(\alpha A) = \text{cond}(A)$
+  \item $ \text{cond}(A) = \frac{\max_{\Vert y \Vert = 1} \Vert Ay \Vert}{\min_{\Vert x \Vert = 1} \Vert A^{-1}x \Vert}$
+\end{enumerate}
+\begin{proof}[Beweis]
+Übungsaufgabe.
+\end{proof}
+\end{lemma}
+
+\begin{example}\leavevmode
+\renewcommand{\labelenumi}{\theenumi) }
+\begin{enumerate}
+  \item Matrizen mit kleiner Konditionszahl:
+    \begin{itemize}
+      \item $I$ mit $\text{cond}(I) = 1$
+      \item orthogonale Matrizen $Q$ ($Q^TQ = I$)
+        \begin{align*}
+        &{\Vert Qx \Vert_2}^2 = x^TQ^T Q x = x^Tx = {\Vert x \Vert_2}^2 \Rightarrow \Vert Q \Vert_2 = 1 &\\
+        & Q^{-1} = Q^T \Rightarrow \Vert Q^{-1} \Vert_2 = 1 \Rightarrow \text{cond}_2(Q) = 1
+        \end{align*}
+      \item Splineinterpolationsmatrix ($h_i = h$)
+        \begin{align*}
+        &A = \frac{1}{h} \left[ \begin{matrix} 4 & 1 & & 0 \\ 1 & \ddots & \ddots \\  & \ddots & & 1 \\ 0 & & 1 & 4\end{matrix} \right], \quad \Vert A \Vert_{\infty} = 6 &\\
+        &A = 4(I+N) \quad \text{mit } N = \left[ \begin{matrix} 0 & \nicefrac{1}{4} & & 0 \\ \nicefrac{1}{4} & \ddots & \ddots \\  & \ddots & & \nicefrac{1}{4} \\ 0 & & \nicefrac{1}{4} & 0 \end{matrix} \right] &\\
+        &A^{-1} = \nicefrac{1}{4}(I+N)^{-1} = \nicefrac{1}{4} (I-N+N^2-N^3 + ...), \quad \Vert N \Vert_{\infty} = \nicefrac{1}{2} &\\
+        &\Vert A ^{-1} \Vert \leq \nicefrac{1}{4}(\Vert I \Vert + \Vert N \Vert + \Vert N \Vert ^2 + ...) = \nicefrac{1}{2}
+        \end{align*}
+    \end{itemize}
+  
+  \item Matrizen mit großer Konditionszahl: 
+    \begin{itemize}
+      \item Hilbertmatrix $H = \left(\frac{1}{i+j-1}\right)_{i,j=1}^n$
+        $$ H = \left[ \begin{matrix}1 & \nicefrac{1}{2} & \nicefrac{1}{3} & \nicefrac{1}{4} & \dots \\ \nicefrac{1}{2} & \nicefrac{1}{3} & \nicefrac{1}{4} \\ \nicefrac{1}{3} & \nicefrac{1}{4} \\ \nicefrac{1}{4} \\ \vdots \end{matrix} \right]$$
+        Für $n \in \{1,..., 10\}$ ergibt sich folgende Tabelle:\\
+        \begin{tabular}{c|c}
+        $n$ & $\text{cond}_2(A)$ \\
+        \hline
+        1 & 1 \\
+        2 & 27 \\
+        3 & 740 \\
+        4 & 2300 \\
+        \vdots & \vdots \\
+        10 & $35 * 10^{13}$
+        \end{tabular}
+    \end{itemize}
+\end{enumerate}
+\end{example}
+
+\subsection{Stabilität von Verfahren}
+\begin{definition}
+Ein Verfahren zur Auswertung eines Problems $f$ ist die Hintereinanderausführung von elementaren Operationen $\tilde{f}_k$ \\
+$\tilde{f} = \tilde{f}_n \circ \tilde{f}_{n-1} \circ ... \circ \tilde{f}_1, \quad \tilde{f}_k \in \{ +, -, *, /, fl, \sqrt{\cdot}, ...\} $
+\end{definition}
+
+\begin{definition}
+Ein Verfahren zur Auswertung des Problems $f$ ist stabil im Sinne der Vorwärtsanalysis, falls 
+$$\tilde{f}(x) - f(x) \Vert < C * eps *  \Vert f(x) \Vert$$
+für eine nicht zu große Konstante $C$.
+\end{definition}
+
+\begin{example}
+Berechnung von $\frac{1}{x(x-1)}$ für $x = 10^4$.
+\renewcommand{\labelenumi}{\theenumi) }
+\begin{enumerate}
+  \item
+    \begin{tabular}{ccccccc}
+    &\rotatebox[origin=r]{30}{$\rightarrow$} & $fl(x)$ & \rotatebox[origin=l]{-30}{$\rightarrow$} \\
+    x &&&&$fl(x(x-1))$& $\rightarrow$ & $fl(\frac{1}{x(x-1)})$ \\
+    &\rotatebox[origin=r]{-30}{$\rightarrow$} & $fl(x-1)$ & \rotatebox[origin=l]{30}{$\rightarrow$} 
+    \end{tabular}
+    
+  \item
+    \begin{tabular}{cccccccc}
+    &\rotatebox[origin=r]{30}{$\rightarrow$} & $fl(x)$ & $\rightarrow$ & $fl(\frac{1}{x})$ & \rotatebox[origin=l]{-30}{$\rightarrow$} \\
+    x &&&&&& $fl(-\frac{1}{x} + \frac{1}{x-1})$ \\
+    &\rotatebox[origin=r]{-30}{$\rightarrow$} & $fl(x-1)$ & $\rightarrow$ & $fl(\frac{1}{x-1})$ & \rotatebox[origin=l]{30}{$\rightarrow$} 
+    \end{tabular}
+\end{enumerate}
+Verfahren 2) ist nicht stabil, da $\frac{1}{x} \approx \frac{1}{x-1}$, falls $x=10^4$ gilt und die Subtraktion im letzten Schritt schlecht konditioniert ist. 
+\end{example}
+
+\begin{definition}
+Ein Verfahren $\tilde{f}$ zur Auswertung eines Problems $f$ ist stabil im Sinne der Rückwärtsanalysis, falls für jedes $x \in X$ ein $\tilde{x} \in X$ existiert, sodass
+$$ \tilde{f}(x) = f(\tilde{x}) \quad \text{mit } \frac{\Vert \tilde{x} - x \Vert }{\Vert x \Vert} \leq C*eps$$
+für eine nicht zu große Konstante $C$. Die berechnete Lösung $\tilde{f}(x)$ kann als exakte Lösung eines benachbarten Problems $f(\tilde{x})$ aufgefasst werden.
+\end{definition}
+
+\begin{example}
+Zur Berechnung von $x_1x_2 + x_3x_4$ verwendet man:\\
+\begin{tabular}{ccccc}
+&\rotatebox[origin=c]{30}{$\underrightarrow{\cdot}$} & $x_1x_2$ & \rotatebox[origin=l]{-30}{$\rightarrow$} \\
+$(x_1, x_2, x_3, x_4)$ & & & + & $x_1x_2 + x_3x_4$ \\
+&\rotatebox[origin=c]{-30}{$\overrightarrow{\cdot}$} & $x_1x_2$ & \rotatebox[origin=l]{30}{$\rightarrow$} \\
+\end{tabular}\\
+und erhält unter Berücksichtigung von Rundungsfehlern\\
+$$\left[(x_1 ( 1 + \varepsilon_1) x_2(1+\varepsilon_2))(1+\eta_1) + (x_3(1+\varepsilon_3)x_4(1+\varepsilon_4))(1+\eta_2)\right](1+\eta_3) \quad \text{für $\vert \varepsilon_j \vert, \vert \eta_j \vert \leq eps$}$$
+Das ist das exakte Ergebnis für 
+\begin{flalign*}
+&\tilde{x}_1 = x_1(1+ \varepsilon_1)(1+\eta_1)(1+\eta_3)&\\
+&\tilde{x}_2 = x_2(1+ \varepsilon_2)(1+\eta_1)(1+\eta_3)&\\
+&\tilde{x}_3 = x_3(1+ \varepsilon_3)(1+\eta_2)(1+\eta_3)&\\
+&\tilde{x}_4 = x_4(1+ \varepsilon_4)(1+\eta_2)(1+\eta_3)
+\end{flalign*}
+Die Konstante $C$ in (21.4) ist etwa 3, wenn man Produkte von $\varepsilon_j$ und $\eta_j$ vernachlässigt. Das Verfahren ist also rückwärtsstabil, auch wenn evtl. das Problem schlecht konditioniert ist.
+\end{example}
+
+\begin{theorem}[Stabilität der Gaußelimination (LR-Zerlegung)]
+Sei $A \in \mathbb{R}^{n \times n}$ invertierbar und $\hat{L}\hat{R}$ das rundungsfehlerbehaftete Ergebnis der Gaußelimination mit Pivotisierung, sodass $\vert \hat{l}_{ij} \vert \leq 1$ für alle $i,j \in \{1,..., n\}$. \\
+Dann gilt für $\hat{A} = (\hat{a}_{ij})_{i,j=1}^n = \hat{L}\hat{R}$:
+$$\vert a_{ij} - \hat{a}_{ij} \vert \leq 2 \max_{i,j,k} \vert a_{ij}^{(k)} \vert * \min\{i-1, j\} * eps$$
+für Maschinengenauigkeit $eps$.
+\begin{proof}[Beweis]
+Im k-ten Schritt berechnet man ausgehend von $\hat{a}_{ij}^{(k-1)}$
+\begin{align*}
+\hat{a}_{ij}^{(k)} &= \left( \hat{a}_{ij}^{(k-1)} - \hat{l}_{ik} \hat{a}_{kj}^{(k-1)} ( 1+ \varepsilon_{ijk}) \right) ( 1+ \eta_{ijk}) &\\
+&= \hat{a}_{ij}^{(k-1)} - \hat{l}_{ik} \hat{a}_{kj}^{(k-1)} + \mu_{ijk} \quad (*)
+\end{align*}
+mit $\vert \varepsilon_{ijk} \vert, \vert \eta_{ijk} \vert \leq eps$ und $\mu_{ijk} \leq \vert \hat{a}_{ij}^{(k-1)} \vert \vert \eta_{ijk} \vert + \vert \hat{l}_{ik} \vert \vert \hat{a}_{kj}^{(k-1)} \vert \vert \varepsilon_{ijk} \vert + \mathcal{O}(eps^2). \quad (**)$\\
+Nach Definition von $\hat{A}$ ist 
+$$\hat{a}_{ij} = \sum_{k=1}^{\min\{i,j\}} \hat{l}_{ik} \hat{r}_{kj} = \sum_{k=1}^{\min\{i,j\}} \hat{l}_{ik} \hat{a}_{kj}^{(k-1)}$$ 
+Verwendet man für $i > j$ (*), so erhält man
+$$\hat{a}_{ij} = \sum_{k=1}^j \left( \hat{a}_{ij}^{(k-1)} - \hat{a}_{ij}^{(k)} + \mu_{ijk} \right) = a_{ij} + \sum_{k=1}^j \mu_{ijk}, \quad \text{da } a_{ij}^{(j)} = 0$$
+Für $i \leq j $ erhält man
+$$\hat{a}_{ij} = \sum_{k=1}^{i-1} \left( \hat{a}_{ij}^{(k-1)} - \hat{a}_{ij}^{(k)} + \mu_{ijk} \right) + \hat{l}_{ii} a_{ij}^{(i-1)}= a_{ij} + \sum_{k=1}^{i-1} \mu_{ijk}, \quad \text{da } \hat{l}_{ii} = 1$$
+Zusammen mit (**) folgt die Behauptung.
 \end{proof}
 \end{theorem}
 %entklammere Graphiken mit \includegraphics wieder 
