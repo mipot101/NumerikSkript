@@ -1062,7 +1062,7 @@ Newtonschema und Newtoninterpolationspolynome liefert das Ergebnis.
 \begin{enumerate}
   \item[a)] Splineinterpolation $A\tau = b$, $A$ tridiagonal und symmetrisch.
   \item[b)] Computertomographie \\
-    %\includegraphics[width=11cm]{Bild1.png}\\
+    \includegraphics[width=11cm]{Bild1.png}\\
     $\Delta I$: gemessener Intensitätsunterschied zwischen Quelle und Detektor \\
     $\Delta I = \int_{[a,b]} \alpha(x) dx$\\
     Dabei ist $\alpha(x)$ der Absorptionskoeffizient\\
@@ -1070,7 +1070,7 @@ Newtonschema und Newtoninterpolationspolynome liefert das Ergebnis.
     $\Delta I = \sum_{j \in \text{Voxel}} \alpha_j l_j$\\
     $l_j$: Länge des Weges $[a,b]$ in Voxel $j$\\
     Viele Strahlen: $L_j(t) = \omega ( \varphi_j ) s_j + \omega^{\perp} ( \varphi_j ) t$\\
-    %\includegraphics[width=8cm]{Bild2.png}\\
+    \includegraphics[width=8cm]{Bild2.png}\\
     $\omega(\varphi_j) = (\cos(\varphi_j), \sin(\varphi_j))$\\
     $\omega^{\perp}(\varphi_j) = (-\sin(\varphi_j), \cos(\varphi_j))$ \\\\
     $\begin{bmatrix} 
@@ -1265,11 +1265,11 @@ Durch den Computer kommen folgende Einschränkungen hinzu:
   \item[Beispiel] $\thinspace$\\
     Betrachte den Standard IEEE 754.\\
     Dieser stellt eine Zahl mit einfacher Genauigkeit dar zur Basis $B=2$ mit $l=32$ und $[e_{\min}, e_{\max}] = [-128, 127]$.
-%    \begin{figure}[!htb]
-%      \centering
-%      \includegraphics[width=10cm]{Bild3.png}
-%      \caption{From https://de.wikipedia.org/wiki/IEEE\_754}
-%    \end{figure}\\
+    \begin{figure}[!htb]
+      \centering
+      \includegraphics[width=10cm]{Bild3.png}
+      \caption{From https://de.wikipedia.org/wiki/IEEE\_754}
+    \end{figure}\\
     Der Wert lässt sich berechnen aus
     $$(-1)^{\sigma} * (1,m) * 2^{\sum_{j} e_j^{2^j} - 127}$$
     Dabei ist $m$ binär dargestellt.
@@ -1336,10 +1336,10 @@ und damit erhält man für
     Nehme Pivotelement im $(k+1)$-ten Schritt
     $$a_{j(k+1)}^{(k)} \quad \text{mit} \quad \vert a_{j(k+1)}^{(k)} \vert = \max_{i=k+1,...,n} \vert a_{i(k+1)}^{(k)} \vert, $$
     d.h. das betragsmäßig größte Element der $(k+1)$-ten Spalte von $A^{(k)}$ unterhalb der Diagonalen inklusive des Diagonalelements. \\
-%    \begin{figure}[!htb]
-%    \centering
-%    \includegraphics[width=6cm]{Bild4.png}
-%    \end{figure}\\
+    \begin{figure}[!htb]
+    \centering
+    \includegraphics[width=6cm]{Bild4.png}
+    \end{figure}\\
     Damit erreicht man
     $$ \vert l_{i, (k+1)} \vert = \frac{\vert a_{i, k+1}^{(k)} \vert }{ \vert a_{k+1, k+1}^{(k)} \vert} \leq 1, \quad i=k+2,...,n$$
 \end{description}
@@ -1632,10 +1632,10 @@ Sei $X = Y = \mathbb{R}^2$ und $\Vert \cdot \Vert_X = \Vert \cdot \Vert_Y = \Ver
 \begin{definition}[Absolute Kondition]
 Seien $X, Y$ normierte Vektorräume $f: X \rightarrow Y$ ein Problem. Die \textbf{absolute Kondition} von $f$ in $x \in X$ ist 
 $$\kappa_{\text{abs}}(f,x) := \lim_{\delta \rightarrow 0} \sup_{\Vert z \Vert_X \leq \delta} \frac{\Vert f(x+z) - f(x) \Vert_Y}{\Vert z \Vert_X} $$
-%    \begin{figure}[!htb]
-%    \centering
-%    \includegraphics[width=16cm]{Bild5.png}
-%    \end{figure}\\
+    \begin{figure}[!htb]
+    \centering
+    \includegraphics[width=16cm]{Bild5.png}
+    \end{figure}\\
 \end{definition}
 
 \begin{lemma}
@@ -1861,5 +1861,117 @@ $$\hat{a}_{ij} = \sum_{k=1}^{i-1} \left( \hat{a}_{ij}^{(k-1)} - \hat{a}_{ij}^{(k
 Zusammen mit (**) folgt die Behauptung.
 \end{proof}
 \end{theorem}
+
+\begin{comment*}
+Aus dem Satz (21.6) kann man entnehmen, dass die Gaußelimination im Sinne der Rückwärtsanalysis stabil ist, falls 
+$$\frac{\max_{i,j,k} \vert a_{ij}^{(k)}}{\max_{i,j} \vert a_{ij} \vert }$$
+nicht zu groß wird. Dieser Quotient ist meistens klein. Mehr kann man nicht beweisen.
+\end{comment*}
+
+\subsection{QR-Zerlegung mit Hilfe der Householdertransformationen}
+\underline{Ziel:} Konstruiere zu einer gegebenen Matrix $A \in \mathbb{R}^{m \times n}$ ($m \geq n$) eine Zerlegung $A=QR$ mit einer orthogonalen Matrix $Q \in \mathbb{R}^{m \times m}$ ($Q^TQ = I_m$) und 
+$$R = \underbrace{\left[ \begin{matrix} \tilde{R} \\ \hline 0\end{matrix} \right]}_{n}\begin{array}{l} \}n \\ \} m-n\end{array}$$
+Dabei ist $\tilde{R} \in \mathbb{R}^{n \times n}$ eine obere Dreiecksmatrix.\\
+\underline{Anwendungen:}
+\renewcommand{\labelenumi}{\alph{enumi})}
+\begin{enumerate}
+  \item $m=n$, $Ax = b$, $Qc = b$, $Rx=c$, $Q^{-1} = Q^T$. Besonders stabiler Algorithmus (stabiler als Gauß). Dafür doppelt so teuer.
+  \item $m>n$ $\rightarrow$ lineare Ausgleichsrechnung (siehe \S 23)
+  \item QR-Algorithmus zur Berechnung von Eigenwerten (siehe Numerik II)
+\end{enumerate}
+
+\begin{definition}
+Für $v \in \mathbb{R}^m$, $\Vert v \Vert_2 = 1$ heißt
+$$Q = I - 2 v v^T$$
+\textbf{Householderreflexion} zum Vektor $v$.
+\end{definition}
+
+\begin{theorem}
+Für eine Householderreflexion $v \in \mathbb{R}^m$, $\Vert v \Vert_2 = 1$, $Q = I - 2 v v^T$ gilt:
+\renewcommand{\labelenumi}{\roman{enumi})}
+\begin{enumerate}
+  \item $Q$ ist symmetrisch
+  \item $Q$ ist orthogonal
+  \item $Qv = -v$
+  \item $Qw = w$ für alle $w \in \mathbb{R}^{m}$ mit $w^Tv = 0$
+\end{enumerate}
+Mit iii) und iv) erhält man, dass $Q$ eine Spiegelung an der Hyperebene $\{x\in \mathbb{R}^m: x^Tv = 0 \}$ ist.
+\begin{proof}[Beweis]\leavevmode
+\renewcommand{\labelenumi}{\roman{enumi})}
+\begin{enumerate}
+  \item $Q^T = (I-2vv^T)^T = I-2vv^T = Q$
+  \item $Q^TQ \overset{i)}{=} (I-2vv^T)(I-2vv^T) = I - 4 v v^T + t v \underbrace{(v^Tv)}_{=1}v^T = I$ 
+  \item $Qv = (I-2vv^T)v = v - 2v \underbrace{v^Tv}_{=1} = - v$
+  \item $Qw = (I-2vv^T)w = w - 2v\underbrace{v^Tw}_{=0} = w$
+\end{enumerate}
+\end{proof}
+\end{theorem}
+
+\begin{nothing}[Algorithmus der QR-Zerlegung]
+Sei $A = \left[ \begin{matrix} \vdots & \vdots & & \vdots \\ a_1 & a_2 & \dots & a_n \\ \vdots & \vdots & & \vdots \end{matrix} \right]$ mit $a_j$ als die j-te Spalte von $A$.
+\renewcommand{\labelenumi}{\theenumi) }
+\begin{enumerate}
+  \item Suche $Q_1a_1 = \left[ \begin{matrix} \alpha_1 \\ 0 \\ \vdots \\ 0 \end{matrix} \right] = \alpha_1 e_1$\\
+  Da $Q_1$ orthogonal ist, gilt ${\Vert a_1 \Vert_2}^2 = {\Vert Q_1a_1 \Vert_2}^2 = \vert \alpha_1 \vert ^2$\\
+  $\Rightarrow \quad \alpha_1 = \pm {\Vert a_1 \Vert _2}$ (Vorzeichen noch nicht fest)\\
+  $Q_1a_1 = \alpha_1e_1$ \\
+  $Q_1a_1 = (I-2u_1u_1^T)a_1 = a_1 - 2u_1 \underbrace{u_1^Ta_1}_{\in \mathbb{R}}$\\
+  $\Rightarrow$ $u_1$ ist ein Vielfaches von $a_1 - \alpha_1 e_1$\\
+  Mit der Forderung $\Vert u_1 \Vert_2. = 1 $ ergibt sich
+  $$u_1 = \frac{a_1 - \alpha_1e_1}{\Vert a_1 - \alpha_1e_1 \Vert_2}$$
+  Dabei ist ${\Vert a_1 - \alpha_1e_1 \Vert_2}^2 = \underbrace{{\Vert a_1 \Vert_2}^2}_{=\alpha_1^2} - 2 \alpha_1 \underbrace{e_1^Ta_1}_{a_{11}} + \alpha_1^2 = 2 \alpha_1 ( \alpha_1 - a_{11})$
+  Man wählt das Vorzeichen von $\alpha_1$ so, dass keine Stellenauslöschung bei der Berechnung von $\alpha_1 - a_{11}$ auftritt
+  $$\alpha_1 = -\text{sgn}(a_{11}) \Vert a_1 \Vert_2$$
+  Es ist dann 
+  $$Q_1A= A^{(1)} = \left[ \begin{array}{c|c} \alpha_1 & * \\ \hline 0 \\ \vdots & B \\ 0 \end{array} \right]$$
+  wobei die j-te Spalte von $A^{(1)}$ (Nenne diese $a_j^{(1)}$) durch
+  $$a_j^{(1)} = Q_1a_j = a_j - \frac{2 v_1^Ta_j}{v_1^Tv_1} v_1, \quad j = 2,..,n$$
+  für $v_1 = a_1 - \alpha_1e_1$ gegeben ist. Weiter gilt
+  $$ \frac{v_1^Tv_1}{2} = \frac{1}{2} {\Vert a_1 - \alpha_1 e_1 \Vert_2}^2 = \alpha_1(\alpha_1 - a_{11})$$
+  Bemerkung: Zur Berechnung von $Q_1A$ reicht es $v_1$ und $\alpha$ zu kennen. Die Matrix $Q_1 = I-2u_1u_1^T$ wird nicht aufgestellt.
+  
+  \item Suche nun $\tilde{Q}_2 = I_{m-1} - 2 u_2 u_2^T$ mit $u_2 \in \mathbb{R}^{m-1}$, sodass $\tilde{Q}_2 b_1 = \alpha_2 e_1$ ($e_1 \in \mathbb{R}^{m-1}$).\\
+  Für $Q_2 = \left[ \begin{matrix} 1 & 0 & \cdots & 0 \\ 0 \\ \vdots & & \tilde{Q}_2 \\0 \end{matrix} \right]$ ist dann $Q_2A^{(1)} = \left[ \begin{array}{cc|} \alpha_1 & *  \\ 0 & \alpha_2 \\ \vdots & 0 \\ & \vdots \\ 0 & 0 \end{array} \begin{array}{ccc} &* \\ \\ \hline \\  &C &\\ \\ \\ \end{array}\right]$\\
+  usw.\\
+  im k-ten Schritt hat man dann
+  $$Q_k = \left[ \begin{matrix} I_{k-1} \\ & \tilde{Q}_k \end{matrix} \right]$$
+  mit dem Ergebnis $Q_n Q_{n-1} \cdots Q_1 A = R$ mit 
+  $$R = \underbrace{\left[ \begin{matrix} \alpha_1 & & * \\ & \ddots \\ 0 && \alpha_n \\ \\ & 0 \end{matrix} \right]}_n\begin{matrix} \left. \begin{matrix} \\\\\\\end{matrix} \right\} &n \\ \left. \begin{matrix} \\\\\end{matrix} \right\} & m-n\end{matrix}$$
+\end{enumerate}
+\end{nothing}
+
+\begin{nothing}[Rechenaufwand] \leavevmode
+\begin{description}
+  \item[Schritt 1:] $\approx \medspace 2*m*n$ (*,+) Operationen
+\end{description}
+Gesamtaufwand: $2 (m*n + (m-1)(n-1) \cdots (m-n+1) 1 )$\\
+Falls $m=n \medspace \rightarrow \medspace \frac{2}{3}\thinspace n^3$\\
+Falls $m>>n \medspace \rightarrow \medspace 2m ( n + (n-1) + \cdots + 1 ) \approx mn^2)$
+\end{nothing}
+
+\begin{nothing}[Stabilität]
+$A=QR$\\
+Da $Q$ orthogonal ist, gilt $\Vert A \Vert_2 = \Vert QR \Vert_2 = \Vert R \Vert_2$\\
+$\Rightarrow$ Einträge von $R$ können nicht groß werden. \\
+Für das berechnete $\hat{Q}$ gilt $\Vert \hat{Q}^T \hat{Q} - I \Vert < c * eps$ für eine kleine Konstante $c$, d.h. $\hat{Q}$ ist fast orthogonal.\\
+Man kann zeigen, dass 
+$$\Vert A - \hat{Q} \hat{R} \Vert_2 < c\thinspace \Vert A \Vert_2 \thinspace eps$$
+\end{nothing}
+
+\begin{comment}
+QR-Zerlegung ist bis zum Ende durchführbar, falls rang($A$) $= n$ ( dann ist $\alpha_1, \alpha_2, ..., \alpha_n \neq 0$, da rang(A) = rang(R)) \\
+Falls rang(A) $= k < n$ wäre bei der Rechnung ohne Rundungsfehler $\alpha_l = 0$ für ein $l$ und das Verfahren bricht ab. Modifiziere den Algorithmus deswegen:
+\begin{description}
+  \item[1. Schritt:] Berechne $\Vert a_1 \Vert_2, ..., \Vert a_n \Vert_2$ die Spaltennormen und vertausche die Spalten, sodass $\Vert a_1 \Vert_2$ maximal wird:
+  $$Q_1AP_1 = \left[ \begin{matrix} \alpha_1 \\ 0 \\ \vdots && * & \\ 0 \end{matrix} \right], \quad \vert \alpha_1 \vert = \Vert a_1 \Vert_2$$
+  usw. mit Spaltenvertauschungen in weiteren Schritten.\\
+  $\Rightarrow \medspace \vert \alpha_1 \vert \geq \vert \alpha_2 \vert \geq ... \geq \vert \alpha_n \vert > 0$. Falls rang(A) $=k < n$ erhält man $\alpha_{k+1} = 0$ und
+  $$\left[ \begin{array}{c|c}
+    \begin{matrix} \alpha_1 & & R_1 \\ & \ddots \\ 0 && \alpha_k \end{matrix}& R_2 \\
+    \hline
+    0 & 0
+  \end{array}\right]$$
+\end{description}
+\end{comment}
 %entklammere Graphiken mit \includegraphics wieder 
 \end{document}
