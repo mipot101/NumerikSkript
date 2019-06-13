@@ -36,6 +36,7 @@
 \newtheorem*{example*}{Beispiel}
 \newtheorem{problem}[theorem]{Problem}
 \newtheorem{example}[theorem]{Beispiel}
+\newtheorem{properties}[theorem]{Eigenschaften}
 \newtheorem{nothing}[theorem]{}
 
 \author{Prof. Schaedle}
@@ -1062,7 +1063,7 @@ Newtonschema und Newtoninterpolationspolynome liefert das Ergebnis.
 \begin{enumerate}
   \item[a)] Splineinterpolation $A\tau = b$, $A$ tridiagonal und symmetrisch.
   \item[b)] Computertomographie \\
-    \includegraphics[width=11cm]{Bild1.png}\\
+%    \includegraphics[width=11cm]{Bild1.png}\\
     $\Delta I$: gemessener Intensitätsunterschied zwischen Quelle und Detektor \\
     $\Delta I = \int_{[a,b]} \alpha(x) dx$\\
     Dabei ist $\alpha(x)$ der Absorptionskoeffizient\\
@@ -1070,7 +1071,7 @@ Newtonschema und Newtoninterpolationspolynome liefert das Ergebnis.
     $\Delta I = \sum_{j \in \text{Voxel}} \alpha_j l_j$\\
     $l_j$: Länge des Weges $[a,b]$ in Voxel $j$\\
     Viele Strahlen: $L_j(t) = \omega ( \varphi_j ) s_j + \omega^{\perp} ( \varphi_j ) t$\\
-    \includegraphics[width=8cm]{Bild2.png}\\
+%    \includegraphics[width=8cm]{Bild2.png}\\
     $\omega(\varphi_j) = (\cos(\varphi_j), \sin(\varphi_j))$\\
     $\omega^{\perp}(\varphi_j) = (-\sin(\varphi_j), \cos(\varphi_j))$ \\\\
     $\begin{bmatrix} 
@@ -1267,7 +1268,7 @@ Durch den Computer kommen folgende Einschränkungen hinzu:
     Dieser stellt eine Zahl mit einfacher Genauigkeit dar zur Basis $B=2$ mit $l=32$ und $[e_{\min}, e_{\max}] = [-128, 127]$.
     \begin{figure}[!htb]
       \centering
-      \includegraphics[width=10cm]{Bild3.png}
+%      \includegraphics[width=10cm]{Bild3.png}
       \caption{From https://de.wikipedia.org/wiki/IEEE\_754}
     \end{figure}\\
     Der Wert lässt sich berechnen aus
@@ -1336,10 +1337,10 @@ und damit erhält man für
     Nehme Pivotelement im $(k+1)$-ten Schritt
     $$a_{j(k+1)}^{(k)} \quad \text{mit} \quad \vert a_{j(k+1)}^{(k)} \vert = \max_{i=k+1,...,n} \vert a_{i(k+1)}^{(k)} \vert, $$
     d.h. das betragsmäßig größte Element der $(k+1)$-ten Spalte von $A^{(k)}$ unterhalb der Diagonalen inklusive des Diagonalelements. \\
-    \begin{figure}[!htb]
-    \centering
-    \includegraphics[width=6cm]{Bild4.png}
-    \end{figure}\\
+%    \begin{figure}[!htb]
+%    \centering
+%    \includegraphics[width=6cm]{Bild4.png}
+%    \end{figure}\\
     Damit erreicht man
     $$ \vert l_{i, (k+1)} \vert = \frac{\vert a_{i, k+1}^{(k)} \vert }{ \vert a_{k+1, k+1}^{(k)} \vert} \leq 1, \quad i=k+2,...,n$$
 \end{description}
@@ -1632,10 +1633,10 @@ Sei $X = Y = \mathbb{R}^2$ und $\Vert \cdot \Vert_X = \Vert \cdot \Vert_Y = \Ver
 \begin{definition}[Absolute Kondition]
 Seien $X, Y$ normierte Vektorräume $f: X \rightarrow Y$ ein Problem. Die \textbf{absolute Kondition} von $f$ in $x \in X$ ist 
 $$\kappa_{\text{abs}}(f,x) := \lim_{\delta \rightarrow 0} \sup_{\Vert z \Vert_X \leq \delta} \frac{\Vert f(x+z) - f(x) \Vert_Y}{\Vert z \Vert_X} $$
-    \begin{figure}[!htb]
-    \centering
-    \includegraphics[width=16cm]{Bild5.png}
-    \end{figure}\\
+%    \begin{figure}[!htb]
+%    \centering
+%    \includegraphics[width=16cm]{Bild5.png}
+%    \end{figure}\\
 \end{definition}
 
 \begin{lemma}
@@ -1971,7 +1972,153 @@ Falls rang(A) $= k < n$ wäre bei der Rechnung ohne Rundungsfehler $\alpha_l = 0
     \hline
     0 & 0
   \end{array}\right]$$
+  $AP = QR$ (numerische Rangentscheidung) \\
+  falls $\frac{\vert \alpha_{k+1} \vert}{\vert \alpha_1 \vert } < 100 eps$ setze Rang($A$) $= k$.
 \end{description}
 \end{comment}
+
+\subsection{Lineare Ausgleichsrechnung}
+
+\begin{problem}
+Zu gegebenen Messdaten $(t_j, y_j)$ $j=1,...,m$ suche $y = f(t)$
+$$f(t) = \sum_{i=1}^n x_i \varphi_i(t),$$
+sodass $y_j \approx f(t_j)$ für $j=1,...,m$.\\
+Hierbei sind die $\varphi_1, ..., \varphi_n$ gegebene Funktionen und $x_1, ..., x_n$ unbekannte Parameter, wobei $m>>n$.\\
+Genauer: $\sum_{j=1}^m (y_j - f(t_j))^2$ soll minimal werden.
+\end{problem}
+
+\begin{nothing}[Matrix-Vektor Formulierung]
+Es sei 
+\begin{align*}
+A &= \left[ \begin{matrix} \varphi_1(t_1) & \cdots & \varphi_n(t_1) \\ \varphi_1(t_2) & \cdots & \varphi_n(t_2) \\ \vdots && \vdots \\ \varphi_1(t_m) & \cdots & \varphi_n(t_m) \end{matrix} \right] \in \mathbb{R}^{m \times n} &\\
+b &= \left[ \begin{matrix} y_1 \\ \vdots \\ y_n \end{matrix} \right] \in \mathbb{R}^n 
+\intertext{Setze}
+x &= \left[ \begin{matrix} x_1 \\ \vdots \\ x_n \end{matrix} \right] &\\
+\intertext{Nun gilt es $\Vert Ax = b \Vert_2$ zu minimieren}
+Ax = b & \Leftrightarrow 
+\left[ \begin{matrix} \varphi_1(t_1) & \cdots & \varphi_n(t_1) \\ \varphi_1(t_2) & \cdots & \varphi_n(t_2) \\ \vdots && \vdots \\ \varphi_1(t_m) & \cdots & \varphi_n(t_m) \end{matrix} \right] 
+\left[ \begin{matrix} x_1 \\ \vdots \\ x_n \end{matrix} \right] = 
+\left[ \begin{matrix} y_1 \\ \vdots \\ y_n \end{matrix} \right] 
+\end{align*}
+\end{nothing}
+
+\begin{example}[Ausgleichsproblem] \leavevmode
+\includegraphics[width=6cm]{Bild6.png}\\
+Wähle $n=2$ mit $\varphi_1(t) = 1$ und $\varphi_2(t) = t$. Dann ergibt sich
+$$f(t) = x_2t + x_1.$$
+Bezeichne nun $x_2$ mit $m$ und $x_1$ mit $c$, um die übliche Geradedarstellung zu erhalten:
+$$f(t) = mt + c,$$
+wobei $c$ der y-Achsenabschnitt und $m$ die Steigung ist.
+Dann ergibt sich:
+\begin{align*}
+&Ax = b \quad \Leftrightarrow &\\
+&\left[ \begin{matrix} t_1 & 1 \\ t_2 & 1 \\ \vdots & \vdots \\ t_m & 1 \end{matrix} \right] \left[ \begin{matrix} m \\ c \end{matrix} \right] = \left[ \begin{matrix} y_1 \\ \vdots \\ y_m \end{matrix} \right]
+\end{align*}
+\end{example}
+
+\begin{theorem}[von Gauß]
+Sei $A \in \mathbb{R}^{m \times n}$, $b \in \mathbb{R}^m$, $m \geq n$. Äquivalent sind:
+\renewcommand{\labelenumi}{\roman{enumi})}
+\begin{enumerate}
+  \item $\Vert Ax - b \Vert_2 = \min_{v \in \mathbb{R}^n} \Vert Av - b \Vert_2$
+  \item $A^TAx = A^tb$ "Normalengleichung"
+\end{enumerate}
+
+\begin{comment*}
+$V = \{Ax: x \in \mathbb{R}^n \} \leq \mathbb{R}^n$ Unterraum\\
+Das gesuchte $Ax$ ist die orthogonale Projektion von $b$ in $V$.\\
+\includegraphics[width=6cm]{Bild7.png}
+\end{comment*}
+\begin{proof}[Beweis]\leavevmode \\
+i) $\Leftrightarrow$ \\
+Für beliebiges $y \in \mathbb{R}^n$ gilt:
+\begin{align*}
+{\Vert Ax - b \Vert_2}^2 &\leq {\Vert A(x+y) - b \Vert_2}^2 &\\
+&= (A(x+y)-b)^T(a(x+y)-b) &\\
+&= (A(x-b)+Ay)^T((Ax-b) + Ay) &\\
+&= {\Vert Ax - b \Vert_2}^2 + 2\underbrace{(Ay)^T (Ax-b)}_{=0} + \underbrace{{\Vert Ay \Vert_2}^2}_{\geq 0} 
+\end{align*}
+$\Leftrightarrow$ $(Ay)^T(Ax-b) = 0$ für alle $y \in \mathbb{R}^n$ \\
+$\Leftrightarrow$ $Ax-b$ ist orthogonal auf $V$ \\
+$\Leftrightarrow$ $y^TA^TAx -y^TA^Tb = 0$ für alle $y \in \mathbb{R}^n$ \\
+$\Leftrightarrow$ $A^TAx - A^Tb = 0$ 
+\end{proof}
+\end{theorem}
+
+\begin{properties}\leavevmode
+\begin{itemize}
+  \item $A^TA \in \mathbb{R}^{n \times n}$ symmetrisch positiv semidefinit [$\forall x \in \mathbb{R}^n: {\Vert Ax \Vert_2}^2 = x^TA^TAx \geq 0$]
+  \item $A^TA$ ist positiv definit $\Leftrightarrow$ Rang($A$) $= n$  [$x^TA^TAx = {\Vert Ax \Vert_2}^2 = 0 \Leftrightarrow Ax = 0 \overset{\text{falls Rang($A$) $=n$}}{ \Leftrightarrow} x = 0$]
+\end{itemize}
+\end{properties}
+
+\begin{algorithm}\leavevmode
+\begin{description}
+  \item[1. Algorithmus] \leavevmode 
+    \begin{algorithmic}
+    \STATE Berechne $A^TA$ ($\frac{1}{2}mn^2$ Operationen)
+    \STATE und $A^Tb$ ($mn$ Operationen)
+    \STATE Löse $A^TAx = A^Tb$ mit der Choleskyzerlegung ($\frac{1}{6} n^3$ Operationen)
+    \end{algorithmic}
+    
+  \item[2. Algorithmus] \leavevmode
+    \begin{algorithmic}
+    \STATE Berechne QR-Zerlegung von $A$ ($mn^2$ Operationen)
+    \STATE Nun gilt $A = QR$ und damit lässt sich ${\Vert Ax-b \Vert_2}^2 = {\Vert QRx-b \Vert_2}^2 = {\Vert Rx - Q^Tb \Vert_2}^2 = {\Vert \tilde{R}x - c \Vert_2}^2 + {\Vert d \Vert_2}^2$ mit $R = \left[ \begin{matrix} \tilde{R} \\ 0 \end{matrix} \right]$ und $Q^Tb = \left[ \begin{matrix} c \\ d \end{matrix} \right]$ umschreiben.
+    \STATE Dabei ist $\tilde{R} = (r_{ij})_{i,j=1}^n$ eine quadratische $n\times n$ rechte obere Dreiecksmatrix und $c$ der Vektor aus den ersten $n$ Einträgen von $Q^Tb$.
+    \STATE $\Vert Ax-b \Vert_2 = \min! \Leftrightarrow \tilde{R}x = c$, dann ist ${\Vert Ax-b \Vert_2}^2 = {\Vert d \Vert_2}^2$
+    \STATE Berechne $Q^Tb = Q_n Q_{n-1}...Q_1b$ ($2nm$ Operationen)
+    \STATE Löse $\tilde{R}x = c$ ($\frac{1}{2}n^2$ Operationen)
+    \end{algorithmic}
+\end{description}
+Der 2. Algorithmus mit der QR-Zerlegung ist etwa doppelt so teuer wie der 1. Algorithmus dafür aber deutlich stabiler.
+\end{algorithm}
+
+\begin{example}
+Sei $A = \left[ \begin{matrix} 1 & 1 \\ \varepsilon & 0 \\ 0 & \varepsilon \end{matrix} \right]$, $b= \left[ \begin{matrix} 1 \\ 0 \\ 0 \end{matrix} \right]$ und $\varepsilon^2 < eps$.\\
+Es gilt $A^TA = \left[ \begin{matrix} 1+ \varepsilon^2 & 1 \\ 1 & 1 + \varepsilon^2 \end{matrix} \right]$ und $A^Tb = \left[ \begin{matrix} 1 \\ 1 \end{matrix} \right]$.\\
+Die exakte Lösung ist $x_1 = x_2 = \frac{1}{2+\varepsilon^2} \approx \frac{1}{2}$ \\
+In Gleitkommaarithmetik ist $A^TA = \left[ \begin{matrix} 1 & 1 \\ 1 & 1 \end{matrix} \right]$ singulär\\
+Die QR-Zerlegung mit Householder (in Gleitkommaarithmetik) liefert das exakte Ergebnis:
+$\alpha_1 = 1$, $v_1 = \left[ \begin{matrix} 2 \\ \varepsilon \\ 0 \end{matrix} \right]$, $R = \left[ \begin{matrix} -1 & -1 \\ 0 & \sqrt{2} \varepsilon \\ 0 & 0 \end{matrix} \right]$, $Q^Tb = \left[ \begin{matrix} 1 \\ \frac{\sqrt{2}}{2} \varepsilon \\ \frac{\sqrt{2}}{2} \varepsilon \end{matrix} \right]$
+\begin{description}
+  \item[Alg. 1:] Lösung von $A^TAx = A^Tb$ $\text{cond}_2(A^TA) = \text{cond}_2(A)^2 \geq \text{cond}_2(A) = \frac{\max_y \Vert Ay \Vert}{\min_z \Vert Az \Vert}$ Der abschließende Bruch funktioniert auch für nicht inv. Matrizen.
+  
+  \item[Alg. 2:] Lösung von $\tilde{R}x = c$, $\text{cond}_2(\tilde{R}) = \text{cond}_2(R) = \text{cond}_2(A)$
+\end{description}
+\end{example}
+
+\section{Nichtlineare Gleichungssysteme}
+\underline{Problemstellung:}\\
+Zu einer Funktion $f: U \subset \mathbb{R}^n \rightarrow \mathbb{R}^n$, $U$ offen, suche $x \in U$ mit $f(x) = 0$, d.h. $\left\{ \begin{matrix} f_1(x_1, ..., x_n) = 0 \\ f_2(x_1, ..., x_n) = 0 \\ \vdots \\ f_n(x_1, ...,x_n) = 0 \end{matrix} \right.$.\\
+Eventuell ex. keine Lösungen
+$$f(x) = e^x$$
+oder es ex. mehrere Lösungen
+$$f(x) = x^2-1 \quad \text{oder} \quad f(x) = tan(x) - x$$
+%
+\underline{\textbf{Erinnerung/Wiederholung:}}
+%
+\begin{description}
+  \item[Definition:] \leavevmode \\
+  Sei $\Omega \subset \mathbb{R}^n$ abgeschlossen. Eine Abbildung $\Phi: \Omega \rightarrow \mathbb{R}^n$ heißt \underline{kontrahierend}, falls
+  $$ \Vert \Phi(x) - \Phi(y) \Vert \leq \Theta \Vert x-y \Vert \quad \text{für } \Theta \in (0,1) \text{ und alle } x, y \in \Omega.$$
+  Eine Abbildung heißt \underline{Selbstabbildung}, falls $\Phi(x) \in \Omega$ für alle $x \in \Omega$.
+  
+  \item[Satz (Spezialfall von BFS)] \leavevmode \\
+  Sei $\Omega \subset \mathbb{R}^n$ abgeschlossen, $\Phi: \Omega \rightarrow \Omega$ eine kontrahierende Selbstabbildung. Dann gilt:
+  \renewcommand{\labelenumi}{\roman{enumi})}
+  \begin{enumerate}
+    \item Es existiert ein Fixpunkt $X^*$ von $\Phi$, d.h. $\Phi(X^*) = X^*$
+    \item Für alle $x^{(0)} \in \Omega$ konvergiert die Folge $(x^{(k)})_{k \in \mathbb{N}}$ definiert durch $x^{(k+1)} = \Phi(x^{(k)})$ gegen $x^*$ mit 
+    \begin{align*}
+      &\Vert x^{(k+1)} - x^{(k)} \Vert \leq L \Vert x^{(k)} - x^{(k-1)} \Vert \quad \text{und} &\\
+      &\Vert x^* - x^{(k)} \Vert \leq \frac{L^k}{1-L} \Vert x^{(1)} - x^{(k)} \Vert \quad \text{für ein } L < 1
+    \end{align*}
+  \end{enumerate}
+  \begin{proof}[Beweis] 
+  Ana II
+  \end{proof}
+\end{description}
+
 %entklammere Graphiken mit \includegraphics wieder 
 \end{document}
