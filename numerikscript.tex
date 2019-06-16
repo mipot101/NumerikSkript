@@ -1237,7 +1237,7 @@ Also insgesamt Operationen aus $\mathcal{O}(n^2)$.\\
 $A^{(1)} \rightarrow A^{(2)}$: $(n-1)^2$ Operationen. \\
 $A^{(2)} \rightarrow A^{(3)}$: $(n-2)^2$ Operationen. \\
 $\vdots$\\
-$A \rightarrow L,R$: $\sum_{j=1}^n j^2 \approx \frac{1}{3}n^3 \medspace \left(\in \mathcal{O}(n^3)\right)$, da $\underbrace{\frac{1}{n} \sum_{j=0}^n (\frac{j}{n})^2}_{ \approx \int_0^1 x^2 = \frac{1}{3}} n^3$\\
+$A \rightarrow L,R$: $\sum_{j=1}^n j^2 \approx \frac{1}{3}n^3 \medspace \left(\in \mathcal{O}(n^3)\right)$, da $\underbrace{\frac{1}{n} \sum_{j=0}^n \left(\frac{j}{n}\right)^2}_{ \approx \int_0^1 x^2 = \frac{1}{3}} n^3$\\
 Die Lösung von $Lc = Pb$ kostet ebenso wie die Lösung von $Rx = c$ \\
 $1+2+...+(n-1) \approx \frac{1}{2} n^2$ Operationen.\\
 Der Hauptaufwand steckt also in der Berechnung der Zerlegung $PA = LR$. 
@@ -1386,7 +1386,7 @@ a_{11} & z^T \\
 \right]$$
 $C^{(1)}$ ist symmetrisch, da 
 $$c_{ij}^{(1)} = a_{ij} - \underbrace{\frac{a_{i1}}{a_{11}}}_{= l_{i1}} a_{1j} = a_{ji} - \underbrace{\frac{a_{j1}}{a_{11}}}_{= l_{j1}} a_{1i} = c_{ji}^{(1)}$$
-Also ist $C^{(1)}$ insbesondere spd., da für 
+Also ist $C^{(1)}$ insbesondere spd, da für 
 $\left(
 \begin{array}{c}
 x_1 \\
@@ -1659,7 +1659,7 @@ Kondition der Addition:
 \begin{align*}
 &f: (\mathbb{R}^2, \Vert \cdot \Vert_1) \rightarrow (\mathbb{R}, \vert \cdot \vert), \medspace (a, b) \mapsto a+b &\\
 &\kappa_{\text{abs}}(f,(a,b)) = \lim_{\delta \rightarrow 0} \sup_{\vert \alpha \vert + \vert \beta \vert \leq \delta, \medspace z = (\alpha, \beta)} \frac{\vert a + \alpha + b + \beta - a - b \vert}{\vert \alpha \vert + \vert \beta \vert} = 1 &\\
-&\kappa_{\text{rel}}(f,(a,b)) = ... = \frac{^\vert a \vert + \vert b \vert}{\vert a+b \vert} &\\
+&\kappa_{\text{rel}}(f,(a,b)) = ... = \frac{\vert a \vert + \vert b \vert}{\vert a+b \vert} &\\
 \end{align*}
 d.h. für die Addition zweier Zahlen mit gleichem Vorzeichen ist $\kappa_{\text{rel}} = 1$. Für Subtraktion zweier annähernd gleich großer Zahlen ist $\kappa_{\text{rel}}$ groß.
 \end{example}
@@ -1678,7 +1678,7 @@ Falls
 $$ \frac{\Vert A - \tilde{A} \Vert}{\Vert A \Vert} \leq \varepsilon_A, \quad \frac{\Vert b - \tilde{b} \Vert}{\Vert b \Vert} \leq \varepsilon_b$$
 so gilt für die Lösung des LGS:
 $$\frac{\Vert \tilde{x} - x \Vert }{\Vert x \Vert} \leq \frac{\text{cond($A$)}}{1- \varepsilon_A \text{cond($A$)}}(\varepsilon_A + \varepsilon_b)$$
-falls $\varepsilon_A *\text{cond($A$)} < 1$. Hierbei ist $\text{cond($A$)} = \Vert A \Vert \Vert A^-1 \Vert$ die Konditionszahl von $A$ und die Matrixnorm wird von der Vektorraumnorm induziert (vgl. 18.3)
+falls $\varepsilon_A *\text{cond($A$)} < 1$. Hierbei ist $\text{cond($A$)} = \Vert A \Vert \Vert A^{-1} \Vert$ die Konditionszahl von $A$ und die Matrixnorm wird von der Vektorraumnorm induziert (vgl. 18.3).
 \begin{proof}[Beweis]
 \begin{align*}
 b - \tilde{b} &= Ax - \tilde{A}\tilde{x} &\\
