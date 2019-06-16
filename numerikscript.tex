@@ -8,6 +8,16 @@
 \usepackage{amsthm} %Für Theoreme und Beweise
 \usepackage{graphicx} %Für Bilder
 \usepackage{nicefrac}
+\usepackage{hyperref} %Für klickbares Inhaltsverzeichnis
+
+\renewcommand{\contentsname}{Inhaltsverzeichnis}
+\hypersetup{ %Einstellungen für Links (im Inhaltsverzeichnis)
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
 
 \newtheoremstyle{break}% name
   {}%         Space above, empty = `usual value'
@@ -45,6 +55,9 @@
 \begin{document}
 \maketitle
 
+\newpage
+
+\tableofcontents
 \newpage
 
 \section{Numerische Integration}
