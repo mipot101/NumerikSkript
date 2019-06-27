@@ -1,7 +1,7 @@
 \subsection{Einführung}
 
 \begin{problem}
-Gegeben $f: [a,b] \rightarrow \mathbb{N}$ mit $a, b \in \mathbb{R}$.
+Gegeben $f: [a,b] \rightarrow \mathbb{R}$ mit $a, b \in \mathbb{R}$.
 Berechne $\int_a^b f(x) dx $
 \end{problem}
 
@@ -13,7 +13,7 @@ Berechne $\int_a^b f(x) dx $
   \item Leibniz + Newton (~1670):
     $$ \int_a^b f(x) dx = F(b) - F(a),$$ wobei $\frac{d}{dx} F(x) = f(x)$
   \item Riemann (~1850): 
-    $$ \int_a^b f(x) dx = \lim\limits_{\vert \Delta \vert \to \infty} \sum_{j=1}^n f(\xi_j)(x_j - x_{j-1}),$$
+    $$ \int_a^b f(x) dx = \lim\limits_{\vert \Delta \vert \to 0} \sum_{j=1}^n f(\xi_j)(x_j - x_{j-1}),$$
     wobei $\Delta = (x_0,...,x_n)$ Gitter Zerlegung von $[a, b]$, $a=x_0 < ...< x_n = b$, $\xi_j \in [x_{j-1}, x_j]$ und $\vert \Delta \vert := \max_{j=1,...n} \vert x_j - x_{j-1} \vert$.
     Das Riemannintegral existiert, falls: 
     $$ \forall \varepsilon > 0 \exists \delta > 0: \vert \Delta \vert < \delta \Rightarrow \vert \int_a^b f(X) dx - \sum_{j=1}^n f(\xi_j)(x_j-x_{j-1}) \vert < \varepsilon $$

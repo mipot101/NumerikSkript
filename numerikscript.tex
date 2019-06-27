@@ -50,7 +50,7 @@
 \newtheorem{nothing}[theorem]{}
 
 \author{Prof. Schaedle}
-\title{Numerik 1}
+\title{Mitschrift Numerik 1 }
 
 \begin{document}
 \maketitle
@@ -2034,7 +2034,7 @@ Sei $A \in \mathbb{R}^{m \times n}$, $b \in \mathbb{R}^m$, $m \geq n$. Äquivale
 \renewcommand{\labelenumi}{\roman{enumi})}
 \begin{enumerate}
   \item $\Vert Ax - b \Vert_2 = \min_{v \in \mathbb{R}^n} \Vert Av - b \Vert_2$
-  \item $A^TAx = A^tb$ "Normalengleichung"
+  \item $A^TAx = A^Tb$ "Normalengleichung"
 \end{enumerate}
 
 \begin{comment*}
@@ -2124,8 +2124,8 @@ $$f(x) = x^2-1 \quad \text{oder} \quad f(x) = tan(x) - x$$
     \item Es existiert ein Fixpunkt $X^*$ von $\Phi$, d.h. $\Phi(X^*) = X^*$
     \item Für alle $x^{(0)} \in \Omega$ konvergiert die Folge $(x^{(k)})_{k \in \mathbb{N}}$ definiert durch $x^{(k+1)} = \Phi(x^{(k)})$ gegen $x^*$ mit 
     \begin{align*}
-      &\Vert x^{(k+1)} - x^{(k)} \Vert \leq L \Vert x^{(k)} - x^{(k-1)} \Vert \quad \text{und} &\\
-      &\Vert x^* - x^{(k)} \Vert \leq \frac{L^k}{1-L} \Vert x^{(1)} - x^{(k)} \Vert \quad \text{für ein } L < 1
+      &\Vert x^{(k+1)} - x^{(k)} \Vert \leq L \Vert x^{(k)} - x^{(k-1)} \Vert \quad \text{und} \quad \text{(a priori Schranke)}  &\\
+      &\Vert x^* - x^{(k)} \Vert \leq \frac{L^k}{1-L} \Vert x^{(1)} - x^{(k)} \Vert \quad \text{für ein } L < 1 \quad \text{(a posteriori Schranke)}
     \end{align*}
   \end{enumerate}
   \begin{proof}[Beweis] 
@@ -2243,7 +2243,7 @@ $\Vert f(x) \Vert \mapsto \Vert af(x) \Vert$ statt $\Vert x_k \Vert \leq \text{T
   \begin{algorithmic}
   \STATE $A \approx f'(x_0)$ ($LR = A$)
   \FOR{$k=0,1,...$}
-    \STATE Löse $A \Delta x_k = -f(x_0)$ (mit LR von A)
+    \STATE Löse $A \Delta x_k = -f(x_k)$ (mit LR von A)
     \STATE $x_{k+1} = x_k + \Delta x_k$
   \ENDFOR
   \end{algorithmic}
@@ -2279,5 +2279,215 @@ $\Vert f(x) \Vert \mapsto \Vert af(x) \Vert$ statt $\Vert x_k \Vert \leq \text{T
   \end{proof}
 \end{description}
 \end{nothing}
+
+\section{Gewöhnliche Differentialgleichungen}
+\underline{Problem:}\\
+Suche Lösung  $y: [t_0, T] \rightarrow \mathbb{R}^d$ der Anfangswertaufgabe
+$$\frac{d}{dt} y(t) = y'(t) = f(t, y(t)) \quad \text{für $t \in (t_0, T)$}$$
+d.h. eine Funktion, die die obige Gleichung erfüllt. \\
+$f: \mathcal{U} \rightarrow \mathbb{R}^d$, $\mathcal{U} \subset \mathbb{R}\times\mathbb{R}^d$ offen, $y(t_0) = y_0$ Anfangswert, $(t_0, y_0) \in \mathcal{U}$.
+
+\subsection{Beispiele für gewöhnliche Differentialgleichungen}
+\begin{example}[Harmonischer Oszillator] \leavevmode
+\begin{align*}
+\frac{d}{dt}p(t) &= -q(t) &\\
+\frac{d}{dt}q(t) &= p(t)
+\end{align*}
+Dabei ist $\frac{d}{dt}p(t)$ die Änderungsrate zur Zeit $t$ von $p$, \\
+$q(t)$ die Position zur Zeit $t$ und \\
+$p(t)$ die Geschwindigkeit zur Zeit $t$.
+\end{example}
+
+\begin{example}[Pendel]
+\begin{align*}
+&ms''(t) = -mg\sin(\phi(t)), \quad s(t) = l\phi(t) &\\
+&\phi''(t) = - \frac{g}{l} \sin(\phi(t)) &\\
+&y(t) := \left( \begin{matrix} \phi(t) \\ \phi'(t) \end{matrix} \right), \quad y'(t) = \underbrace{\left( \begin{matrix} \phi'(t) \\ -\frac{g}{l}\sin(\phi(t)) \end{matrix} \right)}_{= f(t, y(t))}
+\end{align*}
+Dabei ist $\phi(t)$ der Winkel zur Zeit $t$, $s(t)$ die Position zur Zeit $t$, $l$ die Länge des Pendels, $m$ die Masse und $g$ die Erdbeschleunigung.
+\end{example}
+
+\begin{example}[Chemische Reaktionen]
+Hier möchte man den Verlauf chemischer Reaktionen simulieren. Weiß man etwa, dass die Substanzen $A, B, C$ gemäß
+\begin{align*}
+A &\overset{k_1}{\rightarrow} B &\\
+B + C &\overset{k_2}{\rightarrow} A + C &\\
+B + B &\overset{k_3}{\rightarrow} B + C
+\end{align*}
+mit Reaktionskonstanten $k_1, k_2, k_3$ reagieren, dann liefert das Massenwirkungsgesetz für die Konzentrationen $a(t), b(t), c(t)$ der Substanzen $A, B, C$ zur Zeit $t$.
+\begin{align*}
+&a' = -k_1a + k_2 bc &\\
+&b' = k_1a - k_2 bc - k_3 b^2 &\\
+&c' = k_3b^2
+\end{align*}
+Zusätzlich müssen Anfangskonzentrationen $a(0), b(0)$ und $c(0)$ gegeben sein.
+\end{example}
+
+\begin{example}[Räuber Beute Modell]
+Die Anzahl $y(t)$ von Speisefischen zur Zeit $t$ und die Anzahl $z(t)$ von Raubfischen mit Hilfe des Populationsmodells
+\begin{align*}
+&y' = ay - byz &\\
+&z' = -cz
+\end{align*}
+berechnet werden.\\
+Hierbei ist $a$ die Geburtenrate der Speisefische, $b$ die Effizienz der Raubfische, $c$ die Sterberate der Raubfische und $d$ die nahrungsabhängige Geburtenrate der Raubfische.
+\end{example}
+
+\subsection{Erinnerung an die Theorie gewöhnlicher DGLs}
+
+\begin{comment}
+Jeder Differentialgleichung $k$-ter Ordnung
+$$y^{(k)} = f(t, y, y',..., y^{(k-1)})$$
+kann in ein System erster Ordnung umgeschrieben werden:\\
+Mit der Setzung
+\begin{alignat*}{3}
+y_1 &= y \quad &&y_1' &&= y_2 \\
+y_2 &= y' \quad  &&y_2' &&= y_3 \\
+&\medspace\medspace\vdots  &&&&\medspace\medspace\vdots \\
+y_{k-1} &= y^{(k-2)} \quad\quad &&y_{k-1}' &&= y_k \\
+y_k &= y^{(k-1)} \quad &&y_k' && = f(t, y_1, ..., y_k) \\
+\end{alignat*}
+erhält man für $Y = \left[ \begin{matrix} y_1 \\ \vdots \\ y_k \end{matrix} \right]$das System $Y' = F(t, Y)$, wenn man $F$ durch $F(t, Y) = \left[ \begin{matrix} y_2 \\ y_3 \\ \vdots \\ y_k \\ f(t, y_1) \end{matrix} \right]$ setzt. 
+\end{comment}
+
+\begin{definition}
+Hängt die rechte Seite $f$ nicht explizit von $t$ ab, so heißt die Differentialgleichung autonom.
+\end{definition}
+
+\begin{comment*}
+Jede nichtautonome Differentialgleichung 
+$$y' = f(t, y) \quad y(t_0) = y_0$$
+ist äquivalent zu einem autonomen System
+$$Y' = F(Y) \text{ mit } Y = \left[\begin{matrix}y \\ t \end{matrix} \right] \text{ und } F(Y) = \left[ \begin{matrix} f(t,y) \\ 1 \end{matrix} \right]$$
+\end{comment*}
+
+\begin{comment*}[Allgemeine Vorraussetzungen]
+Als nächstes wiederholen wir einige theoretische Resultate zur Existenz, Eindeutigkeit und Stabilität von Lösungen von Anfangswertproblemen. Dazu sei ab jetzt
+\begin{itemize}
+  \item $U \subset \mathbb{R} \times \mathbb{R}^d$ offen und zusammenhängend
+  \item $f: U \rightarrow \mathbb{R}^d$ stetig und erfülle folgende lokale Libschit-Bedingung:
+  $$\exists L \thinspace \forall K \subset U \text{ kompakt } \forall (t, y), (t,z) \in K: \Vert f(t, y) - f(t,z) \Vert \leq L \Vert y- z \Vert$$
+\end{itemize}
+Die lokale Lipschitz-Bedingung ist erfüllt, falls $f$ stetig differenzierbar ist. Dann kann $L = \max_{(t, y) \in K} \Vert f_y(t, y) \Vert$ gewählt werden. 
+\end{comment*}
+
+\begin{theorem}[Satz von Picard-Lindelöf zur lokalen Existenz und Eindeutigkeit)]
+Unter obigen Vorraussetzungen gilt: Es gibt ein offenes Intervall $I$ mit $t_0 \in I$, sodass genau eine Lösung $y: I \rightarrow \mathbb{R}^d$ exisitert, mit
+$$y'(t) = f(t, y(t)), \text{ für $t\in I$ und $y(t_0)=y_0$}$$
+Diese Lösung kann bis an den Rand von $U$ fortgesetzt werden.
+\begin{proof}[Beweis] Ana II \end{proof}
+\end{theorem}
+
+\begin{example}
+Die rechte Seite der Differentialgleichung
+$$y' = y^2, \quad y(0) = 1, \quad U = \mathbb{R} \times \mathbb{R}$$
+ist lokal Lipschitz-stetig, erfüllt also die Vorraussetzungen von Picard-Lindelöf. Die eindeutige Lösung $y(t) = (1-t)^{-1}$ existiert auf dem offenen Intervall $I = (-\infty, 1)$ und $t_0 = 0 \in I$. Es ist jedoch $\lim_{t \nearrow 1} y(t) = + \infty$. 
+\end{example}
+
+Für numerische Verfahren ist es wichtig wie sich Störungen der Anfangswerte auf die Lösung auswirken.
+
+\begin{theorem}
+Zusätzlich zu den allgemeinen Vorraussetzungen erfülle für $\langle \cdot, \cdot \rangle$ ein Skalarprodukt auf $\mathbb{C}^d$ und $\Vert \cdot \Vert$ die induzierte Norm die rechte Seite $f: [t_0, T] \rightarrow \mathbb{C}^d$ $f$ für ein $l$ folgende einseitige Lipschitz-Bedingung
+$$\Re \langle f(t, y) - f(t, z), y-z \rangle \leq l \Vert y-z \Vert^2 \quad \text{für alle } y, z \in U $$
+Sind $y$ und $z$ zwei Lösungen von $y' = f(t, y)$ zu verschiedenen Anfangswerten $y_0$ bzw. $z_0$, so gilt
+$$ \Vert y(t) - z(t) \Vert \leq e^{l(t-t_0)} \Vert y_0 - z_0 \Vert \quad \text{für alle } t \in [t_0, T].$$
+%
+\begin{proof}[Beweis]
+\begin{align*}
+\frac{d}{dt} \Vert y(t) - z(t) \Vert ^2 &= 2 \Re \langle y'(t) - z'(t), y(t)-z(t) \rangle \\
+&= 2 \Re \langle f(t, y(t)) - f(t, z(t)), y(t) - z(t)\rangle \\
+&\leq 2l \Vert y(t) - z(t) \Vert ^2
+\end{align*}
+Falls $y(t_0) \neq z(t_0)$ so gilt wegen der Eindeutigkeit der Lösung auch $y(t) \neq z(t)$ für alle $t$.
+\begin{align*}
+\intertext{Mit}
+& \varphi(t) := \Vert y(t) - z(t) \Vert^2 \neq 0
+\intertext{erhalten wir}
+&\frac{\varphi'(t)}{\varphi(t)} = \frac{d}{dt} \log \varphi(t) \leq 2l.
+\intertext{Integration ergibt}
+&\log(\varphi (t)) - \log( \varphi(t_0)) = \int_{t_0}^t \frac{d}{ds} \log(\varphi(s))ds \leq \int_{t_0}^t 2lds = 2l(t-t_0)  \\
+& \Rightarrow \log \left(\frac{\varphi(t)}{\varphi(t_0)}\right) \leq 2l(t-t_0)
+\end{align*}
+"Exponieren" liefert $\phi(t) \leq e^{2l(t-t_0)} \varphi(t_0)$
+\end{proof}
+\end{theorem}
+
+\begin{comment}\leavevmode
+\renewcommand{\labelenumi}{\roman{enumi})}
+\begin{enumerate}
+  \item Fehler in den Anfangsdaten können maximal mit dem Faktor $e^{l(t-t_0)}$ verstärkt werden.
+  \item Da $f$ lokal Libschitz-stetig ist, ist die Vorraussetzung des Satzes mit $l = L$ erfüllt. Für das bestmögliche (kleinste) $l$ kann aber $l<<L$ gelten.
+  \item $l<0$ ist möglich, hingegen ist immer $L>0$
+\end{enumerate}
+\end{comment}
+
+\begin{example}[Testgleichung]\leavevmode
+$$ y' = \lambda y, \quad \lambda \in \mathbb{C}, \quad y(t_0) = y_0$$
+Lösung
+$$ y(t) = e^{(t-t_0)\lambda}y_0$$
+$l = \Re \lambda$, $L = \vert \lambda \vert$
+\begin{itemize}
+  \item $\Re \lambda < 0$: Fehler werden gedämpft 0, ist asymptotisch stabil
+  \item $\Re \lambda = 0$: keine Fehlerverstärkung
+  \item $\Re \lambda > 0$: Fehler wachsen exponentiell
+\end{itemize}
+\end{example}
+
+\subsection{Euler-Verfahren}
+Einfachstes und ältestes Verfahren zur näherungsweisen Lösung von
+$$y'(t) = f(t, y(t)), \quad y(t_0) = y_0$$
+Idee: Ersetze lokal die (unbekannte) Lösung durch die bekannte Tangente an der Stelle $t_0$, so erhält man $y_1 = y_0 + hf(t_0,y_0)$, usw. \\
+Allgemeine Iterationsvorschrit (explizites Eulerverfahren):\\
+$t_n = t_0 + nh$ \\
+$y_i = y_{i-1} + hf(t_{i-1}, y_{i-1})$ für $i\in \mathbb{N}$.\\
+\\
+Ersetzt man lokal die (unbekannte) Lösung durch die Tangente an der ebenfalls unbekannten Stelle $(t_1, y_1)$, so erhält man $y_1 = y_0 + hf(t_1, y_1)$, usw.\\
+Allgemein Iterationsvorschrift (implizites Eulerverfahren):\\
+$t_n = t_0 + nh$ \\
+$y_i = y_{i-1} + hf(t_{i}, y_{i})$ für $i\in \mathbb{N}$.\\
+\\
+Hierbei muss in jedem Schritt ein nicht-lineares Gleichungssystem gelöst werden (etwa mit Newton-Verfahren oder Fixpunktiteration).\\
+\\
+\underline{Approximationsfehler beim expliziten Eulerverfahren:}\\
+Sei $I = [t_0, T]$ ein Intervall und $f: I \times \mathbb{R}^d \rightarrow \mathbb{R}^d$ stetig differenzierbar und (global) Lipschit-stetig, d.h.:
+$$\forall y, z \in \mathbb{R}^d \medspace \forall t \in I:
+\Vert f(t, y) - f(t, z) \Vert \leq L \Vert y-z \Vert$$
+Ist $y: I \rightarrow \mathbb{R}^d$ Lösung des Anfangswertproblems $y' = f(t, y), y(t_0) = y_0$, dann ist $y$ jetzt zweimal stetig differenzierbar, denn
+$$y'' = \delta_tf + D_yf \cdot y' = \delta_tf + D_yf \cdot f$$
+$D_yf = D_yf(t, y)$ bezeichnet die Ableitung ($d \times d$ Matrix) nach y. Die Folge $(y_n)_{n \in \mathbb{N}}$ ist mit $t_n = t_0 + nh \in I$ durch das explizite Eulerverfahren definiert.
+
+\begin{theorem}[Fehlerabschätzung für das explizite Eulerverfahren]
+Mit den eben gemachten Vorraussetzungen gilt für den Fehler des expliziten Euler-Verfahrens
+$$\Vert y_n - y(t_n) \Vert \leq M \cdot h,$$
+mit
+$$ M = \frac{e^{L(T-t_0)} - 1}{L} \frac{1}{2} \max_{t \in I} \Vert y''(t) \Vert $$
+Insbesondere gilt
+$$\lim_{h \rightarrow 0} \max_{n \in \mathbb{N}} \Vert y_n - y(t_n) \Vert = 0,$$
+d.h. die Näherungslösung konvergiert gleichmäßig gegen die exakte Lösung der Anfangswertaufgabe, falls $h$ gegen Null geht.
+
+\begin{proof}[Beweis]\leavevmode
+Beweis erfolgt in 3 Schritten:
+\renewcommand{\labelenumi}{\theenumi)}
+\begin{enumerate}
+  \item Abschätzung für den lokalen Fehler:
+  \item Fehlerfortpflanzung
+  \item Fehlerakkumulation
+\end{enumerate}
+\renewcommand{\labelenumi}{\theenumi)}
+\begin{enumerate}
+  \item Abschätzung für den lokalen Fehler\\
+  Fehler nach einem Schritt des Verfahrens mit Startwert auf der exakten Lösung:
+  \begin{align*}
+  \underbrace{y(t_{n+1})}_{\substack{\text{exakte Lsg.}\\ \text{bei $t_{n+1}$}}} - 
+  \underbrace{(y(t_n) + hf(t_n, y(t_n)))}_{\substack{\text{expl. Eulerverfahren mit} \\ \text{Startwert $y(t_n)$}}} &= y(t_{n+1}) - y(t_n) - hy'(t_n) \\
+  \overset{\substack{\text{Taylorentwicklung}\\\text{von $y(t_{n+1})$ im $t_n$}}}{=}& h^2 \int_0^1 (1- \theta) y'' (t_n + \theta h) d\theta \\
+  \Rightarrow  \Vert y(t_{n+1}) - (y(t_n) + hf(t_n, y(t_n))) \Vert \leq Ch^2
+  \end{align*}
+  für $C = \frac{1}{2} \max_{t \in I} \Vert y''(t) \Vert$.
+  \item Fehlerfortpflanzung
+  \item Fehlerakkumulation
+\end{enumerate}
+\end{proof}
+\end{theorem}
 %entklammere Graphiken mit \includegraphics wieder 
 \end{document}
