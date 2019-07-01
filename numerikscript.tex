@@ -98,7 +98,7 @@
     $$p(x) = y_0 + (x-x_0) \frac{y_1-y_0}{x_1-x_0} + a(x-x_0)(x-x_1)$$
     Bestimme $a$ so, dass $p(x_2) = y_2$
     \begin{flalign*}
-    y_2 &\overset{!}{=} y_0 + (\overset{-x_1+x_1}{\check{x_2\thinspace-}}x_0) \frac{y_1-y_0}{x_1-x_0} + a(x_2-x_0)(x-x_1)&\\
+    y_2 &\overset{!}{=} y_0 + (\overset{-x_1+x_1}{\check{x_2\thinspace-}}x_0) \frac{y_1-y_0}{x_1-x_0} + a(x_2-x_0)(x_2-x_1)&\\
     a(x_2-x_0)(x_2-x_1) &= y_2 - y_0 - (x_2-x_1) \frac{y_1-y_0}{x_1-x_0} - y_1 + y_0 &\\
     \Rightarrow a &= \frac{1}{x_2-x_0} \left( \frac{y_2-y_1}{x_2-x_1} - \frac{y_1-y_0}{x_1-x_0} \right) 
      \end{flalign*}
@@ -147,7 +147,7 @@ p(x) &= y[x_0] + (x-x_0) \delta y[x_0,x_1] + ... + (x-x_0)(x-x_1)...(x-x_{n-1}) 
 \begin{description}
   \item[IA] $n=1$ (und $n=2$) vgl. Beispiel (1.1)
   \item[IS] $n-1 \rightarrow n$\\
-    $$p_0(x) = y[x_0] + (x-x_0) \delta y[x_1, x_0] + ... + (x-x_0)...(x-x_{n-2}) \delta ^{n-1}y[x_0,..., x_{n-1}]$$ 
+    $$p_0(x) = y[x_0] + (x-x_0) \delta y[x_0, x_1] + ... + (x-x_0)...(x-x_{n-2}) \delta ^{n-1}y[x_0,..., x_{n-1}]$$ 
     ist das eindeutige interpolierende Polynom mit 
     $$\text{deg}(p_0) \leq n-1$$
     zu $(x_0,y_0), (x_1, y_1), ..., (x_{n-1}, y_{n-1})$. \\
@@ -250,7 +250,7 @@ $x_0 = 55, \quad x_1 = 56, \quad x_2 = 57, \quad x_3=58$ \\
 Es seien \[log_{10}(55), \medspace log_{10}(56), \medspace log_{10}(57) \text{ und } log_{10}(58)\] bereits bekannt. Berechne eine Näherung von \(f\) an bei \(log_{10}(56.5)\) \\
 $\rightarrow$ Interpolationspolynom $p$:
 \begin{flalign*}
-log_{10}(65.5) &= 1.752048448 &\\
+log_{10}(56.5) &= 1.752048448 &\\
 p(56.5) &= 1.75204845 &\\
 f'(x) &= \frac{1}{ln(10)x} &\\
 f''(x) &= -\frac{1}{ln(10)x^2} &\\
@@ -665,7 +665,7 @@ Newtonsche Interpolationsformel:
 p_{\varepsilon}(x) = y_0 &+ (x-x_0) \delta y[x_0, x_0+\varepsilon] &\\
 &+ (x-x_0)(x-(x_0 + \varepsilon)) \delta^2y[x_0, x_0 + \varepsilon, x_1] &\\
 &+ \dots &\\
-&+ \left( \prod_{j=0}^{n-1} (x-x_j)(x-(x_j + \varepsilon))(x-x_1) \dots \delta^{2n+1} y[x_0,\dots, x_1]\right)
+&+ \left( \prod_{j=0}^{n-1} (x-x_j)(x-(x_j + \varepsilon))\right)(x-x_n) \thinspace \delta^{2n+1} y[x_0,\dots, x_n]
 \end{align*}
 damit ist:
 \begin{align*}
@@ -1013,10 +1013,14 @@ $$\Lambda_n = \max_{x \in [a,b]} \sum_{i=0}^n \vert l_i(x) \vert $$
   \end{align*}
   Füge weitere Diagonale zu Knoten $x$ in obigem Schema hinzu mit $b_0 = p(x)$ und $b_k = \delta^k y[x, x_0, x_1, ..., x_{k-1}]$. Nach Definition ist 
   $$b_{k+1} = \frac{b_k - \delta^ky[x_0,..., x_k]}{x-x_k}$$
-  Rechne nun im Newtonschema von rechts nach links (da $b_n = \delta^ny[x_0,..., x_n]$).\\
-  $b_n = \delta^ny[x_0,...,x_n]$ für $k= n-1, ..., 0$.\\
-  $b_k = b_{k+1} (x-x_k) + \delta^ky[x_0,...,x_k]$ \\
-  $p(x) = b_0$\\
+  Rechne nun im Newtonschema von rechts nach links (da $b_n = \delta^ny[x_0,..., x_n]$).
+  \begin{algorithmic}
+  \STATE $b_n = \delta^ny[x_0,...,x_n]$ 
+  \FOR{$k= n-1, ..., 0$}
+    \STATE $b_k = b_{k+1} (x-x_k) + \delta^ky[x_0,...,x_k]$
+  \ENDFOR
+  \STATE $p(x) = b_0$
+  \end{algorithmic}
   Nach dem Hornerschema.\\
   Berechne nun die Ableitungen: \\
   Füge weitere Diagonale zu Knoten $x+ \varepsilon$ hinzu und lasse $\varepsilon \rightarrow 0$ laufen \\
@@ -1118,7 +1122,7 @@ $a_{21} x_1 + a_{22}x_2 + \dots + a_{2n}x_n = b_2$\\
 $\vdots$ \\
 $a_{n1} x_1 + a_{n2}x_2 + \dots + a_{nn}x_n = b_n$\\\\
 %
-Ohne Einschränkungen sei $a_{11} \neq 0 $. Da $A$ invertierbar ist, ist mindestens ein Element aus $\{a_{i1}, i=1,...,n\}$ ungleich 0. Man kann also Zeilen/Gleichungen so vertauschen, dass $a_{11} \neq 0$. Für $i=2,3,...,n$ multipliziere die 1-te Zeile mit $l_{i1} := \frac{a_{i1}}{a_{11}}$ und ersetze die i-te Zeile durch $\text{(i-te Zeile)} - l_{i1} * \text{(1-ste Zeile)}$. Dann ergibt sich folgendes Gleichungssystem: \\\\
+Ohne Einschränkungen sei $a_{11} \neq 0 $. Da $A$ invertierbar ist, ist mindestens ein Element aus $\{a_{i1}, i=1,...,n\}$ ungleich 0. Man kann also Zeilen/Gleichungen so vertauschen, dass $a_{11} \neq 0$. Für $i=2,3,...,n$ multipliziere die i-te Zeile mit $l_{i1} := \frac{a_{i1}}{a_{11}}$ und ersetze die i-te Zeile durch $\text{(i-te Zeile)} - l_{i1} * \text{(1-ste Zeile)}$. Dann ergibt sich folgendes Gleichungssystem: \\\\
 %
 $a_{11}^{(1)} x_1 + a_{12}^{(1)}x_2 + \dots + a_{1n}^{(1)}x_n = b_1^{(1)}$\\
 $0 + a_{22}^{(1)}x_2 + \dots + a_{2n}^{(1)}x_n = b_2^{(1)}$\\
@@ -1374,7 +1378,7 @@ Sei $A$ symmtrisch positiv definit (kurz: spd), $A \in \mathbb{R}^{n\times n}$. 
   \item[ii)] Für die Zerlegung $A=LR$ gilt $R = DL^T$ für eine Diagonalmatrix 
   $$D =
   \begin{bmatrix}
-  r_1 && 0 \\
+  r_{11} && 0 \\
   & \ddots \\
   0 && r_{nn} \\
   \end{bmatrix}, \quad \text{wobei }\forall i = 1,...,n: \medspace r_{ii} > 0$$ 
@@ -1569,7 +1573,7 @@ Die Abbildung $\Vert \cdot \Vert: \mathbb{R}^n \rightarrow \mathbb{R}^n, \medspa
 \begin{example} \leavevmode
 \begin{enumerate}
   \item[i)] $ \Vert x \Vert_1 = \sum_{j=1}^n \vert x_j \vert$ für $x=(x_1, ...,x_n)^T$
-  \item[ii)] $ \Vert x \Vert_2 = \left( \sum_{j=1}^n \vert x_j \vert ^2 \right)^{\nicefrac{1}{2}}$ oder allgemein $\Vert x \Vert_p = \left( \sum_{j=1}^n \vert x_j \vert ^2p\right)^{\nicefrac{1}{p}}$ für $ 1\leq p < \infty$
+  \item[ii)] $ \Vert x \Vert_2 = \left( \sum_{j=1}^n \vert x_j \vert ^2 \right)^{\nicefrac{1}{2}}$ oder allgemein $\Vert x \Vert_p = \left( \sum_{j=1}^n \vert x_j \vert ^p\right)^{\nicefrac{1}{p}}$ für $ 1\leq p < \infty$
   \item[iii)] $\Vert x \Vert_{\infty} = \max_{i=1,...,n} \vert x_i\vert$
 \end{enumerate}
 \end{example}
