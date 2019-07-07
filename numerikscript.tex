@@ -25,7 +25,7 @@
   {\normalfont}% Body font
   {}%         Indent amount (empty = no indent, \parindent = para indent)
   {\bfseries}% Thm head font
-  {.}%        Punctuation after thm head
+  {}%        Punctuation after thm head
   {\newline}% Space after thm head: \newline = linebreak
   {}%         Thm head spec
 
@@ -2473,12 +2473,6 @@ d.h. die Näherungslösung konvergiert gleichmäßig gegen die exakte Lösung de
 Beweis erfolgt in 3 Schritten:
 \renewcommand{\labelenumi}{\theenumi)}
 \begin{enumerate}
-  \item Abschätzung für den lokalen Fehler:
-  \item Fehlerfortpflanzung
-  \item Fehlerakkumulation
-\end{enumerate}
-\renewcommand{\labelenumi}{\theenumi)}
-\begin{enumerate}
   \item Abschätzung für den lokalen Fehler\\
   Fehler nach einem Schritt des Verfahrens mit Startwert auf der exakten Lösung:
   \begin{align*}
@@ -2488,10 +2482,126 @@ Beweis erfolgt in 3 Schritten:
   \Rightarrow  \Vert y(t_{n+1}) - (y(t_n) + hf(t_n, y(t_n))) \Vert \leq Ch^2
   \end{align*}
   für $C = \frac{1}{2} \max_{t \in I} \Vert y''(t) \Vert$.
-  \item Fehlerfortpflanzung
-  \item Fehlerakkumulation
+  \item Fehlerfortpflanzung\\
+  Ausgehend von Anfangswerten $v_n$ bzw. $w_n$ ergeben sich durch einen Eulerschritt die Näherungen
+  \begin{align*}
+  & v_{n+1} = v_n + hf(t_n, v_n) \\
+  & w_{n+1} = w_n + hf(t_n, w_n)
+  \end{align*}
+  Bildet man die Norm der Differenz, so gilt:
+  \begin{align*}
+  \Vert v_{n+1} - w_{n+1} \Vert &\leq \Vert v_n - w_n \Vert + h \Vert f(t_n, v_n) - f(t_n, w_n) \Vert \\
+  & \leq (1+Lh) \Vert v_n - w_n \Vert
+  \end{align*}
+  \item Fehlerakkumulation\\
+  Bezeichne im Folgenden mit $y_n^k$ die Näherung an $y(t_n)$ zum Anfangswert $y(t_k)$ nach $(n-k)$ Schritten.\\
+  Dann ist $y_k = y_k^0$ und $y(t_k) = y_k^k$\\
+  Nach Schritt 1: $\Vert y_{k+1}^k - y_{k+1}^{k+1} \Vert < Ch^2$\\
+  Nach Schritt 2: $\Vert y_m^k - y_m^{k+1} \Vert \leq (1+hL) \Vert y_{m-1}^k - y_{m-1}^{k+1} \Vert$\\
+  induktiv erhält man also:
+  \begin{align*}
+  \Vert y_n^k - y_n ^{k+1} \Vert &\leq (1+hL) \Vert y_{n-1}^k - y_{n-1}^{k+1} \Vert &\\
+  &\leq ... &\\
+  &\leq (1+hL)^{n-k-1} \Vert y_{k+1}^k - y_{k+1}^{k+1} \Vert &\\
+  &\leq (1+hL)^{n-k-1} Ch^2
+  \intertext{Damit ist}
+  \Vert y_n - y(t_n) \Vert &= \Vert y_n^0 - y_n^n \Vert &\\
+  &\leq \Vert y_n^0 - y_n^1 \Vert + \Vert y_n^1 - y_n^2 \Vert + ... + \Vert y_n^{n-1} - y_n^n \Vert &\\
+  &= \sum_{l=1}^n \Vert y_n^{l-1} - y_n^l \Vert &\\
+  &\leq Ch^2 \sum_{l=1}^n (1+hL)^{n-l} &\\
+  &= Ch^2 \frac{(1+hL)^n - 1}{1+ hL - 1} = Ch \frac{(1+hL)^n - 1}{L} &\\
+  &\leq Ch \frac{e^{nhL} - 1}{L} \leq Ch \frac{e^{(T-t_0)L} - 1}{L}
+  \end{align*}
+  Die vorletzte Ungleichung folgt aus $(1+x) \leq e^x$, die letzte aus $nh \leq T-t_0$.
 \end{enumerate}
 \end{proof}
 \end{theorem}
+
+\subsection{Runge-Kutta Verfahren}
+\underline{Ziel:} Verfahren höherer Ordnung.\\
+Das (explizite) Eulerverfahren hatte nur Ordnung 1. D.h. der Fehler ist aus $\mathcal{O}(h)$ für $ h \rightarrow 0$.\\
+Die exakte Lösung $y$ erfüllt für $t_1 = t_0 + h$
+$$y(t_1) = y_0 + \int_{t_0}^{t_1} y'(t)dt = y_0 + \int_{t_0}^{t_1} f(t, y(t)) dt$$
+Anwendung einer s-stufigen Quadraturformel mit Knoten $c_1, ..., c_s$ und Gewichten $b_1,...,b_s$ ergibt
+$$y(t_1) \approx y_0 + h \sum_{i=1}^s b_i f(t_0 + c_ih, y(t_0 + c_ih))$$
+
+\begin{example}[Mittelpunktsregel]
+Sei $s=1$, $b_1 = 1$, $c_1 = \nicefrac{1}{2}$
+$$ y(t_1) \approx y(t_0) + hf(t_0 + \frac{1}{2}h, y(t_0 + \frac{1}{2}h))$$
+Wie berechnet man $y(t_0 + \frac{1}{2}h)$?
+Zum Beispiel mit einem Schritt des expliziten Eulerverfahrens
+$$y(t_0 + \frac{1}{2}h) \approx y(t_0) + \frac{1}{2}hf(t_0, y(t_0))$$
+\end{example}
+
+\begin{comment*}
+In der Quadraturformel treten also die Werte der unbekannten Lösung an den Stellen $t_0 + c_ih$ auf. \\
+Zur Approximation von $y(t_0 + c_ih)$ verwenden wir daher erneut die Integraldarstellung der Lösung
+$$y(t_0 + c_ih) = y_0 + \int_{t_0}^{t_0+h} f(t, y(t))dt$$
+und approximieren die Integrale $\int_{t_0}^{t_0 + c_ih}f(t, y(t))dt$ mit Quadraturformeln mit \textbf{denselben} Knoten $t_0 + c_ih$ und Gewichten $a_{ij}$ passend zu $\int_0^{c_i}$
+$$y(t_0 +c_ih) \approx y_0 + h \sum_{j=1}^s a_{ij} f(t_0 + c_jh, y(t_0 + c_jh))$$
+Zusammenfassend:
+\end{comment*}
+
+\begin{definition}
+Ein Schritt eines Runge-Kutta Verfahrens zur Lösung von $y' = f(t, y)$, $y(t_0) = y_0$ ist durch
+\begin{align*}
+y_1 &= y_0 + h \sum_{i=1}^s b_i Y_i' &\\
+Y_i' &= f(t_0 + c_ih, Y_i), \quad i = 1,...,s &\\
+Y_i &= y_0 + h \sum_{j=1}^s a_{ij} Y_j', \quad i=1,...,s
+\end{align*}
+gegeben mit Koeffizienten $a_{ij}$, $b_i$ und $c_i$ ($i, j = 1,...,s$).
+\end{definition}
+
+\begin{comment*}
+Üblicherweise stellt man ein Runge-Kutta Verfahren in einem sogenannten Butcher Tableau dar:
+$$\begin{array}{c|ccc} \vdots && \\ c_i && a_{ij} & \\ \vdots & & \\ \hline & \hdots & b_j & \hdots \end{array} $$
+Die $Y_i$'s sind im Allgemeinen Lösungen eines nichtlinearen Gleichungssystems.\\
+Falls $a_{ij} = 0$ für $j \geq i$, können die $Y_i$'s nacheinander explizit berechnet werden:
+\begin{algorithmic}
+\FOR{$i=1,...,s$}
+  \STATE $Y_i = y_0 + h \sum_{j=1}^{i-1} a_{ij}Y_j'$
+  \STATE $Y_i' = f(t_0 + c_ih, Y_i)$
+\ENDFOR
+\STATE $y_1 = y_0 + h \sum_{i=1}^s b_i Y_i'$
+\end{algorithmic}
+\end{comment*}
+
+\begin{example}[Explizites Eulerverfahren]
+$$\begin{array}{c|c} 0 & 0 \\ \hline & 1 \end{array}$$
+$Y_1 = y_0$, $Y_1' = f(t_0, Y_1)$ und $y_1 = y_0 + hY_1'$. Der lokale Fehler des expliziten Euler-Verfahren ist aus $\mathcal{O}(h^2)$ (Fraglich, warum der Fehler plötzlich kleiner im Vergleich zur Einleitung des Kapitels geworden ist).
+\end{example}
+
+\begin{example}[Runge-Verfahren 1895]
+Mittelpunktsregel + explizites Eulerverfahren
+$$y_1 = y_0 + hf(t_0 + \frac{h}{2}, y_0 + \frac{h}{2}f(t_0, y_0))$$
+oder
+\begin{align*}
+&Y_1 = y_0, \quad Y_2 = y_0 + \frac{h}{2}Y_1' \\
+&Y_1' = f(t_0, y_0), \quad Y_2' = f(t_0 + \frac{h}{2}, Y_2) \\
+&y_1 = y_0 + hY_2'
+\end{align*}
+Butcher Tableau
+$$\begin{array}{c|cc} 0 & 0 & 0 \\ \nicefrac{1}{2} & \nicefrac{1}{2} & 0 \\ \hline & 0 & 1\end{array}$$
+lokaler Fehler (Taylorentwicklung um $y_1 = y_0 + hf(t_0 + \frac{h}{2} f(t_0, y_0))$ um $(t_0, y_0)$)
+$$y_1 = y_0 + hf(t_0, y_0) + \frac{h^2}{2}( \partial_t f(t_0, y_0) + D_y f(t_0, y_0) f(t_0,y_0)) + \mathcal{O}(h^3)$$
+(Taylorentwicklung von $y(t_0 + h)$ um $t_0$)
+\begin{align*}
+y(t_0 + h) &= y(t_0) + hy'(t_0) + \frac{h^2}{2} y''(t_0) + \mathcal{O}(h^3) &\\
+&= y(t_0) + hf(t_0, y_0) + \frac{h^2}{2} \left( \partial_tf(t_0, y_0) + D_y f(t_0,y_0)f(t_0,y_0) \right) + \mathcal{O}(h^3)
+\end{align*}
+Bildet man die Differenz, so erhält man
+$$ \Vert y_1 - y(t_0 + h) \Vert \in \mathcal{O}(h^3)$$
+\end{example}
+
+\begin{example}[Kutta-Verfahren 1901]
+Simpsonregel mit doppeltem Knoten bei $\nicefrac{1}{2}$
+\begin{alignat*}{3}
+y_1 &= y_0 + h( \nicefrac{1}{6}Y_1' + \nicefrac{1}{3}Y_2' + &&\nicefrac{1}{3}Y_3' + \nicefrac{1}{6}Y_4' ) \\
+Y_1' &= f(t_0, Y_1) \quad  &&Y_1 = y_0 \\
+Y_2' &= f(t_0 + \nicefrac{h}{2} , Y_2) \quad  &&Y_2 = y_0 + \nicefrac{h}{2} f(t_0, Y_1)\\
+Y_3' &= f(t_0 + \nicefrac{h}{2} , Y_3) \quad  &&Y_3 = y_0 + \nicefrac{h}{2} f(t_0, Y_2)\\
+Y_4' &= f(t_0 + h , Y_4) \quad  &&Y_4 = y_0 + h f(t_0, Y_3)\\
+\end{alignat*}
+\end{example}
 %entklammere Graphiken mit \includegraphics wieder 
 \end{document}
