@@ -200,7 +200,7 @@ $$
 \end{nothing}
 
 \begin{example}
-\begin{tabular}{||l|l|l|rrrr||}
+\begin{tabular}{||c|c|c|rrrr||}
 \hline
 $i$ & $x_i$ & $y_i$ & $\delta^1 y[x_0, x_1]$& $\delta^2 y[x_0, x_1, x_2]$& $\delta^3 y[x_0, .., x_3]$& $\delta^4 y[x_0, .., x_4]$\\
 \hline
@@ -232,12 +232,12 @@ Werte $p(x)$ an der Stelle 1 aus:
 
 \subsection{Fehler bei der Polynominterpolation}
 
-\underline{Problem:} $f: \thinspace [a,b] \rightarrow \mathbb{R}$ werde interpoliert in Stützstellen $x_0, ..., x_n \in [a,b]$ durch $p \in \mathcal{P}_n$ mit $p(x_i) = f(x_i)$ für $i=0,...,n$. \\
+\underline{Problem:} $f\colon \thinspace [a,b] \rightarrow \mathbb{R}$ werde interpoliert in Stützstellen $x_0, ..., x_n \in [a,b]$ durch $p \in \mathcal{P}_n$ mit $p(x_i) = f(x_i)$ für $i=0,...,n$. \\
 Wie groß ist der Fehler $f(x)-p(x)$?
 
 \begin{theorem}
-Sei $f: [a,b] \rightarrow \mathbb{R}$ (n+1)-mal stetig differenzierbar, $p \in \mathcal{P}_n$ mit $p(x_i) = f(x_i)$ ($i=0,...,n$) das Interpolationspolynom zu paarweise verschiedenen Stützstellen $x_i \in [a,b]$ ($i=0,..., n$). Dann gilt: \\
-\[\forall x \in [a,b] \exists \xi = \xi(x) \in (a,b): f(x)-p(x) = \frac{f^{(n+1)}(\xi)}{(n+1)!}\prod_{i=0}^n (x-x_i) \]
+Sei $f\colon [a,b] \to \mathbb{R}$ (n+1)-mal stetig differenzierbar, $p \in \mathcal{P}_n$ mit $p(x_i) = f(x_i)$ ($i=0,...,n$) das Interpolationspolynom zu paarweise verschiedenen Stützstellen $x_i \in [a,b]$ ($i=0,..., n$). Dann gilt: \\
+\[\forall x \in [a,b] \exists \xi = \xi(x) \in (a,b)\colon f(x)-p(x) = \frac{f^{(n+1)}(\xi)}{(n+1)!}\prod_{i=0}^n (x-x_i) \]
 \begin{proof}[Beweis]
 Siehe (9.4)
 \end{proof}
@@ -247,7 +247,7 @@ Siehe (9.4)
 $f(x) = log_{10}(x), \quad x \in [55, 58]$\\
 Wähle Stützstellen:\\
 $x_0 = 55, \quad x_1 = 56, \quad x_2 = 57, \quad x_3=58$ \\
-Es seien \[log_{10}(55), \medspace log_{10}(56), \medspace log_{10}(57) \text{ und } log_{10}(58)\] bereits bekannt. Berechne eine Näherung von \(f\) an bei \(log_{10}(56.5)\) \\
+Es seien \[log_{10}(55), \medspace log_{10}(56), \medspace log_{10}(57) \text{ und } log_{10}(58)\] bereits bekannt. Berechne eine Näherung von \(f\) bei \(log_{10}(56.5)\) \\
 $\rightarrow$ Interpolationspolynom $p$:
 \begin{flalign*}
 log_{10}(56.5) &= 1.752048448 &\\
@@ -358,8 +358,8 @@ klar
 \end{example}
 
 \begin{theorem}
-Sei $f: [a,b] \rightarrow \mathbb{R}$ stetig, $p$ Interpolationspolynom zu $f$ in den Stützstellen $x_0,..., x_n \in [a,b]$. So gilt:
-\[ \forall q \in \mathcal{P}_{n+1}: \quad \max_{x \in [a,b] } \vert f(x) -p(x) \vert \leq (1+ \Lambda_n) \max_{x \in [a,b]} \vert q(x) - f(x) \vert .\]
+Sei $f\colon [a,b] \rightarrow \mathbb{R}$ stetig, $p$ Interpolationspolynom zu $f$ in den Stützstellen $x_0,..., x_n \in [a,b]$. So gilt:
+\[ \forall q \in \mathcal{P}_{n+1}\colon \quad \max_{x \in [a,b] } \vert f(x) -p(x) \vert \leq (1+ \Lambda_n) \max_{x \in [a,b]} \vert q(x) - f(x) \vert .\]
 Hierbei ist $\Lambda_n$ die Lebesgue-Konstante zu $(x_i)_{i=0}^n$ auf $[a,b]$.
 \begin{proof}[Beweis]
 Sei $q \in \mathcal{P}$.
@@ -400,7 +400,7 @@ $T_n(x)$ ist für $x \in [-1, 1]$ ein Polynom mit folgenden Eigenschaften:
     $= \medspace cos(n\phi)cos(\phi) - sin(n\phi)sin(\phi) + cos(n\phi)cos(-\phi) - sin(n\phi)sin(-\phi)$ \\
     $= \medspace 2cos(n\phi)cos(\phi)$
   \item[ii)] folgt aus i) und iii)
-  \item[iv)] klar, da $cos: [-1, 1] \rightarrow \mathbb{R}$
+  \item[iv)] klar, da $\cos\colon \mathbb{R} \to [-1, 1]$
   \item[v) + vi)] ebenfalls klar, da $T_n(cos(\frac{k\pi}{n})) = cos(n \frac{k\pi}{n}) = cos(k\pi) = (-1)^k$\\
   analog: $T_n(cos(\frac{(2k+1)\pi}{2n})) = cos(n \frac{(2k+1)\pi}{2n})  = 0$
 \end{enumerate}
@@ -704,7 +704,7 @@ $x_2$ & $y_2$\\
  
 \end{tabular} \\ \\
 \underline{Eindeutigkeit:} \\
-Annahme: $\exists q \in \mathcal{P}_{2n+1}$ mit $q(x_i) = y_i)$, $q'(x_i) = y_i'$\\
+Annahme: $\exists q \in \mathcal{P}_{2n+1}$ mit $q(x_i) = y_i$, $q'(x_i) = y_i'$\\
 Dann ist $q-p \in \mathcal{P}_{2n+1}$ \\
 $q-p$ besitzt doppelte Nullstelle in $x_i$ \\
 $q-p = c \prod(x-x_i)^2$, da $\text{deg}\left(\prod_{i=0}^n (x-x_i)^2 \right) = 2n+2$ \\
@@ -712,11 +712,11 @@ $\Rightarrow \medspace c=0 \quad \Rightarrow \medspace q=p$ \\\\
 Damit ist der folgende Satz bewiesen.
 
 \begin{theorem}
-Zu gegebenen $(x_i, y_i, y_i')_{i=0}^n$ mit $x_i \neq x_j$, falls $i \neq j$ existiert ein eindeutiges Polynom $p \in \mathcal{P}_{2n+1}$ mit $p(x_i) = y_i$ und $p'(x_i) = y_i'$ ($i=0,\dots, n$). $p$ kann mit Hilfe des Newtonschen Differenzenschemas mit doppelten eingeschriebenen Nullstellen (Knoten) berechnet werden.
+Zu gegebenen $(x_i, y_i, y_i')_{i=0}^n$ mit paarweise verschiedenen $x_i \in [a,b]$ existiert ein eindeutiges Polynom $p \in \mathcal{P}_{2n+1}$ mit $p(x_i) = y_i$ und $p'(x_i) = y_i'$ ($i=0,\dots, n$). $p$ kann mit Hilfe des Newtonschen Differenzenschemas mit doppelten eingeschriebenen Nullstellen (Knoten) berechnet werden.
 \end{theorem}
 
 \begin{theorem}[vgl. Satz (9.1)]
-Sei $f: [a,b] \rightarrow \mathbb{R}$ $(2n+2)$-mal stetig differenzierbar ($f \in \mathcal{C}^{2n+2}([a,b], \mathbb{R})$), seien $x_0,..., x_n$ paarweise verschieden und sei $p$ Hermit\'{e}polynom aus (11.1) zu $(x_i,y_i, y_i')_{i=0}^n$. Dann gilt:
+Sei $f\colon [a,b] \rightarrow \mathbb{R}$ $(2n+2)$-mal stetig differenzierbar ($f \in \mathcal{C}^{2n+2}([a,b], \mathbb{R})$), seien $x_0,..., x_n \in [a,b]$ paarweise verschieden und sei $p$ Hermit\'{e}polynom aus (11.1) zu $(x_i,y_i, y_i')_{i=0}^n$. Dann gilt:
 \[ \forall x \in [a,b] \exists \xi \in [a,b]: \medspace f(x)-p(x) = \prod_{j=0}^n (x-x_j)^2 \frac{f^{(2n+2)} (\xi)}{(2n+2)!} \]
 
 \begin{proof}[Beweis]
@@ -1080,7 +1080,7 @@ Newtonschema und Newtoninterpolationspolynome liefert das Ergebnis.
 \begin{enumerate}
   \item[a)] Splineinterpolation $A\tau = b$, $A$ tridiagonal und symmetrisch.
   \item[b)] Computertomographie \\
-%    \includegraphics[width=11cm]{Bild1.png}\\
+    \includegraphics[width=11cm]{Bild1.png}\\
     $\Delta I$: gemessener Intensitätsunterschied zwischen Quelle und Detektor \\
     $\Delta I = \int_{[a,b]} \alpha(x) dx$\\
     Dabei ist $\alpha(x)$ der Absorptionskoeffizient\\
@@ -1088,7 +1088,7 @@ Newtonschema und Newtoninterpolationspolynome liefert das Ergebnis.
     $\Delta I = \sum_{j \in \text{Voxel}} \alpha_j l_j$\\
     $l_j$: Länge des Weges $[a,b]$ in Voxel $j$\\
     Viele Strahlen: $L_j(t) = \omega ( \varphi_j ) s_j + \omega^{\perp} ( \varphi_j ) t$\\
-%    \includegraphics[width=8cm]{Bild2.png}\\
+    \includegraphics[width=8cm]{Bild2.png}\\
     $\omega(\varphi_j) = (\cos(\varphi_j), \sin(\varphi_j))$\\
     $\omega^{\perp}(\varphi_j) = (-\sin(\varphi_j), \cos(\varphi_j))$ \\\\
     $\begin{bmatrix} 
@@ -1285,7 +1285,7 @@ Durch den Computer kommen folgende Einschränkungen hinzu:
     Dieser stellt eine Zahl mit einfacher Genauigkeit dar zur Basis $B=2$ mit $l=32$ und $[e_{\min}, e_{\max}] = [-128, 127]$.
     \begin{figure}[!htb]
       \centering
-%      \includegraphics[width=10cm]{Bild3.png}
+      \includegraphics[width=10cm]{Bild3.png}
       \caption{From https://de.wikipedia.org/wiki/IEEE\_754}
     \end{figure}\\
     Der Wert lässt sich berechnen aus
@@ -1354,10 +1354,10 @@ und damit erhält man für
     Nehme Pivotelement im $(k+1)$-ten Schritt
     $$a_{j(k+1)}^{(k)} \quad \text{mit} \quad \vert a_{j(k+1)}^{(k)} \vert = \max_{i=k+1,...,n} \vert a_{i(k+1)}^{(k)} \vert, $$
     d.h. das betragsmäßig größte Element der $(k+1)$-ten Spalte von $A^{(k)}$ unterhalb der Diagonalen inklusive des Diagonalelements. \\
-%    \begin{figure}[!htb]
-%    \centering
-%    \includegraphics[width=6cm]{Bild4.png}
-%    \end{figure}\\
+    \begin{figure}[!htb]
+    \centering
+    \includegraphics[width=6cm]{Bild4.png}
+    \end{figure}\\
     Damit erreicht man
     $$ \vert l_{i, (k+1)} \vert = \frac{\vert a_{i, k+1}^{(k)} \vert }{ \vert a_{k+1, k+1}^{(k)} \vert} \leq 1, \quad i=k+2,...,n$$
 \end{description}
@@ -1650,10 +1650,10 @@ Sei $X = Y = \mathbb{R}^2$ und $\Vert \cdot \Vert_X = \Vert \cdot \Vert_Y = \Ver
 \begin{definition}[Absolute Kondition]
 Seien $X, Y$ normierte Vektorräume $f: X \rightarrow Y$ ein Problem. Die \textbf{absolute Kondition} von $f$ in $x \in X$ ist 
 $$\kappa_{\text{abs}}(f,x) := \lim_{\delta \rightarrow 0} \sup_{\Vert z \Vert_X \leq \delta} \frac{\Vert f(x+z) - f(x) \Vert_Y}{\Vert z \Vert_X} $$
-%    \begin{figure}[!htb]
-%    \centering
-%    \includegraphics[width=16cm]{Bild5.png}
-%    \end{figure}\\
+    \begin{figure}[!htb]
+    \centering
+    \includegraphics[width=16cm]{Bild5.png}
+    \end{figure}\\
 \end{definition}
 
 \begin{lemma}

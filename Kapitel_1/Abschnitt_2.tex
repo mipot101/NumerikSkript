@@ -50,21 +50,21 @@ $$
 \underbrace{\left[ \begin{array}{rrrr}
 1 & 1 & ... & 1 \\
 c_1 & c_2 & ... & c_s \\
-... & ... & ... & ... \\
+\vdots & \vdots &  & \vdots \\
 c_1^{s-1} & c_2^{s-1} & ... & c_s^{s-1} \\
 \end{array}\right]}_{= V}
 *
 \left[ \begin{array}{r}
 b_1 \\
 b_2 \\
-... \\
+\vdots \\
 b_s \\
 \end{array}\right] 
 = 
 \left[ \begin{array}{r}
 1 \\
 1/2 \\
-... \\
+\vdots \\
 1/s \\
 \end{array}\right] 
 $$
@@ -115,7 +115,7 @@ Trick: $f(t) = c(t-\frac{1}{2})^{2m-1} + \tilde{g}(t)$ mit $\tilde{g} \in \mathc
 Sind Knoten $c_1 < c_2 < ... < c_s$ ($c_i \in \mathbb{R}, i = 1,...s$) gegeben, so existieren eindeutig bestimmte Gewichte $b_1 ,..., b_s$ derart, dass die QF $(b_i, c_i)_{i=1}^s$ die maximale Ordnung $p \geq s$ hat. \\
 Es gilt $$b_i = \int_0^1 l_i(t) dt$$ mit $$l_i(t) = \frac{\prod_{j=1, j\neq i}^s (t-c_j)}{\prod_{j=1, j\neq i}^s (c_i-c_j)}$$
 
-\begin{proof}[Beweis] von 2.8 \\
+\begin{proof}[Beweis]\leavevmode
 \begin{enumerate}
   \item Hat die QF die Ordnung $p \geq s$, so ist wegen $deg(l_i) = s-1$:
   $$ \int_0^1 l_i(t) dt = \sum_{j=1}^s b_j l_i(c_j) = b_i$$

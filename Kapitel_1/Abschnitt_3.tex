@@ -8,7 +8,7 @@ Der Fehler bei der Approximation des Integrals durch die QF ist
 err &= \int_a^b f(x)dx - \sum_{j=0}^{n-1}\left( h_{j+1} \sum_{i=1}^s b_i f(x_j+h_{j+1}c_i)\right)
 \intertext{mit $h_{j+1} = x_{j+1}-x_j$}
 &= \sum_{j=0}^{n-1} \left( \int_{x_j}^{x_{j+1}} f(x_j + \tau) d\tau - h_{j+1} \sum_{i=1}^s b_i f(x_j + h_{j+1}c_i)\right) &\\
-&= \sum_{j=0}^{n-1} h_{j+1} \int_0^1 g_j(\xi) d\xi -h_{j+1} \sum_{i=1}^s b_i g_j(c_i)
+&= \sum_{j=0}^{n-1} h_{j+1}\left(\int_0^1 g_j(\xi) d\xi - \sum_{i=1}^s b_i g_j(c_i)\right)
 \intertext{mit $ g_j(\xi) = f(x_j + \xi h_{j+1})$}
 \end{align*}
 Der Quadraturfehler auf Teilintervallen $[x_j, x_j+h_{j+1}]$ ist 

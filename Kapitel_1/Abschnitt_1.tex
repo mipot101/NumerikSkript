@@ -10,9 +10,9 @@ Berechne $\int_a^b f(x) dx $
   \item Archimedes (282-212 v.Chr.): Fläche unter einer Parabel \\ \\
     \includegraphics[width=5cm]{Kapitel_1/Grafiken/Grafik_1.png} \\
     $A_{Parabel} = A_{Trapez} + \frac{4}{3} A_{Dreieck}$
-  \item Leibniz + Newton (~1670):
+  \item Leibniz + Newton ($\sim$1670):
     $$ \int_a^b f(x) dx = F(b) - F(a),$$ wobei $\frac{d}{dx} F(x) = f(x)$
-  \item Riemann (~1850): 
+  \item Riemann ($\sim$1850): 
     $$ \int_a^b f(x) dx = \lim\limits_{\vert \Delta \vert \to 0} \sum_{j=1}^n f(\xi_j)(x_j - x_{j-1}),$$
     wobei $\Delta = (x_0,...,x_n)$ Gitter Zerlegung von $[a, b]$, $a=x_0 < ...< x_n = b$, $\xi_j \in [x_{j-1}, x_j]$ und $\vert \Delta \vert := \max_{j=1,...n} \vert x_j - x_{j-1} \vert$.
     Das Riemannintegral existiert, falls: 
@@ -23,8 +23,10 @@ Berechne $\int_a^b f(x) dx $
 \begin{comment}[Approximation von Integralen]\leavevmode
 \begin{enumerate}
   \item (linke) Rechtecksregel: 
-    $$\int_{x_{j-1}}^{x_{j-1}+h} f(x) dx \approx h f(x_{j-1})$$
-    $$\int_a^b f(x) dx = \sum_{j=1}^n \int_{x_{j-1}}^{x_j} f(x)dx \approx \sum_{j=1}^n f(x_{j-1}) (x_j-x_{j-1})$$
+    \begin{align*}
+    &\int_{x_{j-1}}^{x_{j-1}+h} f(x) dx \approx h f(x_{j-1}) \\
+    &\int_a^b f(x) dx = \sum_{j=1}^n \int_{x_{j-1}}^{x_j} f(x)dx \approx \sum_{j=1}^n f(x_{j-1}) (x_j-x_{j-1})
+    \end{align*}
   \item Mittelpunktsregel:
     $$\int_{x_{j}}^{x_{j}+h} f(x) dx \approx f\left(\frac{x_j+x_j+h}{2}\right)h$$
     $$\int_a^bf(x)dx \approx \sum_{j=1}^n f\left( \frac{x_{j-1} + x_j}{2}\right) (x_j - x_{j-1})$$
