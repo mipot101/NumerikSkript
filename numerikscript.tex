@@ -754,7 +754,7 @@ $$ \int_a^b h''(x) s''(x) dx = \left[ s''(x) h'(x) \right]_{x=a}^b - \int_a^b s'
 Falls $s'''(x) = \alpha_i$ für $x \in [x_{i-1}, x_i]$, dann ist 
 \begin{align*}
 \int_a^b s'''(x) h'(x) dx &= \sum_{i=1}^n \alpha_i \int_{x_{i-1}}^{x_i} h'(x) dx &\\
-&= \sum_{i=1}^n \alpha_i \left(\underbrace{h(x_i)}_{= 0} - \underbrace{h(x_{i-1}}_{= 0}\right) &\\
+&= \sum_{i=1}^n \alpha_i \left(\underbrace{h(x_i)}_{= 0} - \underbrace{h(x_{i-1})}_{= 0}\right) &\\
 &= 0
 \end{align*}
 $\Rightarrow$ Forderung: $\left[s''(x) h'(x) \right]_{x=a}^b = s''(b)h'(b) - s''(a)h'(a) \overset{!}{=} 0$
@@ -787,7 +787,8 @@ Die Bedingung (*) kann erreicht werden durch
 \end{comment}
 
 \begin{nothing}[Konstruktion des Splines]
-Gegeben sind $(x_i, y_i)$ $i=0,...,n$, $a = x_0 < x_1 < ... < x_n = b$, $s\,\rule[-2mm]{0.1mm}{5mm}_{\thinspace [x_{i-1}, x_i]} =: s_i \in \mathcal{P}_3$. \\
+Gegeben sind $(x_i, y_i)$ $i=0,...,n$, $a = x_0 < x_1 < ... < x_n = b$. \\
+Suche für $i=1,...,n$ $s_i := s\,\rule[-2mm]{0.1mm}{5mm}_{\thinspace [x_{i-1}, x_i]}  \in \mathcal{P}_3$. \\
 Hermite-Interpolation:
 \begin{align*}
 &s_i(x_i) = y_i &\\
@@ -799,15 +800,15 @@ Dabei sind $\tau$ unbekannte Steigungen. \\
 Ansatz: 
 \begin{align*}
 s_i(x) &= y_{i-1} + (x-x_{i-1}) \delta y[x_{i-1}, x_i] + (x-x_{i-1})(x-x_i) \left( \alpha (x-x_{i-1}) + \beta (x-x_i) \right) &\\
-s_i'(x_{i-1}) &= \delta y[x_{i-1}, x_i] + \beta (x_{i-1} - x_i)^2 = \tau_{i-1} &\\
-s_i'(x_i) &= \delta y[x_{i-1}, x_i] + \alpha (x_i - x_{i-1})^2 = \tau_i &\\
+s_i'(x_{i-1}) &= \delta y[x_{i-1}, x_i] + \beta (x_{i-1} - x_i)^2 \overset{!}{=} \tau_{i-1} &\\
+s_i'(x_i) &= \delta y[x_{i-1}, x_i] + \alpha (x_i - x_{i-1})^2 \overset{!}{=} \tau_i &\\
 \Rightarrow \alpha &= \frac{\tau_i - \delta y[x_{i-1}, x_i]}{(x_i - x_{i-1})^2} &\\
 \beta &= \frac{\tau_{i-1} - \delta y[x_{i-1}, x_i]}{(x_{i-1}- x_i)^2} &\\
 h_i &= x_i-x_{i-1} &\\
 \Rightarrow s_i(x) &= y_{i-1} + (x-x_{i-1}) \delta y [x_{i-1}, x_i] &\\ 
-&+ \frac{(x-x_{i-1} )(x-x_i)}{h_i^2} \left( (\tau_i - \delta y[x_{i-1},x_i])(x-x_{i-1})+(\tau_{i-1} - \delta y[x_{i-1},x_i])(x-x_i) \right) &\\
+&+ \frac{(x-x_{i-1} )(x-x_i)}{h_i^2} \left( (\tau_i - \delta y[x_{i-1},x_i])(x-x_{i-1})+(\tau_{i-1} - \delta y[x_{i-1},x_i])(x-x_i) \right)
 \end{align*}
-Für beliebige $\tau_0,..., \tau_n$ erhalten wir $s: [a,b] \rightarrow \mathbb{R}$ mit 
+Für beliebige $\tau_0,..., \tau_n$ erhalten wir $s\colon [a,b] \rightarrow \mathbb{R}$ mit 
 \begin{enumerate}
   \item[i)] $s\,\rule[-2mm]{0.1mm}{5mm}_{\thinspace [x_{i-1}, x_i]} \in \mathcal{P}_3$
   \item[ii)] $s(x_i) = y_i$
