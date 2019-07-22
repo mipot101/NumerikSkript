@@ -896,7 +896,7 @@ Folgt aus (12.5)
 \end{korollar}
 
 \subsection{Fehler bei der Splineinterpolation}
-Vorraussetzungen für diesen Abschnitt: \\
+Vo­r­aus­set­zungen für diesen Abschnitt: \\
 $a = x_0 < x_1 < ... < x_n = b$, \\
 $h_i= x_i-x_{i-1}$, \\
 $h:= \max_i \vert h_i \vert$
@@ -909,7 +909,7 @@ $$ \vert f(x) - s(x) \vert \leq \frac{5}{384} h^4 \max_{\xi \in[a,b]} \vert f^{(
 \end{theorem}
 
 \begin{lemma}
-Unter den Vorraussetzungen von (13.1) gilt für  $s'(x_i) = \tau_i$:
+Unter den Vo­r­aus­set­zungen von (13.1) gilt für  $s'(x_i) = \tau_i$:
 $$ \vert f'(x_i) - \tau_i \vert \leq \frac{h^3}{24} \max_{\xi \in [a,b]} \vert f^{(4)}(\xi) \vert$$
 \begin{proof}[Beweis (für den äquidistanten Fall)]
 Für $i=1, ..., n-1$ erfüllen die $\tau_i$ 
@@ -2341,7 +2341,7 @@ Hierbei ist $a$ die Geburtenrate der Speisefische, $b$ die Effizienz der Raubfis
 \subsection{Erinnerung an die Theorie gewöhnlicher DGLs}
 
 \begin{comment}
-Jeder Differentialgleichung $k$-ter Ordnung
+Jede Differentialgleichung $k$-ter Ordnung
 $$y^{(k)} = f(t, y, y',..., y^{(k-1)})$$
 kann in ein System erster Ordnung umgeschrieben werden:\\
 Mit der Setzung
@@ -2366,7 +2366,7 @@ ist äquivalent zu einem autonomen System
 $$Y' = F(Y) \text{ mit } Y = \left[\begin{matrix}y \\ t \end{matrix} \right] \text{ und } F(Y) = \left[ \begin{matrix} f(t,y) \\ 1 \end{matrix} \right]$$
 \end{comment*}
 
-\begin{comment*}[Allgemeine Vorraussetzungen]
+\begin{comment*}[Allgemeine Vo­r­aus­set­zungen]
 Als nächstes wiederholen wir einige theoretische Resultate zur Existenz, Eindeutigkeit und Stabilität von Lösungen von Anfangswertproblemen. Dazu sei ab jetzt
 \begin{itemize}
   \item $U \subset \mathbb{R} \times \mathbb{R}^d$ offen und zusammenhängend
@@ -2377,7 +2377,7 @@ Die lokale Lipschitz-Bedingung ist erfüllt, falls $f$ stetig differenzierbar is
 \end{comment*}
 
 \begin{theorem}[Satz von Picard-Lindelöf zur lokalen Existenz und Eindeutigkeit]
-Unter obigen Vorraussetzungen gilt: Es gibt ein offenes Intervall $I$ mit $t_0 \in I$, sodass genau eine Lösung $y: I \rightarrow \mathbb{R}^d$ existiert, mit
+Unter obigen Vo­r­aus­set­zungen gilt: Es gibt ein offenes Intervall $I$ mit $t_0 \in I$, sodass genau eine Lösung $y: I \rightarrow \mathbb{R}^d$ existiert, mit
 $$y'(t) = f(t, y(t)), \text{ für $t\in I$ und $y(t_0)=y_0$}$$
 Diese Lösung kann bis an den Rand von $U$ fortgesetzt werden.
 \begin{proof}[Beweis] Ana II \end{proof}
@@ -2386,13 +2386,13 @@ Diese Lösung kann bis an den Rand von $U$ fortgesetzt werden.
 \begin{example}
 Die rechte Seite der Differentialgleichung
 $$y' = y^2, \quad y(0) = 1, \quad U = \mathbb{R} \times \mathbb{R}$$
-ist lokal Lipschitz-stetig, erfüllt also die Vorraussetzungen von Picard-Lindelöf. Die eindeutige Lösung $y(t) = (1-t)^{-1}$ existiert auf dem offenen Intervall $I = (-\infty, 1)$ und $t_0 = 0 \in I$. Es ist jedoch $\lim_{t \nearrow 1} y(t) = + \infty$. 
+ist lokal Lipschitz-stetig, erfüllt also die Vo­r­aus­set­zungen von Picard-Lindelöf. Die eindeutige Lösung $y(t) = (1-t)^{-1}$ existiert auf dem offenen Intervall $I = (-\infty, 1)$ und $t_0 = 0 \in I$. Es ist jedoch $\lim_{t \nearrow 1} y(t) = + \infty$. 
 \end{example}
 
 Für numerische Verfahren ist es wichtig wie sich Störungen der Anfangswerte auf die Lösung auswirken.
 
 \begin{theorem}
-Zusätzlich zu den allgemeinen Vorraussetzungen erfülle für $\langle \cdot, \cdot \rangle$ ein Skalarprodukt auf $\mathbb{C}^d$ und $\Vert \cdot \Vert$ die induzierte Norm die rechte Seite $f: [t_0, T] \rightarrow \mathbb{C}^d$ $f$ für ein $l$ folgende einseitige Lipschitz-Bedingung
+Zusätzlich zu den allgemeinen Vo­r­aus­set­zungen erfülle für $\langle \cdot, \cdot \rangle$ ein Skalarprodukt auf $\mathbb{C}^d$ und $\Vert \cdot \Vert$ die induzierte Norm die rechte Seite $f: [t_0, T] \rightarrow \mathbb{C}^d$ $f$ für ein $l$ folgende einseitige Lipschitz-Bedingung
 $$\Re \langle f(t, y) - f(t, z), y-z \rangle \leq l \Vert y-z \Vert^2 \quad \text{für alle } y, z \in U $$
 Sind $y$ und $z$ zwei Lösungen von $y' = f(t, y)$ zu verschiedenen Anfangswerten $y_0$ bzw. $z_0$, so gilt
 $$ \Vert y(t) - z(t) \Vert \leq e^{l(t-t_0)} \Vert y_0 - z_0 \Vert \quad \text{für alle } t \in [t_0, T].$$
@@ -2421,7 +2421,6 @@ Falls $y(t_0) \neq z(t_0)$ so gilt wegen der Eindeutigkeit der Lösung auch $y(t
 \renewcommand{\labelenumi}{\roman{enumi})}
 \begin{enumerate}
   \item Fehler in den Anfangsdaten können maximal mit dem Faktor $e^{l(t-t_0)}$ verstärkt werden.
-  \item Da $f$ lokal Lipschitz-stetig ist, ist die Voraussetzung des Satzes mit $l = L$ erfüllt. Für das bestmögliche (kleinste) $l$ kann aber $l \ll L$ gelten.
   \item $l<0$ ist möglich, hingegen ist immer $L>0$
 \end{enumerate}
 \end{comment}
@@ -2462,7 +2461,7 @@ $$y'' = \delta_tf + D_yf \cdot y' = \delta_tf + D_yf \cdot f$$
 $D_yf = D_yf(t, y)$ bezeichnet die Ableitung ($d \times d$ Matrix) nach y. Die Folge $(y_n)_{n \in \mathbb{N}}$ ist mit $t_n = t_0 + nh \in I$ durch das explizite Eulerverfahren definiert.
 
 \begin{theorem}[Fehlerabschätzung für das explizite Eulerverfahren]
-Mit den eben gemachten Vorraussetzungen gilt für den Fehler des expliziten Euler-Verfahrens
+Mit den eben gemachten Vo­r­aus­set­zungen gilt für den Fehler des expliziten Euler-Verfahrens
 $$\Vert y_n - y(t_n) \Vert \leq M \cdot h,$$
 mit
 $$ M = \frac{e^{L(T-t_0)} - 1}{L} \frac{1}{2} \max_{t \in I} \Vert y''(t) \Vert $$
