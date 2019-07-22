@@ -3,7 +3,7 @@
 
 \usepackage{algorithmic} %Für Pseudocode https://math-linux.com/latex-26/faq/latex-faq/article/how-to-write-algorithm-and-pseudocode-in-latex-usepackage-algorithm-usepackage-algorithmic
 \usepackage{stmaryrd} %Für Widerspruchsblitz
-\usepackage{amsmath} 
+\usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm} %Für Theoreme und Beweise
 \usepackage{graphicx} %Für Bilder
@@ -896,7 +896,7 @@ Folgt aus (12.5)
 \end{korollar}
 
 \subsection{Fehler bei der Splineinterpolation}
-Vorraussetzungen für diesen Abschnitt: \\
+Vo­r­aus­set­zungen für diesen Abschnitt: \\
 $a = x_0 < x_1 < ... < x_n = b$, \\
 $h_i= x_i-x_{i-1}$, \\
 $h:= \max_i \vert h_i \vert$
@@ -909,7 +909,7 @@ $$ \vert f(x) - s(x) \vert \leq \frac{5}{384} h^4 \max_{\xi \in[a,b]} \vert f^{(
 \end{theorem}
 
 \begin{lemma}
-Unter den Vorraussetzungen von (13.1) gilt für  $s'(x_i) = \tau_i$:
+Unter den Vo­r­aus­set­zungen von (13.1) gilt für  $s'(x_i) = \tau_i$:
 $$ \vert f'(x_i) - \tau_i \vert \leq \frac{h^3}{24} \max_{\xi \in [a,b]} \vert f^{(4)}(\xi) \vert$$
 \begin{proof}[Beweis (für den äquidistanten Fall)]
 Für $i=1, ..., n-1$ erfüllen die $\tau_i$ 
@@ -1809,7 +1809,7 @@ $\tilde{f} = \tilde{f}_n \circ \tilde{f}_{n-1} \circ ... \circ \tilde{f}_1, \qua
 
 \begin{definition}
 Ein Verfahren zur Auswertung des Problems $f$ ist stabil im Sinne der Vorwärtsanalysis, falls 
-$$\tilde{f}(x) - f(x) \Vert < C * eps *  \Vert f(x) \Vert$$
+$$\Vert \tilde{f}(x) - f(x) \Vert < C * eps *  \Vert f(x) \Vert$$
 für eine nicht zu große Konstante $C$.
 \end{definition}
 
@@ -1965,7 +1965,7 @@ Sei $A = \left[ \begin{matrix} \vdots & \vdots & & \vdots \\ a_1 & a_2 & \dots &
 \end{description}
 Gesamtaufwand: $2 (m*n + (m-1)(n-1) \cdots (m-n+1) 1 )$\\
 Falls $m=n \medspace \rightarrow \medspace \frac{2}{3}\thinspace n^3$\\
-Falls $m>>n \medspace \rightarrow \medspace 2m ( n + (n-1) + \cdots + 1 ) \approx mn^2)$
+Falls $m \gg n \medspace \rightarrow \medspace 2m ( n + (n-1) + \cdots + 1 ) \approx mn^2)$
 \end{nothing}
 
 \begin{nothing}[Stabilität]
@@ -2001,7 +2001,7 @@ Falls rang(A) $= k < n$ wäre bei der Rechnung ohne Rundungsfehler $\alpha_l = 0
 Zu gegebenen Messdaten $(t_j, y_j)$ $j=1,...,m$ suche $y = f(t)$
 $$f(t) = \sum_{i=1}^n x_i \varphi_i(t),$$
 sodass $y_j \approx f(t_j)$ für $j=1,...,m$.\\
-Hierbei sind die $\varphi_1, ..., \varphi_n$ gegebene Funktionen und $x_1, ..., x_n$ unbekannte Parameter, wobei $m>>n$.\\
+Hierbei sind die $\varphi_1, ..., \varphi_n$ gegebene Funktionen und $x_1, ..., x_n$ unbekannte Parameter, wobei $m \gg n$.\\
 Genauer: $\sum_{j=1}^m (y_j - f(t_j))^2$ soll minimal werden.
 \end{problem}
 
@@ -2024,7 +2024,7 @@ Ax = b & \Leftrightarrow
 \includegraphics[width=6cm]{Bild6.png}\\
 Wähle $n=2$ mit $\varphi_1(t) = 1$ und $\varphi_2(t) = t$. Dann ergibt sich
 $$f(t) = x_2t + x_1.$$
-Bezeichne nun $x_2$ mit $m$ und $x_1$ mit $c$, um die übliche Geradedarstellung zu erhalten:
+Bezeichne nun $x_2$ mit $m$ und $x_1$ mit $c$, um die übliche Geradendarstellung zu erhalten:
 $$f(t) = mt + c,$$
 wobei $c$ der y-Achsenabschnitt und $m$ die Steigung ist.
 Dann ergibt sich:
@@ -2199,7 +2199,7 @@ $$f''(x) [y,z] = \sum_{k=1}^n z_k \sum_{j=1}^n \frac{\delta^2}{\delta_{x_k} \del
 \end{theorem}
 
 \begin{definition}
-Eine Folge $(x_k)_k$ konvergiert mit Ordnung $p$ für $p \geq 1$ gegen $x^*$ falls ein $C \geq 0$ exisitert mit
+Eine Folge $(x_k)_k$ konvergiert mit Ordnung $p$ für $p \geq 1$ gegen $x^*$ falls ein $C \geq 0$ existiert mit
 $$ \Vert x_{k+1} - x^* \Vert \leq C \Vert x_k - x^* \Vert ^p,$$
 wobei $C < 1$, falls $p=1$.
 \end{definition}
@@ -2341,7 +2341,7 @@ Hierbei ist $a$ die Geburtenrate der Speisefische, $b$ die Effizienz der Raubfis
 \subsection{Erinnerung an die Theorie gewöhnlicher DGLs}
 
 \begin{comment}
-Jeder Differentialgleichung $k$-ter Ordnung
+Jede Differentialgleichung $k$-ter Ordnung
 $$y^{(k)} = f(t, y, y',..., y^{(k-1)})$$
 kann in ein System erster Ordnung umgeschrieben werden:\\
 Mit der Setzung
@@ -2366,18 +2366,18 @@ ist äquivalent zu einem autonomen System
 $$Y' = F(Y) \text{ mit } Y = \left[\begin{matrix}y \\ t \end{matrix} \right] \text{ und } F(Y) = \left[ \begin{matrix} f(t,y) \\ 1 \end{matrix} \right]$$
 \end{comment*}
 
-\begin{comment*}[Allgemeine Vorraussetzungen]
+\begin{comment*}[Allgemeine Vo­r­aus­set­zungen]
 Als nächstes wiederholen wir einige theoretische Resultate zur Existenz, Eindeutigkeit und Stabilität von Lösungen von Anfangswertproblemen. Dazu sei ab jetzt
 \begin{itemize}
   \item $U \subset \mathbb{R} \times \mathbb{R}^d$ offen und zusammenhängend
-  \item $f: U \rightarrow \mathbb{R}^d$ stetig und erfülle folgende lokale Libschit-Bedingung:
+  \item $f: U \rightarrow \mathbb{R}^d$ stetig und erfülle folgende lokale Lipschitz-Bedingung:
   $$\exists L \thinspace \forall K \subset U \text{ kompakt } \forall (t, y), (t,z) \in K: \Vert f(t, y) - f(t,z) \Vert \leq L \Vert y- z \Vert$$
 \end{itemize}
 Die lokale Lipschitz-Bedingung ist erfüllt, falls $f$ stetig differenzierbar ist. Dann kann $L = \max_{(t, y) \in K} \Vert f_y(t, y) \Vert$ gewählt werden. 
 \end{comment*}
 
-\begin{theorem}[Satz von Picard-Lindelöf zur lokalen Existenz und Eindeutigkeit)]
-Unter obigen Vorraussetzungen gilt: Es gibt ein offenes Intervall $I$ mit $t_0 \in I$, sodass genau eine Lösung $y: I \rightarrow \mathbb{R}^d$ exisitert, mit
+\begin{theorem}[Satz von Picard-Lindelöf zur lokalen Existenz und Eindeutigkeit]
+Unter obigen Vo­r­aus­set­zungen gilt: Es gibt ein offenes Intervall $I$ mit $t_0 \in I$, sodass genau eine Lösung $y: I \rightarrow \mathbb{R}^d$ existiert, mit
 $$y'(t) = f(t, y(t)), \text{ für $t\in I$ und $y(t_0)=y_0$}$$
 Diese Lösung kann bis an den Rand von $U$ fortgesetzt werden.
 \begin{proof}[Beweis] Ana II \end{proof}
@@ -2386,13 +2386,13 @@ Diese Lösung kann bis an den Rand von $U$ fortgesetzt werden.
 \begin{example}
 Die rechte Seite der Differentialgleichung
 $$y' = y^2, \quad y(0) = 1, \quad U = \mathbb{R} \times \mathbb{R}$$
-ist lokal Lipschitz-stetig, erfüllt also die Vorraussetzungen von Picard-Lindelöf. Die eindeutige Lösung $y(t) = (1-t)^{-1}$ existiert auf dem offenen Intervall $I = (-\infty, 1)$ und $t_0 = 0 \in I$. Es ist jedoch $\lim_{t \nearrow 1} y(t) = + \infty$. 
+ist lokal Lipschitz-stetig, erfüllt also die Vo­r­aus­set­zungen von Picard-Lindelöf. Die eindeutige Lösung $y(t) = (1-t)^{-1}$ existiert auf dem offenen Intervall $I = (-\infty, 1)$ und $t_0 = 0 \in I$. Es ist jedoch $\lim_{t \nearrow 1} y(t) = + \infty$. 
 \end{example}
 
 Für numerische Verfahren ist es wichtig wie sich Störungen der Anfangswerte auf die Lösung auswirken.
 
 \begin{theorem}
-Zusätzlich zu den allgemeinen Vorraussetzungen erfülle für $\langle \cdot, \cdot \rangle$ ein Skalarprodukt auf $\mathbb{C}^d$ und $\Vert \cdot \Vert$ die induzierte Norm die rechte Seite $f: [t_0, T] \rightarrow \mathbb{C}^d$ $f$ für ein $l$ folgende einseitige Lipschitz-Bedingung
+Zusätzlich zu den allgemeinen Vo­r­aus­set­zungen erfülle für $\langle \cdot, \cdot \rangle$ ein Skalarprodukt auf $\mathbb{C}^d$ und $\Vert \cdot \Vert$ die induzierte Norm die rechte Seite $f: [t_0, T] \rightarrow \mathbb{C}^d$ $f$ für ein $l$ folgende einseitige Lipschitz-Bedingung
 $$\Re \langle f(t, y) - f(t, z), y-z \rangle \leq l \Vert y-z \Vert^2 \quad \text{für alle } y, z \in U $$
 Sind $y$ und $z$ zwei Lösungen von $y' = f(t, y)$ zu verschiedenen Anfangswerten $y_0$ bzw. $z_0$, so gilt
 $$ \Vert y(t) - z(t) \Vert \leq e^{l(t-t_0)} \Vert y_0 - z_0 \Vert \quad \text{für alle } t \in [t_0, T].$$
@@ -2442,7 +2442,7 @@ $l = \Re \lambda$, $L = \vert \lambda \vert$
 Einfachstes und ältestes Verfahren zur näherungsweisen Lösung von
 $$y'(t) = f(t, y(t)), \quad y(t_0) = y_0$$
 Idee: Ersetze lokal die (unbekannte) Lösung durch die bekannte Tangente an der Stelle $t_0$, so erhält man $y_1 = y_0 + hf(t_0,y_0)$, usw. \\
-Allgemeine Iterationsvorschrit (explizites Eulerverfahren):\\
+Allgemeine Iterationsvorschrift (explizites Eulerverfahren):\\
 $t_n = t_0 + nh$ \\
 $y_i = y_{i-1} + hf(t_{i-1}, y_{i-1})$ für $i\in \mathbb{N}$.\\
 \\
@@ -2454,7 +2454,7 @@ $y_i = y_{i-1} + hf(t_{i}, y_{i})$ für $i\in \mathbb{N}$.\\
 Hierbei muss in jedem Schritt ein nicht-lineares Gleichungssystem gelöst werden (etwa mit Newton-Verfahren oder Fixpunktiteration).\\
 \\
 \underline{Approximationsfehler beim expliziten Eulerverfahren:}\\
-Sei $I = [t_0, T]$ ein Intervall und $f: I \times \mathbb{R}^d \rightarrow \mathbb{R}^d$ stetig differenzierbar und (global) Lipschit-stetig, d.h.:
+Sei $I = [t_0, T]$ ein Intervall und $f: I \times \mathbb{R}^d \rightarrow \mathbb{R}^d$ stetig differenzierbar und (global) Lipschitz-stetig, d.h.:
 $$\forall y, z \in \mathbb{R}^d \medspace \forall t \in I:
 \Vert f(t, y) - f(t, z) \Vert \leq L \Vert y-z \Vert$$
 Ist $y: I \rightarrow \mathbb{R}^d$ Lösung des Anfangswertproblems $y' = f(t, y), y(t_0) = y_0$, dann ist $y$ jetzt zweimal stetig differenzierbar, denn
@@ -2462,7 +2462,7 @@ $$y'' = \delta_tf + D_yf \cdot y' = \delta_tf + D_yf \cdot f$$
 $D_yf = D_yf(t, y)$ bezeichnet die Ableitung ($d \times d$ Matrix) nach y. Die Folge $(y_n)_{n \in \mathbb{N}}$ ist mit $t_n = t_0 + nh \in I$ durch das explizite Eulerverfahren definiert.
 
 \begin{theorem}[Fehlerabschätzung für das explizite Eulerverfahren]
-Mit den eben gemachten Vorraussetzungen gilt für den Fehler des expliziten Euler-Verfahrens
+Mit den eben gemachten Vo­r­aus­set­zungen gilt für den Fehler des expliziten Euler-Verfahrens
 $$\Vert y_n - y(t_n) \Vert \leq M \cdot h,$$
 mit
 $$ M = \frac{e^{L(T-t_0)} - 1}{L} \frac{1}{2} \max_{t \in I} \Vert y''(t) \Vert $$
@@ -2528,10 +2528,10 @@ $$y(t_1) \approx y_0 + h \sum_{i=1}^s b_i f(t_0 + c_ih, y(t_0 + c_ih))$$
 
 \begin{example}[Mittelpunktsregel]
 Sei $s=1$, $b_1 = 1$, $c_1 = \nicefrac{1}{2}$
-$$ y(t_1) \approx y(t_0) + hf(t_0 + \frac{1}{2}h, y(t_0 + \frac{1}{2}h))$$
-Wie berechnet man $y(t_0 + \frac{1}{2}h)$?
+$$ y(t_1) \approx y(t_0) + hf\left(t_0 + \frac{1}{2}h, y\left(t_0 + \frac{1}{2}h\right)\right)$$
+Wie berechnet man $y(t_0 + \nicefrac{1}{2}h)$?
 Zum Beispiel mit einem Schritt des expliziten Eulerverfahrens
-$$y(t_0 + \frac{1}{2}h) \approx y(t_0) + \frac{1}{2}hf(t_0, y(t_0))$$
+$$y\left(t_0 + \frac{1}{2}h\right) \approx y(t_0) + \frac{1}{2}hf(t_0, y(t_0))$$
 \end{example}
 
 \begin{comment*}
@@ -2574,11 +2574,11 @@ $Y_1 = y_0$, $Y_1' = f(t_0, Y_1)$ und $y_1 = y_0 + hY_1'$. Der lokale Fehler des
 
 \begin{example}[Runge-Verfahren 1895]
 Mittelpunktsregel + explizites Eulerverfahren
-$$y_1 = y_0 + hf(t_0 + \frac{h}{2}, y_0 + \frac{h}{2}f(t_0, y_0))$$
+$$y_1 = y_0 + hf\left(t_0 + \frac{h}{2}, y_0 + \frac{h}{2}f(t_0, y_0)\right)$$
 oder
 \begin{align*}
 &Y_1 = y_0, \quad Y_2 = y_0 + \frac{h}{2}Y_1' \\
-&Y_1' = f(t_0, y_0), \quad Y_2' = f(t_0 + \frac{h}{2}, Y_2) \\
+&Y_1' = f(t_0, y_0), \quad Y_2' = f\left(t_0 + \frac{h}{2}, Y_2\right) \\
 &y_1 = y_0 + hY_2'
 \end{align*}
 Butcher Tableau
