@@ -751,7 +751,7 @@ Obige Ungleichung ist erfüllt, falls
 $$ \forall h \in \mathcal{C}^2([a,b]) \medspace \text{mit }h(x_i) = 0: \medspace \int_a^b h''(x) s''(x) dx = 0$$
 Dabei gilt:
 $$ \int_a^b h''(x) s''(x) dx = \left[ s''(x) h'(x) \right]_{x=a}^b - \int_a^b s'''(x) h'(x)dx$$
-Falls $s'''(x) = \alpha_i$ für $x \in [x_{i-1}, x_i]$, dann ist 
+Falls $s'''(x) \equiv \alpha_i$ für $x \in [x_{i-1}, x_i]$, dann ist 
 \begin{align*}
 \int_a^b s'''(x) h'(x) dx &= \sum_{i=1}^n \alpha_i \int_{x_{i-1}}^{x_i} h'(x) dx &\\
 &= \sum_{i=1}^n \alpha_i \left(\underbrace{h(x_i)}_{= 0} - \underbrace{h(x_{i-1})}_{= 0}\right) &\\
@@ -992,25 +992,23 @@ $$\Lambda_n = \max_{x \in [a,b]} \sum_{i=0}^n \vert l_i(x) \vert $$
   Allerdings ist ein Grenzübergang $h \rightarrow 0$ auf einem Computer problematisch, da statt $\frac{f(x+h) - f(x)}{h}$ nur $\frac{f(x+h) - f(x) + \varepsilon}{h}$ berechnet werden kann für ein $\varepsilon < \text{eps}$ (Maschinengenauigkeit) \\
   $\text{eps} \approx 10^{-16}$
   \item[Idee:] Um $f'$ zu approximieren, ersetze $f$ durch ein Polynom $p$ oder ein Spline $s$ und approximiere $f'$ durch $s'$ oder $p'$.
-  \item[Berechnung von $p'(x)$:]  Dividierte Differenzen:\\
+  \item[Berechnung von $p'(x)$:]  Dividierte Differenzen für $n=3$:\\
   \begin{tabular}{lllllll}
     $x$ & $p(x) = b_0$ \\
     &&$b_1$\\
 	$x_0$ & $y_0 = f(x_0)$ && $b_2$\\
 	 & & $\delta^1y[x_0, x_1]$&& $b_3$\\
-	$x_1$ & $y_1 = f(x_1)$ & &$\delta^2y[x_0, x_1, x_2]$  &&$\ddots$\\
-	 & & $\delta^1y[x_1, x_2]$ & & $\delta^3y[x_0, x_1, x_2, x_3]$&& $b_n = \delta^ny[x_0,...,x_n]$\\
+	$x_1$ & $y_1 = f(x_1)$ & &$\delta^2y[x_0, x_1, x_2]$ & \rotatebox[origin=c]{90}{$=$}\\
+	 & & $\delta^1y[x_1, x_2]$ & & $\delta^3y[x_0, x_1, x_2, x_3]$\\
 	$x_2$ & $y_2 = f(x_2)$ & & $\delta^2y[x_1, x_2, x_3]$\\
 	 & & $\delta^1y[x_2, x_3]$\\
 	$x_3$ & $y_3 = f(x_3)$ \\
-	$\vdots$ & $\vdots$\\
-	$x_n$ & $y_n = f(x_n)$
   \end{tabular}\\\\
   Interpolationspolynom $p \in \mathcal{P}_n$:
   \begin{align*}
     p(x) &= \sum_{i=0}^n \prod_{j=0}^{i-1} (x-x_i) \delta^iy[x_0,..., x_i] &\\
     &= x^n \delta^ny[x_0,..., x_n] + r, \quad \text{für }r \in \mathcal{P}_{n-1} &\\
-    p^{(n)} &= n! \delta^ny[x_0,..., x_n]
+    p^{(n)} &\equiv n! \delta^ny[x_0,..., x_n]
   \end{align*}
   Füge weitere Diagonale zu Knoten $x$ in obigem Schema hinzu mit $b_0 = p(x)$ und $b_k = \delta^k y[x, x_0, x_1, ..., x_{k-1}]$. Nach Definition ist 
   $$b_{k+1} = \frac{b_k - \delta^ky[x_0,..., x_k]}{x-x_k}$$
@@ -1025,20 +1023,18 @@ $$\Lambda_n = \max_{x \in [a,b]} \sum_{i=0}^n \vert l_i(x) \vert $$
   Nach dem Hornerschema.\\
   Berechne nun die Ableitungen: \\
   Füge weitere Diagonale zu Knoten $x+ \varepsilon$ hinzu und lasse $\varepsilon \rightarrow 0$ laufen \\
-  \begin{tabular}{lllllll}
+  \begin{tabular}{cccccc}
     $x+ \varepsilon$ & $p(x + \varepsilon) = c_0$ \\
     && $c_1 = p'(x)$ \\
-    $x$ & $p(x) = b_0$ \\
-    &&$b_1$\\
-	$x_0$ & $y_0 = f(x_0)$ && $b_2$&&$\ddots$\\
-	 & & $\delta^1y[x_0, x_1]$&& $b_3$&&$c_n$\\
-	$x_1$ & $y_1 = f(x_1)$ & &$\delta^2y[x_0, x_1, x_2]$  &&$\ddots$ & =\\
-	 & & $\delta^1y[x_1, x_2]$ & & $\delta^3y[x_0, x_1, x_2, x_3]$&& $b_n$\\
-	$x_2$ & $y_2 = f(x_2)$ & & $\delta^2y[x_1, x_2, x_3]$&&& =\\
-	 & & $\delta^1y[x_2, x_3]$&&&& $\delta^ny[x_0,...,x_n]$\\
+    $x$ & $p(x) = b_0$ && $c_2$\\
+    &&$b_1$&&$c_3$\\
+	$x_0$ & $y_0 = f(x_0)$ && $b_2$&\rotatebox[origin=c]{90}{$=$}\\
+	 & & $\delta^1y[x_0, x_1]$&& $b_3$\\
+	$x_1$ & $y_1 = f(x_1)$ & &$\delta^2y[x_0, x_1, x_2]$  &\rotatebox[origin=c]{90}{$=$}\\
+	 & & $\delta^1y[x_1, x_2]$ & & $\delta^3y[x_0, x_1, x_2, x_3]$\\
+	$x_2$ & $y_2 = f(x_2)$ & & $\delta^2y[x_1, x_2, x_3]$\\
+	 & & $\delta^1y[x_2, x_3]$\\
 	$x_3$ & $y_3 = f(x_3)$ \\
-	$\vdots$ & $\vdots$\\
-	$x_n$ & $y_n = f(x_n)$
   \end{tabular}\\\\
   \underline{Algorithmus zur Berechnung von $p'(x)$:}
   \begin{algorithmic}
@@ -1053,7 +1049,7 @@ $$\Lambda_n = \max_{x \in [a,b]} \sum_{i=0}^n \vert l_i(x) \vert $$
 \begin{theorem}
 Sei $f \in \mathcal{C}^{n+2}([a,b])$, $p$ Interpolationspolynom zu $f$ in $x_0,..., x_n \in [a,b]$ paarweise verschieden ($p\in \mathcal{P}_n$). \\
 $\forall x \in [a,b] \medspace \exists \xi, \xi' \in [a,b]:$ 
-$$f'(x) - p'(x) = \left( \sum_{i=0}^n \prod{j=0, \medspace j \neq i}^n (x-x_j) \frac{f^{(n+1)(\xi)}}{(n+1)!}\right) + \prod_{j=0}^n (x-x_j) \frac{f^{(n+2)}(\xi')}{(n+2)!}$$
+$$f'(x) - p'(x) = \left( \sum_{i=0}^n \prod_{\substack{j=0\\j \neq i}}^n (x-x_j) \frac{f^{(n+1)(\xi)}}{(n+1)!}\right) + \prod_{j=0}^n (x-x_j) \frac{f^{(n+2)}(\xi')}{(n+2)!}$$
 \begin{proof}[Beweisskizze] (vgl. 9.1) \\
 Sei \={x} fest aber beliebig, $\bar{p}$ das Hermiteinterpolationspolynom zu 
 \begin{description}
@@ -1160,7 +1156,7 @@ r_{nn}x_n &= c_{n} &\\
 \end{align*}
 %
 Dabei ist\\
-$x_n = \frac{c_n}{x_{nn}}$\\
+$x_n = \frac{c_n}{r_{nn}}$\\
 $x_i = \frac{1}{r_{ii}}(c_i - \sum_{j=i+1}^n r_{ij}x_j)$ für $i=n-1,...,1$
 \end{nothing}
 
@@ -1228,7 +1224,7 @@ Das schließende $L$ ist dabei das $L$ aus (15.2).
 \end{align*}
 \end{comment*}
 
-\begin{nothing}[Vorwärts- und Rückwärts-Substitution]
+\begin{algorithm}[Vorwärts- und Rückwärts-Substitution]
 Sobald man die LR-Zerlegung (lu-decomposition) von $A$ kennt, löst man $Ax = b$ wie folgt:
 $$Pb = PAx = L\underbrace{Rx}_{=: c}$$
 Löse $Lc = Pb$ ("Vorwärtssubstitution"):
@@ -1242,7 +1238,7 @@ Löse $Lc = Pb$ ("Vorwärtssubstitution"):
 %
 und anschließend:\\
 Löse $Rx = c$ wie in (15.2) angegeben ("Rückwärtssubstitution").
-\end{nothing}
+\end{algorithm}
 
 \begin{nothing}[Aufwand]
 Beim Schritt $A \rightarrow A^{(1)}$ benötigt man 
@@ -1321,7 +1317,7 @@ x_2 = \frac{0.9998}{0.9999} &= 0.9998\overline{9998} &\\
 \end{align*}
 bei dreistelliger dezimaler Gleitkommaartihmetik (Mantissenlänge 3, Basis 10)
 \begin{align*}
-0.100 * 10^{-3} x_1 + 0.100 * 10^1 x_2 &= 0.199 * 10^1 &\\
+0.100 * 10^{-3} x_1 + 0.100 * 10^1 x_2 &= 0.100 * 10^1 &\\
 0.100 * 10^1 x_1 + 0.100 * 10^1 x_2 &= 0.200 * 10^1
 \end{align*}
 und damit erhält man für 
@@ -1330,7 +1326,7 @@ und damit erhält man für
     \begin{align*}
     l_{21} &= \frac{a_{21}}{a_{11}} = 10^4 = 0.100 * 10^5 &\\
     a_{22}^{(1)} &= 0.100 * 10^1 - 0.100 * 10^5 = -0.100 * 10^5 &\\
-    b_2^{(1)} &= 0.200 * 101 - 0.100 * 10^5 = -0.100 *10^5 &\\
+    b_2^{(1)} &= 0.200 * 10^1 - 0.100 * 10^5 = -0.100 *10^5 &\\
     \end{align*}
     Aus $-0.100 * 10^5 x_2 = -0.100 *10^5$ folgt $x_2 = 0.100 * 10^1 = 1$ \\
     $\Rightarrow$ $x_1 = \frac{b_1 - a_{12}x_2}{a_{11}} = \frac{0.100 * 10^1 - 0.100 * 10^1 x_2}{0.100 * 10^1} = 0$
@@ -1493,7 +1489,7 @@ Es wird die i-te Zeile von $L^T$ mit $r_{ii}$ skaliert.
 \end{theorem}
 
 \begin{comment*}
-Wegen $R_{ii} > 0$ ist $D = D^{\nicefrac{1}{2}}D^{\nicefrac{1}{2}}$ mit 
+Wegen $r_{ii} > 0$ ist $D = D^{\nicefrac{1}{2}}D^{\nicefrac{1}{2}}$ mit 
 $$D^{\nicefrac{1}{2}} =
   \begin{bmatrix}
   \sqrt{r_1} && 0 \\
@@ -1580,13 +1576,13 @@ Die Abbildung $\Vert \cdot \Vert: \mathbb{R}^n \rightarrow \mathbb{R}^n, \medspa
 \end{example}
 
 \begin{definition}
-Sei $A\in \mathbb{R}^{m \times n}$, d.h. $A: \mathbb{R}^n \rightarrow \mathbb{R}^m$ linear. Nun heißt
-$$\Vert A \Vert_{a \rightarrow b} := \sup_{x \notin \mathcal{O}_n, \thinspace x \in \mathbb{R}^n} \frac{\Vert Ax \Vert_a}{\Vert x\Vert_b}$$
-die von den Vektorraumnormen induzierte Norm. Schreibe einfach nur $\Vert \cdot \Vert$.
+Sei $A\in \mathbb{R}^{m \times n}$, d.h. $A\colon \mathbb{R}^n \rightarrow \mathbb{R}^m$ linear. Nun heißt
+$$\Vert A \Vert := \sup_{\substack{x \in \mathbb{R}^n \\ x \neq 0}} \frac{\Vert Ax \Vert}{\Vert x\Vert}$$
+die von den Vektorraumnormen induzierte Norm.
 \end{definition}
 
 \begin{comment}
-Sei $A \in \mathbb{R}^{n\times m}$, $\alpha \in \mathbb{R}$ Es gilt für die in (18.3) definierte Matrixnorm
+Sei $A \in \mathbb{R}^{n\times m}$, $\alpha \in \mathbb{R}$. Es gilt für die in (18.3) definierte Matrixnorm
 \begin{enumerate}
   \item[i)] $\forall x \in \mathbb{R}^n: \medspace \Vert Ax \Vert \leq \Vert A \Vert \Vert x \Vert$ \\
   $\Vert A \Vert$ ist die kleinste Zahl mit dieser Eigenschaft.
@@ -1637,19 +1633,19 @@ Sei $A = (a_{ij})_{i,j=1}^{m,n} \in \mathbb{R}^{m \times n}$. Es gilt für $\Ver
 \subsection{Kondition eines Problems}
 
 \begin{definition}
-Seien $X,Y$ normierte Vektorräume $(X, \Vert \cdot \Vert_X)$, $(Y, \Vert \cdot \Vert_Y)$. Ein Problem bzw. eine Problemstellung ist eine Abbildung $f:X \rightarrow Y$, wobei $X$ die Eingaben und $Y$ die Ausgaben enthält.
+Seien $X,Y$ normierte Vektorräume $(X, \Vert \cdot \Vert_X)$, $(Y, \Vert \cdot \Vert_Y)$. Ein Problem bzw. eine Problemstellung ist eine Abbildung $f\colon X \rightarrow Y$, wobei $X$ die Eingaben und $Y$ die Ausgaben enthält.
 \end{definition}
 
 \begin{example}
 Sei $X = Y = \mathbb{R}^2$ und $\Vert \cdot \Vert_X = \Vert \cdot \Vert_Y = \Vert \cdot \Vert_2$.
 \begin{enumerate}
-  \item[i)] $f: (x_1, x_2) \mapsto A \left(\begin{matrix} x_1 \\x_2 \end{matrix} \right)$ für eine $2 \times 2$ Matrix $A$. "Anwendung der linearen Abbildung $A$"
-  \item[ii)] $f: (p,q) \mapsto \text{Wurzeln von $z^2 + pz + q = 0$}$. "Berechnung der Wurzeln eines normierten quadratischen Polynoms"
+  \item[i)] $f\colon (x_1, x_2) \mapsto A \left(\begin{matrix} x_1 \\x_2 \end{matrix} \right)$ für eine $2\times 2$ Matrix $A$. "Anwendung der linearen Abbildung $A$"
+  \item[ii)] $f\colon (p,q) \mapsto \text{Wurzeln von $z^2 + pz + q = 0$}$. "Berechnung der Wurzeln eines normierten quadratischen Polynoms"
 \end{enumerate}
 \end{example}
 
 \begin{definition}[Absolute Kondition]
-Seien $X, Y$ normierte Vektorräume $f: X \rightarrow Y$ ein Problem. Die \textbf{absolute Kondition} von $f$ in $x \in X$ ist 
+Seien $X, Y$ normierte Vektorräume $f\colon X \rightarrow Y$ ein Problem. Die \textbf{absolute Kondition} von $f$ in $x \in X$ ist 
 $$\kappa_{\text{abs}}(f,x) := \lim_{\delta \rightarrow 0} \sup_{\Vert z \Vert_X \leq \delta} \frac{\Vert f(x+z) - f(x) \Vert_Y}{\Vert z \Vert_X} $$
     \begin{figure}[!htb]
     \centering
@@ -1658,7 +1654,7 @@ $$\kappa_{\text{abs}}(f,x) := \lim_{\delta \rightarrow 0} \sup_{\Vert z \Vert_X 
 \end{definition}
 
 \begin{lemma}
-Sei $f: (\mathbb{R}, \Vert \cdot \Vert) \rightarrow (\mathbb{R}, \Vert \cdot \Vert)$ differenzierbar, so gilt
+Sei $f\colon (\mathbb{R}, \Vert \cdot \Vert) \rightarrow (\mathbb{R}, \Vert \cdot \Vert)$ differenzierbar, so gilt
 $$\kappa_{\text{abs}}(f,x) = \vert f'(x) \vert$$
 \begin{proof}[Beweis]
 Übungsaufgabe.
@@ -1677,7 +1673,7 @@ Kondition der Addition:
 \begin{align*}
 &f: (\mathbb{R}^2, \Vert \cdot \Vert_1) \rightarrow (\mathbb{R}, \vert \cdot \vert), \medspace (a, b) \mapsto a+b &\\
 &\kappa_{\text{abs}}(f,(a,b)) = \lim_{\delta \rightarrow 0} \sup_{\vert \alpha \vert + \vert \beta \vert \leq \delta, \medspace z = (\alpha, \beta)} \frac{\vert a + \alpha + b + \beta - a - b \vert}{\vert \alpha \vert + \vert \beta \vert} = 1 &\\
-&\kappa_{\text{rel}}(f,(a,b)) = ... = \frac{\vert a \vert + \vert b \vert}{\vert a+b \vert} &\\
+&\kappa_{\text{rel}}(f,(a,b)) = ... = \frac{\vert a \vert + \vert b \vert}{\vert a+b\vert} &\\
 \end{align*}
 d.h. für die Addition zweier Zahlen mit gleichem Vorzeichen ist $\kappa_{\text{rel}} = 1$. Für Subtraktion zweier annähernd gleich großer Zahlen ist $\kappa_{\text{rel}}$ groß.
 \end{example}
@@ -1688,7 +1684,7 @@ Ein Problem heißt \textbf{gut konditioniert}, falls $\kappa_{\text{rel}}$ klein
 
 \subsection{Konditionszahl einer Matrix}
 Gegeben sei $Ax = b$. Welchen Einfluss haben Fehler in $A$ und in $b$ auf die Lösung $x$?\\
-In Form von $\S 19$: $f: (A, b) \mapsto x$. Statt $a_{ij}$ stehen nun $\tilde{a}_{ij}= a_{ij}(1+ \varepsilon_{ij})$ und statt $b_i$ nun $b_i(1+ \varepsilon_{i})$ zur Verfügung. Also $\tilde{A} \tilde{x} = \tilde{b}$. 
+In Form von $\S 19$: $f\colon (A, b) \mapsto x$. Statt $a_{ij}$ stehen nun $\tilde{a}_{ij}= a_{ij}(1+ \varepsilon_{ij})$ und statt $b_i$ nun $b_i(1+ \varepsilon_{i})$ zur Verfügung. Also $\tilde{A} \tilde{x} = \tilde{b}$. 
 
 \begin{theorem}
 Sei $A$ invertierbar, $A \in \mathbb{R}^{n \times n}$, $Ax = b$, $\tilde{A} \tilde{x} = \tilde{b}$, $x \neq 0$. \\
@@ -1809,7 +1805,7 @@ $\tilde{f} = \tilde{f}_n \circ \tilde{f}_{n-1} \circ ... \circ \tilde{f}_1, \qua
 
 \begin{definition}
 Ein Verfahren zur Auswertung des Problems $f$ ist stabil im Sinne der Vorwärtsanalysis, falls 
-$$\tilde{f}(x) - f(x) \Vert < C * eps *  \Vert f(x) \Vert$$
+$$\Vert \tilde{f}(x) - f(x) \Vert < C * eps *  \Vert f(x) \Vert$$
 für eine nicht zu große Konstante $C$.
 \end{definition}
 
@@ -1845,7 +1841,7 @@ Zur Berechnung von $x_1x_2 + x_3x_4$ verwendet man:\\
 \begin{tabular}{ccccc}
 &\rotatebox[origin=c]{30}{$\underrightarrow{\cdot}$} & $x_1x_2$ & \rotatebox[origin=l]{-30}{$\rightarrow$} \\
 $(x_1, x_2, x_3, x_4)$ & & & + & $x_1x_2 + x_3x_4$ \\
-&\rotatebox[origin=c]{-30}{$\overrightarrow{\cdot}$} & $x_1x_2$ & \rotatebox[origin=l]{30}{$\rightarrow$} \\
+&\rotatebox[origin=c]{-30}{$\overrightarrow{\cdot}$} & $x_3x_4$ & \rotatebox[origin=l]{30}{$\rightarrow$} \\
 \end{tabular}\\
 und erhält unter Berücksichtigung von Rundungsfehlern\\
 $$\left[(x_1 ( 1 + \varepsilon_1) x_2(1+\varepsilon_2))(1+\eta_1) + (x_3(1+\varepsilon_3)x_4(1+\varepsilon_4))(1+\eta_2)\right](1+\eta_3) \quad \text{für $\vert \varepsilon_j \vert, \vert \eta_j \vert \leq eps$}$$
@@ -1883,7 +1879,7 @@ Zusammen mit (**) folgt die Behauptung.
 
 \begin{comment*}
 Aus dem Satz (21.6) kann man entnehmen, dass die Gaußelimination im Sinne der Rückwärtsanalysis stabil ist, falls 
-$$\frac{\max_{i,j,k} \vert a_{ij}^{(k)}}{\max_{i,j} \vert a_{ij} \vert }$$
+$$\frac{\max_{i,j,k} \vert a_{ij}^{(k)}\vert}{\max_{i,j} \vert a_{ij} \vert }$$
 nicht zu groß wird. Dieser Quotient ist meistens klein. Mehr kann man nicht beweisen.
 \end{comment*}
 
@@ -1919,7 +1915,7 @@ Mit iii) und iv) erhält man, dass $Q$ eine Spiegelung an der Hyperebene $\{x\in
 \renewcommand{\labelenumi}{\roman{enumi})}
 \begin{enumerate}
   \item $Q^T = (I-2vv^T)^T = I-2vv^T = Q$
-  \item $Q^TQ \overset{i)}{=} (I-2vv^T)(I-2vv^T) = I - 4 v v^T + t v \underbrace{(v^Tv)}_{=1}v^T = I$ 
+  \item $Q^TQ \overset{i)}{=} (I-2vv^T)(I-2vv^T) = I - 4 v v^T + 4 v \underbrace{(v^Tv)}_{=1}v^T = I$ 
   \item $Qv = (I-2vv^T)v = v - 2v \underbrace{v^Tv}_{=1} = - v$
   \item $Qw = (I-2vv^T)w = w - 2v\underbrace{v^Tw}_{=0} = w$
 \end{enumerate}
@@ -1936,9 +1932,9 @@ Sei $A = \left[ \begin{matrix} \vdots & \vdots & & \vdots \\ a_1 & a_2 & \dots &
   $Q_1a_1 = \alpha_1e_1$ \\
   $Q_1a_1 = (I-2u_1u_1^T)a_1 = a_1 - 2u_1 \underbrace{u_1^Ta_1}_{\in \mathbb{R}}$\\
   $\Rightarrow$ $u_1$ ist ein Vielfaches von $a_1 - \alpha_1 e_1$\\
-  Mit der Forderung $\Vert u_1 \Vert_2. = 1 $ ergibt sich
+  Mit der Forderung $\Vert u_1 \Vert_2 = 1 $ ergibt sich
   $$u_1 = \frac{a_1 - \alpha_1e_1}{\Vert a_1 - \alpha_1e_1 \Vert_2}$$
-  Dabei ist ${\Vert a_1 - \alpha_1e_1 \Vert_2}^2 = \underbrace{{\Vert a_1 \Vert_2}^2}_{=\alpha_1^2} - 2 \alpha_1 \underbrace{e_1^Ta_1}_{a_{11}} + \alpha_1^2 = 2 \alpha_1 ( \alpha_1 - a_{11})$
+  Dabei ist ${\Vert a_1 - \alpha_1e_1 \Vert_2}^2 = \underbrace{{\Vert a_1 \Vert_2}^2}_{=\alpha_1^2} - 2 \alpha_1 \underbrace{e_1^Ta_1}_{a_{11}} + \alpha_1^2 = 2 \alpha_1 ( \alpha_1 - a_{11})$.\\
   Man wählt das Vorzeichen von $\alpha_1$ so, dass keine Stellenauslöschung bei der Berechnung von $\alpha_1 - a_{11}$ auftritt
   $$\alpha_1 = -\text{sgn}(a_{11}) \Vert a_1 \Vert_2$$
   Es ist dann 
@@ -1978,7 +1974,7 @@ $$\Vert A - \hat{Q} \hat{R} \Vert_2 < c\thinspace \Vert A \Vert_2 \thinspace eps
 \end{nothing}
 
 \begin{comment}
-QR-Zerlegung ist bis zum Ende durchführbar, falls rang($A$) $= n$ ( dann ist $\alpha_1, \alpha_2, ..., \alpha_n \neq 0$, da rang(A) = rang(R)) \\
+QR-Zerlegung ist bis zum Ende durchführbar, falls rang($A$) $= n$ (dann ist $\alpha_1, \alpha_2, ..., \alpha_n \neq 0$, da rang(A) = rang(R)) \\
 Falls rang(A) $= k < n$ wäre bei der Rechnung ohne Rundungsfehler $\alpha_l = 0$ für ein $l$ und das Verfahren bricht ab. Modifiziere den Algorithmus deswegen:
 \begin{description}
   \item[1. Schritt:] Berechne $\Vert a_1 \Vert_2, ..., \Vert a_n \Vert_2$ die Spaltennormen und vertausche die Spalten, sodass $\Vert a_1 \Vert_2$ maximal wird:
@@ -1998,7 +1994,7 @@ Falls rang(A) $= k < n$ wäre bei der Rechnung ohne Rundungsfehler $\alpha_l = 0
 \subsection{Lineare Ausgleichsrechnung}
 
 \begin{problem}
-Zu gegebenen Messdaten $(t_j, y_j)$ $j=1,...,m$ suche $y = f(t)$
+Zu gegebenen Messdaten $(t_j, y_j)_{j=1}^m$ suche $y = f(t)$
 $$f(t) = \sum_{i=1}^n x_i \varphi_i(t),$$
 sodass $y_j \approx f(t_j)$ für $j=1,...,m$.\\
 Hierbei sind die $\varphi_1, ..., \varphi_n$ gegebene Funktionen und $x_1, ..., x_n$ unbekannte Parameter, wobei $m>>n$.\\
@@ -2108,7 +2104,7 @@ $\alpha_1 = 1$, $v_1 = \left[ \begin{matrix} 2 \\ \varepsilon \\ 0 \end{matrix} 
 
 \section{Nichtlineare Gleichungssysteme}
 \underline{Problemstellung:}\\
-Zu einer Funktion $f: U \subset \mathbb{R}^n \rightarrow \mathbb{R}^n$, $U$ offen, suche $x \in U$ mit $f(x) = 0$, d.h. $\left\{ \begin{matrix} f_1(x_1, ..., x_n) = 0 \\ f_2(x_1, ..., x_n) = 0 \\ \vdots \\ f_n(x_1, ...,x_n) = 0 \end{matrix} \right.$.\\
+Zu einer Funktion $f\colon U \subset \mathbb{R}^n \rightarrow \mathbb{R}^n$, $U$ offen, suche $x \in U$ mit $f(x) = 0$, d.h. $\left\{ \begin{matrix} f_1(x_1, ..., x_n) = 0 \\ f_2(x_1, ..., x_n) = 0 \\ \vdots \\ f_n(x_1, ...,x_n) = 0 \end{matrix} \right.$.\\
 Eventuell ex. keine Lösungen
 $$f(x) = e^x$$
 oder es ex. mehrere Lösungen
@@ -2118,7 +2114,7 @@ $$f(x) = x^2-1 \quad \text{oder} \quad f(x) = tan(x) - x$$
 %
 \begin{description}
   \item[Definition:] \leavevmode \\
-  Sei $\Omega \subset \mathbb{R}^n$ abgeschlossen. Eine Abbildung $\Phi: \Omega \rightarrow \mathbb{R}^n$ heißt \underline{kontrahierend}, falls
+  Sei $\Omega \subset \mathbb{R}^n$ abgeschlossen. Eine Abbildung $\Phi\colon \Omega \rightarrow \mathbb{R}^n$ heißt \underline{kontrahierend}, falls
   $$ \Vert \Phi(x) - \Phi(y) \Vert \leq \Theta \Vert x-y \Vert \quad \text{für } \Theta \in (0,1) \text{ und alle } x, y \in \Omega.$$
   Eine Abbildung heißt \underline{Selbstabbildung}, falls $\Phi(x) \in \Omega$ für alle $x \in \Omega$.
   
@@ -2129,8 +2125,8 @@ $$f(x) = x^2-1 \quad \text{oder} \quad f(x) = tan(x) - x$$
     \item Es existiert ein Fixpunkt $X^*$ von $\Phi$, d.h. $\Phi(X^*) = X^*$
     \item Für alle $x^{(0)} \in \Omega$ konvergiert die Folge $(x^{(k)})_{k \in \mathbb{N}}$ definiert durch $x^{(k+1)} = \Phi(x^{(k)})$ gegen $x^*$ mit 
     \begin{align*}
-      &\Vert x^{(k+1)} - x^{(k)} \Vert \leq L \Vert x^{(k)} - x^{(k-1)} \Vert \quad \text{und} \quad \text{(a priori Schranke)}  &\\
-      &\Vert x^* - x^{(k)} \Vert \leq \frac{L^k}{1-L} \Vert x^{(1)} - x^{(k)} \Vert \quad \text{für ein } L < 1 \quad \text{(a posteriori Schranke)}
+      &\Vert x^{*} - x^{(k)} \Vert \leq \frac{L}{1-L} \Vert x^{(k)} - x^{(k-1)} \Vert \quad \text{und} \quad \text{(a posteriori Schranke)}  &\\
+      &\Vert x^* - x^{(k)} \Vert \leq \frac{L^k}{1-L} \Vert x^{(1)} - x^{(0)} \Vert \quad \text{für ein } L < 1 \quad \text{(a priori Schranke)}
     \end{align*}
   \end{enumerate}
   \begin{proof}[Beweis] 
@@ -2159,7 +2155,7 @@ Startwert $x_0$, $x_1$ Schnitt der Tangente von $f$ im Punkt $(x_0, f(x_0))$ mit
 \end{nothing}
 
 \begin{nothing}[Herleitung Newton-Verfahren]
-Sei $x_0$ in der Nähe einer Nullstelle $x^*$ von $f: \mathbb{R}^n \rightarrow \mathbb{R}^n$. Taylorentwicklung liefert 
+Sei $x_0$ in der Nähe einer Nullstelle $x^*$ von $f\colon \mathbb{R}^n \rightarrow \mathbb{R}^n$. Taylorentwicklung liefert 
 \begin{align*}
 0 = f(x^*) = f(x_0 + (x^* - x_0)) = f(x_0) + f'(x_0)(x^* - x_0) + \mathcal{O}(\Vert x^* - x_0 \Vert ^2)
 \end{align*}
@@ -2287,7 +2283,7 @@ $\Vert f(x) \Vert \mapsto \Vert af(x) \Vert$ statt $\Vert x_k \Vert \leq \text{T
 
 \section{Gewöhnliche Differentialgleichungen}
 \underline{Problem:}\\
-Suche Lösung  $y: [t_0, T] \rightarrow \mathbb{R}^d$ der Anfangswertaufgabe
+Suche Lösung  $y\colon [t_0, T] \rightarrow \mathbb{R}^d$ der Anfangswertaufgabe
 $$\frac{d}{dt} y(t) = y'(t) = f(t, y(t)) \quad \text{für $t \in (t_0, T)$}$$
 d.h. eine Funktion, die die obige Gleichung erfüllt. \\
 $f: \mathcal{U} \rightarrow \mathbb{R}^d$, $\mathcal{U} \subset \mathbb{R}\times\mathbb{R}^d$ offen, $y(t_0) = y_0$ Anfangswert, $(t_0, y_0) \in \mathcal{U}$.
@@ -2370,7 +2366,7 @@ $$Y' = F(Y) \text{ mit } Y = \left[\begin{matrix}y \\ t \end{matrix} \right] \te
 Als nächstes wiederholen wir einige theoretische Resultate zur Existenz, Eindeutigkeit und Stabilität von Lösungen von Anfangswertproblemen. Dazu sei ab jetzt
 \begin{itemize}
   \item $U \subset \mathbb{R} \times \mathbb{R}^d$ offen und zusammenhängend
-  \item $f: U \rightarrow \mathbb{R}^d$ stetig und erfülle folgende lokale Libschit-Bedingung:
+  \item $f: U \rightarrow \mathbb{R}^d$ stetig und erfülle folgende lokale Lipschitz-Bedingung:
   $$\exists L \thinspace \forall K \subset U \text{ kompakt } \forall (t, y), (t,z) \in K: \Vert f(t, y) - f(t,z) \Vert \leq L \Vert y- z \Vert$$
 \end{itemize}
 Die lokale Lipschitz-Bedingung ist erfüllt, falls $f$ stetig differenzierbar ist. Dann kann $L = \max_{(t, y) \in K} \Vert f_y(t, y) \Vert$ gewählt werden. 
@@ -2392,7 +2388,7 @@ ist lokal Lipschitz-stetig, erfüllt also die Vorraussetzungen von Picard-Lindel
 Für numerische Verfahren ist es wichtig wie sich Störungen der Anfangswerte auf die Lösung auswirken.
 
 \begin{theorem}
-Zusätzlich zu den allgemeinen Vorraussetzungen erfülle für $\langle \cdot, \cdot \rangle$ ein Skalarprodukt auf $\mathbb{C}^d$ und $\Vert \cdot \Vert$ die induzierte Norm die rechte Seite $f: [t_0, T] \rightarrow \mathbb{C}^d$ $f$ für ein $l$ folgende einseitige Lipschitz-Bedingung
+Zusätzlich zu den allgemeinen Vorraussetzungen erfülle für $\langle \cdot, \cdot \rangle$, ein Skalarprodukt auf $\mathbb{C}^d$, und $\Vert \cdot \Vert$, die induzierte Norm, die rechte Seite $f\colon [t_0, T] \rightarrow \mathbb{C}^d$ $f$ für ein $l$ folgende einseitige Lipschitz-Bedingung
 $$\Re \langle f(t, y) - f(t, z), y-z \rangle \leq l \Vert y-z \Vert^2 \quad \text{für alle } y, z \in U $$
 Sind $y$ und $z$ zwei Lösungen von $y' = f(t, y)$ zu verschiedenen Anfangswerten $y_0$ bzw. $z_0$, so gilt
 $$ \Vert y(t) - z(t) \Vert \leq e^{l(t-t_0)} \Vert y_0 - z_0 \Vert \quad \text{für alle } t \in [t_0, T].$$
@@ -2454,10 +2450,10 @@ $y_i = y_{i-1} + hf(t_{i}, y_{i})$ für $i\in \mathbb{N}$.\\
 Hierbei muss in jedem Schritt ein nicht-lineares Gleichungssystem gelöst werden (etwa mit Newton-Verfahren oder Fixpunktiteration).\\
 \\
 \underline{Approximationsfehler beim expliziten Eulerverfahren:}\\
-Sei $I = [t_0, T]$ ein Intervall und $f: I \times \mathbb{R}^d \rightarrow \mathbb{R}^d$ stetig differenzierbar und (global) Lipschit-stetig, d.h.:
-$$\forall y, z \in \mathbb{R}^d \medspace \forall t \in I:
+Sei $I = [t_0, T]$ ein Intervall und $f\colon I \times \mathbb{R}^d \rightarrow \mathbb{R}^d$ stetig differenzierbar und (global) Lipschitz-stetig, d.h.:
+$$\forall y, z \in \mathbb{R}^d \medspace \forall t \in I\colon
 \Vert f(t, y) - f(t, z) \Vert \leq L \Vert y-z \Vert$$
-Ist $y: I \rightarrow \mathbb{R}^d$ Lösung des Anfangswertproblems $y' = f(t, y), y(t_0) = y_0$, dann ist $y$ jetzt zweimal stetig differenzierbar, denn
+Ist $y\colon I \rightarrow \mathbb{R}^d$ Lösung des Anfangswertproblems $y' = f(t, y), y(t_0) = y_0$, dann ist $y$ jetzt zweimal stetig differenzierbar, denn
 $$y'' = \delta_tf + D_yf \cdot y' = \delta_tf + D_yf \cdot f$$
 $D_yf = D_yf(t, y)$ bezeichnet die Ableitung ($d \times d$ Matrix) nach y. Die Folge $(y_n)_{n \in \mathbb{N}}$ ist mit $t_n = t_0 + nh \in I$ durch das explizite Eulerverfahren definiert.
 
@@ -2537,7 +2533,7 @@ $$y(t_0 + \frac{1}{2}h) \approx y(t_0) + \frac{1}{2}hf(t_0, y(t_0))$$
 \begin{comment*}
 In der Quadraturformel treten also die Werte der unbekannten Lösung an den Stellen $t_0 + c_ih$ auf. \\
 Zur Approximation von $y(t_0 + c_ih)$ verwenden wir daher erneut die Integraldarstellung der Lösung
-$$y(t_0 + c_ih) = y_0 + \int_{t_0}^{t_0+h} f(t, y(t))dt$$
+$$y(t_0 + c_ih) = y_0 + \int_{t_0}^{t_0+c_ih} f(t, y(t))dt$$
 und approximieren die Integrale $\int_{t_0}^{t_0 + c_ih}f(t, y(t))dt$ mit Quadraturformeln mit \textbf{denselben} Knoten $t_0 + c_ih$ und Gewichten $a_{ij}$ passend zu $\int_0^{c_i}$
 $$y(t_0 +c_ih) \approx y_0 + h \sum_{j=1}^s a_{ij} f(t_0 + c_jh, y(t_0 + c_jh))$$
 Zusammenfassend:
@@ -2554,7 +2550,7 @@ gegeben mit Koeffizienten $a_{ij}$, $b_i$ und $c_i$ ($i, j = 1,...,s$).
 \end{definition}
 
 \begin{comment*}
-Üblicherweise stellt man ein Runge-Kutta Verfahren in einem sogenannten Butcher Tableau dar:
+Üblicherweise stellt man ein Runge-Kutta Verfahren für $i, j \in \{1,...,s\}$ in einem sogenannten Butcher Tableau dar:
 $$\begin{array}{c|ccc} \vdots && \\ c_i && a_{ij} & \\ \vdots & & \\ \hline & \hdots & b_j & \hdots \end{array} $$
 Die $Y_i$'s sind im Allgemeinen Lösungen eines nichtlinearen Gleichungssystems.\\
 Falls $a_{ij} = 0$ für $j \geq i$, können die $Y_i$'s nacheinander explizit berechnet werden:
@@ -2583,7 +2579,7 @@ oder
 \end{align*}
 Butcher Tableau
 $$\begin{array}{c|cc} 0 & 0 & 0 \\ \nicefrac{1}{2} & \nicefrac{1}{2} & 0 \\ \hline & 0 & 1\end{array}$$
-lokaler Fehler (Taylorentwicklung um $y_1 = y_0 + hf(t_0 + \frac{h}{2} f(t_0, y_0))$ um $(t_0, y_0)$)
+lokaler Fehler (Taylorentwicklung von $y_1 = y_0 + hf(t_0 + \frac{h}{2} , y_0 + \frac{h}{2}f(t_0, y_0))$ um $(t_0, y_0)$)
 $$y_1 = y_0 + hf(t_0, y_0) + \frac{h^2}{2}( \partial_t f(t_0, y_0) + D_y f(t_0, y_0) f(t_0,y_0)) + \mathcal{O}(h^3)$$
 (Taylorentwicklung von $y(t_0 + h)$ um $t_0$)
 \begin{align*}
